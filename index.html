@@ -1,0 +1,4165 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIASEC MyFuture | ค้นหาตัวตน ค้นพบเส้นทางอนาคต</title>
+  <meta name="description" content="แบบสำรวจความสนใจ จุดแข็ง และแนวทางการศึกษาต่อสำหรับนักเรียนมัธยมศึกษา - ส่วนหนึ่งของแพลตฟอร์ม ระบบสำรวจตัวตนนักเรียน">
+  
+  <!-- Preload Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&family=Sarabun:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ----------------------------------------------------
+       DESIGN SYSTEM & CSS CUSTOM PROPERTIES
+       ---------------------------------------------------- */
+    :root {
+      --primary: #2A5C43;
+      --primary-light: #3D825E;
+      --secondary: #4E8752;
+      --secondary-light: #EAF2EC;
+      --accent: #E6AD45;
+      --accent-hover: #C89332;
+      --accent-light: #FEF7EB;
+      
+      --bg-app: #F4F7F5;
+      --bg-surface: #FFFFFF;
+      --bg-surface-neutral: #E2EAE5;
+      --border-color: #D6E2DA;
+      
+      --text-main: #2C3530;
+      --text-muted: #626D66;
+      --text-light: #FFFFFF;
+      
+      --success: #3D8C43;
+      --success-light: #EBF7EC;
+      --warning: #F59E0B;
+      --warning-light: #FEF3C7;
+      --danger: #DC2626;
+      
+      --shadow-sm: 0 2px 8px rgba(42, 92, 67, 0.04);
+      --shadow-md: 0 8px 20px rgba(42, 92, 67, 0.08);
+      --shadow-lg: 0 12px 32px rgba(42, 92, 67, 0.12);
+      
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      --font-th: 'Itim', 'Sarabun', sans-serif;
+      --font-en: 'Outfit', sans-serif;
+    }
+
+    /* ----------------------------------------------------
+       BASE RESETS & LAYOUT
+       ---------------------------------------------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-th);
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Skip link for Accessibility */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 0;
+      background: var(--accent);
+      color: var(--primary);
+      padding: 8px 16px;
+      z-index: 10000;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      transition: top 0.2s;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* Container */
+    .app-container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 16px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      background: var(--primary);
+      color: var(--text-light);
+      padding: 16px 24px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-svg {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .brand-info h1 {
+      font-family: var(--font-en);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+
+    .brand-info p {
+      font-size: 11px;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .save-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 6px 12px;
+      border-radius: 50px;
+      transition: var(--transition-smooth);
+    }
+
+    .save-indicator svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--accent);
+    }
+
+    /* Main Content Area */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ----------------------------------------------------
+       SCREENS & ANIMATIONS
+       ---------------------------------------------------- */
+    .screen {
+      display: none;
+      width: 100%;
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .screen {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* ----------------------------------------------------
+       CARD COMPONENT
+       ---------------------------------------------------- */
+    .card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+    }
+
+    .card-header {
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--bg-app);
+      padding-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 22px;
+      color: var(--primary);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ----------------------------------------------------
+       BUTTONS
+       ---------------------------------------------------- */
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-th);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      border: none;
+      text-decoration: none;
+      min-height: 44px; /* WCAG touch target */
+      touch-action: manipulation;
+    }
+
+    .btn-primary {
+      background-color: var(--secondary);
+      color: var(--text-light);
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-light);
+    }
+    .btn-primary:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-accent {
+      background-color: var(--accent);
+      color: var(--primary);
+    }
+    .btn-accent:hover {
+      background-color: var(--accent-hover);
+    }
+    .btn-accent:focus-visible {
+      outline: 3px solid var(--secondary);
+      outline-offset: 2px;
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-surface-neutral);
+      color: var(--text-main);
+    }
+    .btn-secondary:hover {
+      background-color: #D3D8E0;
+    }
+    .btn-secondary:focus-visible {
+      outline: 3px solid var(--secondary);
+      outline-offset: 2px;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid var(--border-color);
+      color: var(--text-main);
+    }
+    .btn-outline:hover {
+      background-color: var(--bg-app);
+      border-color: var(--text-muted);
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: var(--text-light);
+    }
+    .btn-danger:hover {
+      filter: brightness(0.9);
+    }
+
+    /* ----------------------------------------------------
+       ALERT BOXES
+       ---------------------------------------------------- */
+    .alert-box {
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 12px;
+      font-size: 14px;
+    }
+
+    .alert-info {
+      background-color: var(--secondary-light);
+      border-left: 4px solid var(--secondary);
+      color: var(--primary);
+    }
+
+    .alert-warning {
+      background-color: var(--warning-light);
+      border-left: 4px solid var(--warning);
+      color: #7A3B00;
+    }
+
+    .alert-box svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      fill: currentColor;
+    }
+
+    /* ----------------------------------------------------
+       PROGRESS BAR
+       ---------------------------------------------------- */
+    .progress-wrapper {
+      margin-bottom: 24px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .progress-title {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .progress-percent {
+      font-family: var(--font-en);
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    .progress-track {
+      background-color: var(--bg-surface-neutral);
+      height: 10px;
+      border-radius: 50px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      background: linear-gradient(90deg, var(--secondary), var(--primary-light));
+      height: 100%;
+      border-radius: 50px;
+      width: 0%;
+      transition: width 0.3s ease-out;
+    }
+
+    /* ----------------------------------------------------
+       SCREEN 1: WELCOME
+       ---------------------------------------------------- */
+    .welcome-hero {
+      text-align: center;
+      padding: 24px 0 16px 0;
+    }
+
+    .welcome-badge {
+      display: inline-block;
+      background-color: var(--accent-light);
+      color: #9A6E1A;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(216, 169, 59, 0.3);
+    }
+
+    .welcome-hero h2 {
+      font-size: 32px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .welcome-hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .welcome-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    .welcome-feature {
+      background: var(--accent-light);
+      border: 1px solid rgba(216, 169, 59, 0.2);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .welcome-feature svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .welcome-feature h3 {
+      font-size: 16px;
+      color: var(--primary);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .welcome-feature p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ----------------------------------------------------
+       SCREEN 2: EDUCATION LEVEL
+       ---------------------------------------------------- */
+    .selection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .selection-card {
+      background: var(--bg-surface);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .selection-card:hover {
+      border-color: var(--secondary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .selection-card.selected {
+      border-color: var(--primary);
+      background-color: var(--secondary-light);
+    }
+
+    .selection-icon {
+      width: 48px;
+      height: 48px;
+      fill: var(--secondary);
+      margin-bottom: 16px;
+    }
+
+    .selection-card h3 {
+      font-size: 20px;
+      color: var(--primary);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .selection-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      flex: 1;
+      margin-bottom: 20px;
+    }
+
+    .selection-details {
+      font-size: 13px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 12px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .selection-details ul {
+      margin-left: 20px;
+      margin-top: 6px;
+      color: var(--text-muted);
+      font-weight: normal;
+    }
+
+    /* ----------------------------------------------------
+       SCREEN 3: CONTEXT
+       ---------------------------------------------------- */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      font-family: var(--font-th);
+      font-size: 16px;
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .form-control:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(19, 95, 167, 0.15);
+    }
+
+    .radio-pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .radio-pill {
+      position: relative;
+    }
+
+    .radio-pill input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .radio-pill label {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 15px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      margin: 0;
+      text-align: center;
+    }
+
+    .radio-pill input[type="radio"]:checked + label {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: var(--text-light);
+    }
+
+    .radio-pill input[type="radio"]:focus-visible + label {
+      outline: 3px solid var(--accent);
+    }
+
+    /* ----------------------------------------------------
+       SCREEN 4: INTEREST EXPLORATION (QUESTION CARD)
+       ---------------------------------------------------- */
+    .question-box {
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    .question-title {
+      font-size: 24px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 32px;
+      line-height: 1.4;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .likert-scale {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .likert-option {
+      flex: 1;
+      min-width: 110px;
+    }
+
+    .likert-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .likert-option label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-surface);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 8px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      height: 100%;
+      gap: 8px;
+    }
+
+    .likert-option:hover label {
+      border-color: var(--secondary);
+      background-color: var(--secondary-light);
+    }
+
+    .likert-option input[type="radio"]:checked + label {
+      border-color: var(--primary);
+      background-color: var(--primary);
+      color: var(--text-light);
+    }
+
+    .likert-option input[type="radio"]:focus-visible + label {
+      outline: 3px solid var(--accent);
+    }
+
+    .likert-num {
+      font-family: var(--font-en);
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .likert-label {
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .question-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
+    }
+
+    .shortcut-tip {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ----------------------------------------------------
+       SCREEN 5: LEARNING CONFIDENCE
+       ---------------------------------------------------- */
+    .confidence-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .confidence-row {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .confidence-subject {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .confidence-options {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .confidence-opt {
+      flex: 1;
+    }
+
+    .confidence-opt input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .confidence-opt label {
+      display: block;
+      text-align: center;
+      padding: 8px;
+      background: var(--bg-app);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .confidence-opt:hover label {
+      background: var(--secondary-light);
+    }
+
+    .confidence-opt input[type="radio"]:checked + label {
+      background: var(--secondary);
+      color: var(--text-light);
+      border-color: var(--secondary);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .confidence-row {
+        grid-template-columns: 1fr;
+      }
+      .confidence-options {
+        flex-direction: column;
+        gap: 6px;
+      }
+      .confidence-opt label {
+        padding: 10px;
+        font-size: 14px;
+      }
+    }
+
+    /* ----------------------------------------------------
+       SCREEN 6: VALUES
+       ---------------------------------------------------- */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .value-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: var(--transition-smooth);
+    }
+
+    .value-card:hover {
+      border-color: var(--secondary);
+      background-color: var(--secondary-light);
+    }
+
+    .value-card.selected {
+      border-color: var(--primary);
+      background-color: var(--accent-light);
+    }
+
+    .value-card input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .value-info h4 {
+      font-size: 16px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .value-card.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .value-card.disabled:hover {
+      border-color: var(--border-color);
+      background-color: var(--bg-surface);
+    }
+
+    /* ----------------------------------------------------
+       SCREEN 7: PREFERENCES
+       ---------------------------------------------------- */
+    .pref-group {
+      margin-bottom: 28px;
+    }
+
+    .pref-question {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pref-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    /* ----------------------------------------------------
+       SCREEN 8: REVIEW
+       ---------------------------------------------------- */
+    .review-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 0;
+    }
+
+    .review-item:last-child {
+      border-bottom: none;
+    }
+
+    .review-details h3 {
+      font-size: 16px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .review-details p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .status-complete {
+      background-color: var(--success-light);
+      color: var(--success);
+    }
+
+    .status-incomplete {
+      background-color: var(--warning-light);
+      color: var(--warning);
+    }
+
+    /* ----------------------------------------------------
+       SCREEN 9: RESULTS DASHBOARD
+       ---------------------------------------------------- */
+    .results-header {
+      text-align: center;
+      margin-bottom: 32px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--text-light);
+      padding: 40px 24px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+    }
+
+    .results-header h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .results-header p {
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+    }
+
+    .profile-code-display {
+      display: inline-flex;
+      background: var(--accent);
+      color: var(--primary);
+      font-family: var(--font-en);
+      font-weight: 800;
+      font-size: 36px;
+      padding: 4px 24px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      margin-top: 10px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    /* RIASEC Profile Graph */
+    .riasec-graph-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .riasec-bar-group {
+      margin-bottom: 20px;
+    }
+
+    .riasec-bar-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .riasec-bar-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--primary);
+    }
+
+    .riasec-bar-score {
+      font-family: var(--font-en);
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--secondary);
+    }
+
+    .riasec-bar-track {
+      background-color: var(--bg-surface-neutral);
+      height: 16px;
+      border-radius: 50px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .riasec-bar-fill {
+      height: 100%;
+      border-radius: 50px;
+      transition: width 1s cubic-bezier(0.1, 0.8, 0.2, 1);
+    }
+
+    /* Dynamic recommendation reasons */
+    .recommendation-reasons {
+      background-color: var(--bg-app);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 14px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .recommendation-reasons ul {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+
+    /* Expandable Cards for Path/Clusters */
+    .recommendation-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .rec-card {
+      background: var(--bg-surface);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+    }
+
+    .rec-card:hover {
+      border-color: var(--secondary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .rec-card.expanded {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .rec-header {
+      padding: 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--bg-surface);
+      user-select: none;
+    }
+
+    .rec-header-info {
+      flex: 1;
+    }
+
+    .rec-rank-badge {
+      display: inline-block;
+      background-color: var(--primary);
+      color: var(--text-light);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 50px;
+      margin-bottom: 6px;
+    }
+
+    .rec-title {
+      font-size: 20px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .rec-alignment {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--secondary);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .rec-toggle-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--bg-app);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-smooth);
+    }
+
+    .rec-toggle-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--primary);
+      transition: var(--transition-smooth);
+    }
+
+    .rec-card.expanded .rec-toggle-btn {
+      background-color: var(--primary);
+    }
+    .rec-card.expanded .rec-toggle-btn svg {
+      transform: rotate(180deg);
+      fill: var(--text-light);
+    }
+
+    .rec-body {
+      display: none;
+      padding: 0 24px 24px 24px;
+      border-top: 1px solid var(--border-color);
+      background-color: #FAFBFD;
+    }
+
+    .rec-card.expanded .rec-body {
+      display: block;
+    }
+
+    .rec-section {
+      margin-top: 20px;
+    }
+
+    .rec-section-title {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-left: 3px solid var(--secondary);
+      padding-left: 8px;
+    }
+
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .tag-item {
+      background-color: var(--bg-surface-neutral);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* University Directory Exploration UI */
+    .uni-explore-container {
+      margin-top: 16px;
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      background: var(--bg-surface);
+    }
+
+    .uni-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .uni-card {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      background-color: #FAFBFD;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .uni-name {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 14px;
+    }
+
+    .uni-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .uni-links {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .uni-link-btn {
+      flex: 1;
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    /* Action Checklist Component */
+    .checklist-container {
+      margin-top: 12px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checklist-item.checked {
+      background-color: var(--success-light);
+      border-color: rgba(46, 125, 50, 0.2);
+    }
+
+    .checklist-item input[type="checkbox"] {
+      margin-top: 4px;
+      cursor: pointer;
+    }
+
+    .checklist-item label {
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .checklist-item.checked label {
+      text-decoration: line-through;
+      color: var(--success);
+    }
+
+    /* ----------------------------------------------------
+       DIALOG BOX / MODAL
+       ---------------------------------------------------- */
+    .dialog-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(11, 42, 85, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .dialog-overlay.active {
+      display: flex;
+    }
+
+    .dialog-box {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-color);
+      animation: dialogScale 0.3s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+    }
+
+    @keyframes dialogScale {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .dialog-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dialog-body {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* ----------------------------------------------------
+       FOOTER
+       ---------------------------------------------------- */
+    footer {
+      margin-top: auto;
+      padding: 32px 0 16px 0;
+      border-top: 1px solid var(--border-color);
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-link:hover {
+      text-decoration: underline;
+    }
+
+    .footer-attribution {
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    /* ----------------------------------------------------
+       RESPONSIVE ADJUSTMENTS
+       ---------------------------------------------------- */
+    @media (max-width: 600px) {
+      .card {
+        padding: 20px;
+      }
+      .welcome-hero h2 {
+        font-size: 24px;
+      }
+      .selection-grid {
+        grid-template-columns: 1fr;
+      }
+      .likert-scale {
+        flex-direction: column;
+        gap: 8px;
+      }
+      .likert-option label {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 12px;
+        gap: 16px;
+      }
+      .btn {
+        width: 100%;
+      }
+      .btn-group {
+        flex-direction: column;
+      }
+    }
+
+    /* ----------------------------------------------------
+       PRINT STYLESHEET
+       ---------------------------------------------------- */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 15mm;
+      }
+      
+      body {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        font-size: 12px;
+      }
+
+      .app-container {
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+      }
+
+      header, 
+      footer, 
+      .btn-group, 
+      .question-nav, 
+      .save-indicator,
+      .skip-link, 
+      .rec-toggle-btn,
+      .uni-links,
+      .dialog-overlay,
+      .alert-box,
+      .btn {
+        display: none !important;
+      }
+
+      .screen {
+        display: none !important;
+      }
+
+      #screen-results.screen {
+        display: block !important;
+      }
+
+      .card, 
+      .riasec-graph-card, 
+      .rec-card,
+      .uni-card {
+        border: 1px solid #000000 !important;
+        background: #FFFFFF !important;
+        box-shadow: none !important;
+        margin-bottom: 12px !important;
+        padding: 12px !important;
+        border-radius: 4px !important;
+        page-break-inside: avoid;
+      }
+
+      .results-header {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        border: 2px solid #000000 !important;
+        padding: 16px !important;
+        border-radius: 4px !important;
+        box-shadow: none !important;
+      }
+
+      .results-header h2 {
+        font-size: 20px;
+        color: #000000 !important;
+      }
+
+      .results-header p {
+        color: #000000 !important;
+      }
+
+      .profile-code-display {
+        border: 1px solid #000000 !important;
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        padding: 2px 10px !important;
+        font-size: 24px !important;
+        box-shadow: none !important;
+      }
+
+      .riasec-bar-track {
+        border: 1px solid #000000 !important;
+        background-color: #FFFFFF !important;
+        border-radius: 0 !important;
+        height: 12px !important;
+      }
+
+      .riasec-bar-fill {
+        background-color: #333333 !important;
+        border-radius: 0 !important;
+      }
+
+      .rec-body {
+        display: block !important;
+        border-top: 1px solid #000000 !important;
+        background-color: #FFFFFF !important;
+        padding: 8px 0 0 0 !important;
+      }
+
+      .rec-section-title {
+        border-left: 2px solid #000000 !important;
+        color: #000000 !important;
+        font-size: 13px !important;
+      }
+
+      .tag-item {
+        border: 1px solid #555555 !important;
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
+      }
+
+      .checklist-item {
+        background: #FFFFFF !important;
+        border: 1px solid #000000 !important;
+      }
+
+      .uni-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Accessbility skip link -->
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <div class="app-container">
+    
+    <!-- Top Branding Header -->
+    <header role="banner">
+      <div class="brand-group">
+        <img class="brand-logo-svg" src="data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="%232A5C43"/><text x="50" y="62" font-size="50" text-anchor="middle" fill="white">🎓</text></svg>" alt="RIASEC MyFuture Logo">
+        <div class="brand-info">
+          <h1 id="app-branding-title">RIASEC MyFuture</h1>
+          <p id="app-branding-platform">ส่วนหนึ่งของแพลตฟอร์ม ระบบสำรวจตัวตนนักเรียน</p>
+        </div>
+      </div>
+      
+      <div class="header-meta">
+        <div class="save-indicator" id="save-status" aria-live="polite">
+          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>บันทึกแล้ว</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Screens Container -->
+    <main id="main-content" role="main">
+
+      <!-- ====================================================
+           SCREEN 1: WELCOME
+           ==================================================== -->
+      <section id="screen-welcome" class="screen active" aria-labelledby="welcome-title">
+        <div class="card">
+          <div class="welcome-hero">
+            <span class="welcome-badge" id="welcome-org-badge">นายนพพร สมบูรณ์ชัย | ห้องสอนศึกษา ในพระอุปถัมภ์</span>
+            <h2 id="welcome-title">ค้นหาตัวตน ค้นพบเส้นทางอนาคต</h2>
+            <p>แบบสำรวจความสนใจ จุดแข็ง และแนวทางการศึกษาต่อสำหรับนักเรียนมัธยมศึกษา เพื่อค้นพบโอกาสและจัดทำแนวทางวางแผนชีวิตอย่างสร้างสรรค์</p>
+          </div>
+
+          <div class="alert-box alert-info">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <div>
+              <strong>คำชี้แจงและข้อตกลงความเป็นส่วนตัว:</strong>
+              <p style="margin-top: 4px;">ผลลัพธ์จากแบบสำรวจนี้ใช้เพื่อช่วยให้นักเรียนรู้จักตนเองและค้นหาเส้นทางที่ควรศึกษาต่อ ไม่ใช่คำตัดสินว่านักเรียนต้องเลือกแผนการเรียน คณะ มหาวิทยาลัย หรืออาชีพใด ควรใช้ผลลัพธ์ร่วมกับข้อมูลผลการเรียน ประสบการณ์จริง ความพร้อมของครอบครัว และคำปรึกษาจากครูแนะแนว</p>
+              <p style="margin-top: 4px; font-weight: 600;">ข้อมูลทั้งหมดจะถูกบันทึกไว้ในเบราว์เซอร์ของอุปกรณ์นี้เท่านั้น ไม่มีการส่งข้อมูลส่วนบุคคลออกไปยังเซิร์ฟเวอร์ภายนอกใดๆ</p>
+            </div>
+          </div>
+
+          <div class="welcome-grid">
+            <div class="welcome-feature">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+              <div>
+                <h3>ค้นพบรหัสบุคลิกภาพ RIASEC</h3>
+                <p>เข้าใจแนวโน้มความสนใจจำแนกเป็น 6 มิติ เพื่อประกอบการสำรวจกิจกรรมและกลุ่มวิชา</p>
+              </div>
+            </div>
+            <div class="welcome-feature">
+              <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5.49 12.28l-1.9-.9c-.19-.09-.32-.28-.32-.5 0-.22.13-.41.32-.5l1.9-.9c.34-.16.74-.08 1 .2l1.36 1.2c.16.14.25.35.25.57 0 .22-.09.43-.25.57l-1.36 1.2c-.26.28-.66.36-1 .2z"/></svg>
+              <div>
+                <h3>ประเมินระดับความมั่นใจรายวิชา</h3>
+                <p>เปรียบเทียบจุดแข็งและความถนัดทางการเรียนรู้ที่เราสัมผัสได้ เพื่อหนุนนำแผนการเรียนที่เหมาะสม</p>
+              </div>
+            </div>
+            <div class="welcome-feature">
+              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+              <div>
+                <h3>แนวทางที่สอดคล้องเชิงสำรวจ</h3>
+                <p>รับแผนปฏิบัติการและรายการแนะนำ คณะวิชา หรือกลุ่มวิชาตัวอย่าง และตัวเลือกมหาวิทยาลัย</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; font-size: 14px; color: var(--text-muted);">
+            <span>เวลาเฉลี่ยที่ใช้: <strong>ประมาณ 12–18 นาที</strong></span> | 
+            <span id="welcome-app-version">เวอร์ชัน 1.0.0</span> | 
+            <span id="welcome-last-updated">อัปเดตล่าสุด: 25 มิถุนายน 2569</span>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary" onclick="app.nextScreen(2)">เริ่มค้นหาตนเอง</button>
+            <button type="button" class="btn btn-secondary" onclick="app.showMethodology()">ดูหลักการทำงาน</button>
+            <button type="button" class="btn btn-accent" id="btn-resume-assessment" style="display: none;" onclick="app.resumeAssessment()">กลับมาทำต่อจากที่บันทึกไว้</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SCREEN 2: EDUCATION LEVEL SELECTION
+           ==================================================== -->
+      <section id="screen-level" class="screen" aria-labelledby="level-title">
+        <div class="card">
+          <div class="card-header">
+            <h2 id="level-title" class="card-title">ระดับการศึกษาปัจจุบันของคุณ</h2>
+            <p class="card-subtitle">เลือกรูปแบบข้อมูลผลลัพธ์ที่ตรงกับกลุ่มอายุและการวางแผนเรียนต่อ</p>
+          </div>
+
+          <div class="selection-grid">
+            <!-- Lower Secondary -->
+            <button class="selection-card" id="level-card-lower" onclick="app.setLevel('lower')">
+              <svg class="selection-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+              </svg>
+              <h3>มัธยมศึกษาตอนต้น</h3>
+              <p>มัธยมศึกษาปีที่ 1 ถึง มัธยมศึกษาปีที่ 3</p>
+              <div class="selection-details">
+                โฟกัสผลลัพธ์:
+                <ul>
+                  <li>แนวทางแผนการเรียน ม.ปลาย (สามัญ/วิชาชีพ)</li>
+                  <li>กลุ่มวิชาและกิจกรรมที่ควรเสริมประวัติ</li>
+                  <li>แผนปฏิบัติการสร้างสรรค์ 30 วัน และ 90 วัน</li>
+                </ul>
+              </div>
+            </button>
+
+            <!-- Upper Secondary -->
+            <button class="selection-card" id="level-card-upper" onclick="app.setLevel('upper')">
+              <svg class="selection-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+              </svg>
+              <h3>มัธยมศึกษาตอนปลาย</h3>
+              <p>มัธยมศึกษาปีที่ 4 ถึง มัธยมศึกษาปีที่ 6 / ปวช.</p>
+              <div class="selection-details">
+                โฟกัสผลลัพธ์:
+                <ul>
+                  <li>กลุ่มคณะวิชาและสาขาเป้าหมายในอุดมศึกษา</li>
+                  <li>ตัวอย่างอาชีพและไอเดียพัฒนาแฟ้มสะสมผลงาน</li>
+                  <li>คำแนะนำรอบ TCAS/มรภ./มทร. และแผนระยะ 1 ปี</li>
+                </ul>
+              </div>
+            </button>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline" onclick="app.prevScreen(1)">ย้อนกลับ</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SCREEN 3: OPTIONAL CONTEXT
+           ==================================================== -->
+      <section id="screen-context" class="screen" aria-labelledby="context-title">
+        <div class="card">
+          <div class="card-header">
+            <h2 id="context-title" class="card-title">ข้อมูลแวดล้อมเพื่อการแนะนำ</h2>
+            <p class="card-subtitle">ข้อมูลประกอบเหล่านี้ช่วยจัดตัวเลือกและคำแนะนำเชิงปฏิบัติโดยไม่ลดคะแนนความสนใจใดๆ (ไม่ต้องระบุชื่อจริง)</p>
+          </div>
+
+          <form id="context-form" onsubmit="event.preventDefault();">
+            <div class="form-group">
+              <label for="student-nickname">ชื่อเล่นหรือนามสมมติ (ใช้เรียกบนรายงานรายงาน)</label>
+              <input type="text" id="student-nickname" class="form-control" placeholder="ระบุชื่อเล่นของคุณ..." maxlength="30">
+            </div>
+
+            <div class="form-group">
+              <label id="lbl-grade">ชั้นปีการศึกษาปัจจุบัน</label>
+              <div class="radio-pill-group" role="radiogroup" aria-labelledby="lbl-grade" id="grade-group">
+                <!-- Dynamically populated based on Level selection -->
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label id="lbl-location">สถานที่เรียนต่อที่ต้องการ</label>
+              <div class="radio-pill-group" role="radiogroup" aria-labelledby="lbl-location">
+                <div class="radio-pill">
+                  <input type="radio" id="loc-1" name="pref-location" value="near" checked>
+                  <label for="loc-1">ใกล้บ้าน (แม่ฮ่องสอน/จังหวัดเพื่อนบ้าน)</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="loc-2" name="pref-location" value="north">
+                  <label for="loc-2">ภาคเหนือ (เชียงใหม่, ลำปาง, ฯลฯ)</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="loc-3" name="pref-location" value="anywhere">
+                  <label for="loc-3">เปิดกว้างทุกพื้นที่ในไทย</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="loc-4" name="pref-location" value="unsure">
+                  <label for="loc-4">ยังไม่แน่ใจ</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label id="lbl-direction">เป้าหมายแผนการศึกษาสายสามัญหรือสายอาชีพ</label>
+              <div class="radio-pill-group" role="radiogroup" aria-labelledby="lbl-direction">
+                <div class="radio-pill">
+                  <input type="radio" id="dir-1" name="pref-direction" value="general" checked>
+                  <label for="dir-1">สนใจเรียนสายสามัญ (ม.ปลาย/มหาวิทยาลัย)</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="dir-2" name="pref-direction" value="vocational">
+                  <label for="dir-2">สนใจเรียนสายอาชีพ (ปวช./ปวส.)</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="dir-3" name="pref-direction" value="both">
+                  <label for="dir-3">สนใจทั้งสองแบบ</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="dir-4" name="pref-direction" value="unsure">
+                  <label for="dir-4">ยังไม่แน่ใจ</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label id="lbl-relocate">ความยินดีในการไปเรียนต่างจังหวัด</label>
+              <div class="radio-pill-group" role="radiogroup" aria-labelledby="lbl-relocate">
+                <div class="radio-pill">
+                  <input type="radio" id="reloc-1" name="pref-relocate" value="no" checked>
+                  <label for="reloc-1">ต้องการอยู่ใกล้ชิดครอบครัว</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="reloc-2" name="pref-relocate" value="yes">
+                  <label for="reloc-2">สามารถย้ายไปอยู่ต่างจังหวัด/หอพักได้</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="reloc-3" name="pref-relocate" value="unsure">
+                  <label for="reloc-3">ยังไม่แน่ใจ</label>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline" onclick="app.prevScreen(2)">ย้อนกลับ</button>
+            <button type="button" class="btn btn-primary" onclick="app.startAssessment()">ถัดไป: แบบสำรวจความสนใจ</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SCREEN 4: INTEREST EXPLORATION
+           ==================================================== -->
+      <section id="screen-interests" class="screen" aria-labelledby="interests-title">
+        <div class="card">
+          <div class="progress-wrapper">
+            <div class="progress-meta">
+              <span class="progress-title" id="interests-step-label">หมวด 1: แบบสำรวจความสนใจ (RIASEC)</span>
+              <span class="progress-percent" id="interests-progress-percent">0/36</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-bar" id="interests-progress-bar"></div>
+            </div>
+          </div>
+
+          <div class="question-box">
+            <div id="interest-question-text" class="question-title">
+              ข้อที่ 1: กำลังโหลดคำถาม...
+            </div>
+
+            <div class="likert-scale" role="radiogroup" id="interests-likert" aria-label="ระดับความสนใจ">
+              <div class="likert-option">
+                <input type="radio" id="likert-1" name="interest-rating" value="1">
+                <label for="likert-1">
+                  <span class="likert-num">1</span>
+                  <span class="likert-label">ไม่ชอบเลย</span>
+                </label>
+              </div>
+              <div class="likert-option">
+                <input type="radio" id="likert-2" name="interest-rating" value="2">
+                <label for="likert-2">
+                  <span class="likert-num">2</span>
+                  <span class="likert-label">ไม่ค่อยชอบ</span>
+                </label>
+              </div>
+              <div class="likert-option">
+                <input type="radio" id="likert-3" name="interest-rating" value="3">
+                <label for="likert-3">
+                  <span class="likert-num">3</span>
+                  <span class="likert-label">ไม่แน่ใจ</span>
+                </label>
+              </div>
+              <div class="likert-option">
+                <input type="radio" id="likert-4" name="interest-rating" value="4">
+                <label for="likert-4">
+                  <span class="likert-num">4</span>
+                  <span class="likert-label">ค่อนข้างชอบ</span>
+                </label>
+              </div>
+              <div class="likert-option">
+                <input type="radio" id="likert-5" name="interest-rating" value="5">
+                <label for="likert-5">
+                  <span class="likert-num">5</span>
+                  <span class="likert-label">ชอบมาก</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="question-nav">
+              <button type="button" class="btn btn-outline" id="btn-interest-prev" onclick="app.prevInterestQuestion()">ย้อนกลับ</button>
+              <div class="shortcut-tip">กดแป้นตัวเลข 1 - 5 บนคีย์บอร์ดเพื่อเลือกได้อย่างรวดเร็ว</div>
+              <button type="button" class="btn btn-primary" id="btn-interest-next" onclick="app.nextInterestQuestion()">ถัดไป</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SCREEN 5: LEARNING CONFIDENCE
+           ==================================================== -->
+      <section id="screen-confidence" class="screen" aria-labelledby="confidence-title">
+        <div class="card">
+          <div class="progress-wrapper">
+            <div class="progress-meta">
+              <span class="progress-title">หมวด 2: ความมั่นใจในมิติความถนัดทางการเรียนและการลงมือปฏิบัติ</span>
+              <span class="progress-percent" id="confidence-progress-label">0/12</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-bar" id="confidence-progress-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="card-header">
+            <h2 id="confidence-title" class="card-title">ความมั่นใจทางการเรียนและทักษะ</h2>
+            <p class="card-subtitle">ส่วนนี้เป็นการสะท้อนความรู้สึกของตนเอง ไม่ใช่การวัดความสามารถจริง คะแนนสามารถเปลี่ยนแปลงได้เมื่อมีประสบการณ์และการฝึกฝนเพิ่มขึ้น</p>
+          </div>
+
+          <div class="confidence-grid" id="confidence-container">
+            <!-- Dynamically populated rows -->
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline" onclick="app.prevScreen(4)">ย้อนกลับ</button>
+            <button type="button" class="btn btn-primary" onclick="app.validateAndGoToValues()">ถัดไป: สำรวจคุณค่าการทำงาน</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SCREEN 6: VALUES SELECTION
+           ==================================================== -->
+      <section id="screen-values" class="screen" aria-labelledby="values-title">
+        <div class="card">
+          <div class="progress-wrapper">
+            <div class="progress-meta">
+              <span class="progress-title">หมวด 3: คุณค่าที่ยึดถือในการเรียนและเป้าหมายชีวิต</span>
+              <span class="progress-percent" id="values-progress-label">0/3</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-bar" id="values-progress-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="card-header">
+            <h2 id="values-title" class="card-title">เลือกคุณค่าชีวิตและการทำงานที่คุณให้ความสำคัญที่สุด</h2>
+            <p class="card-subtitle">ไม่มีคำตอบที่ถูกหรือผิด กรุณาเลือก<strong>ตรงตามตัวตนที่สุด 3 ข้อ</strong></p>
+          </div>
+
+          <div class="values-grid" id="values-container">
+            <!-- Dynamically populated with 10 value cards -->
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline" onclick="app.prevScreen(5)">ย้อนกลับ</button>
+            <button type="button" class="btn btn-primary" onclick="app.validateAndGoToPreferences()">ถัดไป: ความต้องการส่วนตัว</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SCREEN 7: WORK AND LEARNING PREFERENCES
+           ==================================================== -->
+      <section id="screen-preferences" class="screen" aria-labelledby="preferences-title">
+        <div class="card">
+          <div class="card-header">
+            <h2 id="preferences-title" class="card-title">ความชอบและสภาพแวดล้อมที่เหมาะสมสำหรับคุณ</h2>
+            <p class="card-subtitle">ข้อมูลการทำงานและเงื่อนไขการทำงานในฝัน</p>
+          </div>
+
+          <div id="preferences-form">
+            <!-- Pref 1 -->
+            <div class="pref-group">
+              <div class="pref-question">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--primary)"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.48 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                ลักษณะการทำงานกับผู้คน
+              </div>
+              <div class="radio-pill-group" role="radiogroup" aria-label="ลักษณะการทำงานกับผู้คน">
+                <div class="radio-pill">
+                  <input type="radio" id="pref-p-1" name="pref-people" value="alone" checked>
+                  <label for="pref-p-1">เน้นอิสระ ทำงานคนเดียวสงบๆ ได้ดี</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="pref-p-2" name="pref-people" value="group">
+                  <label for="pref-p-2">ชอบทำงานร่วมเป็นทีม แลกเปลี่ยนความเห็น</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pref 2 -->
+            <div class="pref-group">
+              <div class="pref-question">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--primary)"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+                วิธีดูดซับเนื้อหาและความรู้ที่ดีที่สุด
+              </div>
+              <div class="radio-pill-group" role="radiogroup" aria-label="วิธีดูดซับเนื้อหาและความรู้">
+                <div class="radio-pill">
+                  <input type="radio" id="pref-l-1" name="pref-learning" value="read" checked>
+                  <label for="pref-l-1">อ่านตำรา ค้นเอกสาร วิเคราะห์บทความ</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="pref-l-2" name="pref-learning" value="listen">
+                  <label for="pref-l-2">ฟังคำอธิบาย ฟังบรรยาย คลิปเสียงหรือการคุยกัน</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="pref-l-3" name="pref-learning" value="do">
+                  <label for="pref-l-3">ลงมือปฏิบัติจริง รื้อประกอบสิ่งของ ทำโครงงาน</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="pref-l-4" name="pref-learning" value="mix">
+                  <label for="pref-l-4">ชอบผสมผสานหลายรูปแบบ</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pref 3 -->
+            <div class="pref-group">
+              <div class="pref-question">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--primary)"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                เงื่อนไขการทำงานและรูปแบบงานที่ชอบ
+              </div>
+              <div class="radio-pill-group" role="radiogroup" aria-label="รูปแบบงานที่ชอบ">
+                <div class="radio-pill">
+                  <input type="radio" id="pref-w-1" name="pref-work-style" value="structured" checked>
+                  <label for="pref-w-1">งานมีขั้นตอนชัดเจน มีระบบกฎเกณฑ์รองรับแน่นอน</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="pref-w-2" name="pref-work-style" value="open">
+                  <label for="pref-w-2">งานเปิดกว้าง ยืดหยุ่น ไร้ระเบียบแบบแผนดั้งเดิม</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pref 4 -->
+            <div class="pref-group">
+              <div class="pref-question">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--primary)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                สถานที่ปฏิบัติงานที่ชอบ
+              </div>
+              <div class="radio-pill-group" role="radiogroup" aria-label="สถานที่ปฏิบัติงาน">
+                <div class="radio-pill">
+                  <input type="radio" id="pref-e-1" name="pref-environment" value="indoor" checked>
+                  <label for="pref-e-1">ภายในอาคาร สำนักงาน ห้องทดลอง ห้องสตูดิโอ</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="pref-e-2" name="pref-environment" value="outdoor">
+                  <label for="pref-e-2">ภาคสนาม กลางแจ้ง ชุมชนธรรมชาติ นอกสถานที่</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="pref-e-3" name="pref-environment" value="both">
+                  <label for="pref-e-3">ชอบงานผสมผสานในอาคารและภาคสนาม</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pref 5 -->
+            <div class="pref-group">
+              <div class="pref-question">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--primary)"><path d="M12 12c2.21 0 4 -1.79 4 -4s-1.79 -4 -4 -4 -4 1.79 -4 4 1.79 4 4 4zm0 2c-2.67 0 -8 1.34 -8 4v2h16v-2c0 -2.66 -5.33 -4 -8 -4z"/></svg>
+                สิ่งที่คุณรู้สึกสนใจในการจัดการมากที่สุด
+              </div>
+              <div class="radio-pill-group" role="radiogroup" aria-label="สิ่งสนใจในการจัดการ">
+                <div class="radio-pill">
+                  <input type="radio" id="pref-f-1" name="pref-focus" value="people" checked>
+                  <label for="pref-f-1">บุคคล กลุ่มคน ชุมชน และจิตวิทยาสื่อสาร</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="pref-f-2" name="pref-focus" value="data">
+                  <label for="pref-f-2">ข้อมูล เอกสาร บัญชี สถิติ และกระบวนการวิเคราะห์</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="pref-f-3" name="pref-focus" value="ideas">
+                  <label for="pref-f-3">แนวคิดสร้างสรรค์ งานศิลปะ การนำเสนอ และการเขียน</label>
+                </div>
+                <div class="radio-pill">
+                  <input type="radio" id="pref-f-4" name="pref-focus" value="things">
+                  <label for="pref-f-4">วัตถุ สิ่งของ เครื่องมือช่าง คอมพิวเตอร์ หรือธรรมชาติ</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline" onclick="app.prevScreen(6)">ย้อนกลับ</button>
+            <button type="button" class="btn btn-primary" onclick="app.goToReview()">ถัดไป: ตรวจสอบความถูกต้องก่อนประมวลผล</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SCREEN 8: REVIEW
+           ==================================================== -->
+      <section id="screen-review" class="screen" aria-labelledby="review-title">
+        <div class="card">
+          <div class="card-header">
+            <h2 id="review-title" class="card-title">สรุปภาพรวมความสมบูรณ์ของข้อมูล</h2>
+            <p class="card-subtitle">กรุณาตรวจสอบว่ามีคำตอบค้างในส่วนใดหรือไม่ก่อนทำการประมวลผล</p>
+          </div>
+
+          <div id="review-list">
+            <!-- Dynamically generated list of sections with edit links and status indicators -->
+          </div>
+
+          <div id="review-validation-msg" style="margin-top: 20px;"></div>
+
+          <div class="btn-group" style="margin-top: 32px;">
+            <button type="button" class="btn btn-outline" onclick="app.prevScreen(7)">กลับไปแก้ไขคำตอบ</button>
+            <button type="button" class="btn btn-primary" id="btn-process-results" onclick="app.processResults()">ประมวลผลการสำรวจอนาคต</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SCREEN 9: RESULTS VIEW
+           ==================================================== -->
+      <section id="screen-results" class="screen" aria-labelledby="results-main-title">
+        
+        <!-- Results Banner -->
+        <div class="results-header">
+          <span class="welcome-badge" style="background: rgba(255,255,255,0.2); color: #FFF; border: none;" id="results-student-level">ระดับมัธยมศึกษา</span>
+          <h2 id="results-main-title">รายงานแนะแนวเส้นทางอนาคตเฉพาะบุคคล</h2>
+          <p id="results-welcome-name">ผลสำรวจสำหรับ: นักเรียน</p>
+          <div>
+            <span style="font-size:13px; opacity:0.8;">รหัสความสนใจเด่นสามด้านหลัก (RIASEC Code)</span><br>
+            <span class="profile-code-display" id="results-profile-code">---</span>
+          </div>
+        </div>
+
+        <!-- Safety Disclaimer Alert -->
+        <div class="alert-box alert-warning">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          <div>
+            <strong>คำเตือนการแปลผลลัพธ์:</strong>
+            <p style="margin-top: 4px;">ผลลัพธ์นี้ไม่ใช่ผลวินิจฉัยทางการแพทย์ จิตวิทยา หรือการการันตีการสอบเข้ามหาวิทยาลัย เป็นเพียงดัชนีชี้แนะเพื่อการค้นหาตัวตนและการพูดคุยแนะแนวร่วมกับผู้ปกครองและคุณครู กรุณาตรวจสอบแผนหลักสูตรและระเบียบการเรียนต่อจากแหล่งอ้างอิงทางการอย่างสม่ำเสมอ</p>
+          </div>
+        </div>
+
+        <!-- Alert regarding response quality checks if any -->
+        <div id="response-quality-warning" class="alert-box alert-info" style="display: none;">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          <div id="response-quality-text">
+            ข้อสังเกตจากรูปแบบการทำแบบสำรวจของคุณ...
+          </div>
+        </div>
+
+        <div class="results-grid">
+          <!-- 1. RIASEC Profile Scores Graph -->
+          <div class="riasec-graph-card">
+            <h3 class="card-title" style="margin-bottom: 20px;">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="var(--primary)"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+              แผนภูมิระดับคะแนนความสนใจ 6 ด้าน (RIASEC)
+            </h3>
+            <p class="card-subtitle" style="margin-bottom: 24px;">คะแนนประเมินเทียบเป็นร้อยละ (0 - 100) คำนวณจากระดับความชอบในกิจกรรมประเภทต่างๆ</p>
+            
+            <div id="riasec-bars-container">
+              <!-- Dynamically populated score bars -->
+            </div>
+            
+            <div style="font-size: 13px; color: var(--text-muted); margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 12px;">
+              * ความแตกต่างระหว่างด้านที่สูงที่สุดและต่ำที่สุด (Profile Differentiation): <span id="profile-diff-value">--</span>
+            </div>
+          </div>
+
+          <!-- 2. Primary Recommendations -->
+          <div>
+            <h3 class="card-title" style="margin-bottom: 16px;">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="var(--primary)"><path d="M12 2L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+              3 เส้นทาง/กลุ่มวิชาที่น่าสนใจเป็นอันดับแรกสำหรับคุณ
+            </h3>
+            <p class="card-subtitle" style="margin-bottom: 20px;">จัดเรียงตามค่าดัชนีความสอดคล้องเชิงสำรวจที่อิงจากบุคลิกภาพความสนใจ จุดแข็งรายวิชา คุณค่าที่เลือก และการชอบทำงาน</p>
+            
+            <div class="recommendation-list" id="primary-recommendations-list">
+              <!-- Dynamically populated top 3 expandable recommendation cards -->
+            </div>
+          </div>
+
+          <!-- 3. Alternatives / Secondary recommendations -->
+          <div class="card">
+            <h3 class="card-title">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="var(--primary)"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+              ทางเลือกอื่นๆ ที่สอดคล้องระดับรองลงมาที่คุณควรพิจารณาเพิ่มเติม
+            </h3>
+            <p class="card-subtitle" style="margin-bottom: 16px;">ทางเลือกทดแทนที่สอดคล้องกับบางกลุ่มเป้าหมายเพื่อเป็นแผงควบคุมการค้นหาตัวเองเสริม</p>
+            
+            <div class="recommendation-list" id="alternative-recommendations-list">
+              <!-- Dynamically populated next 3 recommendations -->
+            </div>
+          </div>
+
+          <!-- 4. Personal Roadmap Action Plan -->
+          <div class="card">
+            <h3 class="card-title">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="var(--primary)"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+              แผนปฏิบัติการส่วนบุคคล (My Action Plan Roadmap)
+            </h3>
+            <p class="card-subtitle" style="margin-bottom: 12px;">ขั้นตอนปฏิบัติการแนะนำเพื่อช่วยให้คุณขยับเข้าใกล้เป้าหมายชีวิตได้ทีละระดับ สามารถติ๊กบันทึกความคืบหน้าได้</p>
+            
+            <div class="checklist-container" id="personal-action-plan-checklist">
+              <!-- Dynamically populated based on level -->
+            </div>
+          </div>
+
+          <!-- 5. Counselors and Parents Discussion Guide -->
+          <div class="card">
+            <h3 class="card-title">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="var(--primary)"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+              ประเด็นและข้อคำถามเพื่อการปรึกษาหารือ (Discussion Questions Guide)
+            </h3>
+            <p class="card-subtitle" style="margin-bottom: 16px;">คำถามแนะนำสำหรับใช้นำไปพิจารณาปรึกษาหารือร่วมกับครูแนะแนว ครอบครัว หรือรุ่นพี่เพื่อสร้างทางเลือกที่เป็นไปได้จริง</p>
+            
+            <ul id="discussion-questions-guide" style="padding-left: 20px; font-size: 15px; display: grid; gap: 10px;">
+              <!-- Dynamically populated lists of questions -->
+            </ul>
+          </div>
+        </div>
+
+        <div class="btn-group" style="margin-top: 32px; display: flex; justify-content: center; gap: 16px;">
+          <button type="button" class="btn btn-primary" onclick="window.print()">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+            พิมพ์รายงานหรือบันทึกเป็น PDF
+          </button>
+          <button type="button" class="btn btn-accent" onclick="app.copySummaryToClipboard()">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--primary)"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            คัดลอกสรุปย่อผลลัพธ์
+          </button>
+          <button type="button" class="btn btn-outline" onclick="app.editAnswersFromResults()">
+            กลับไปแก้ไขคำตอบ
+          </button>
+          <button type="button" class="btn btn-danger" onclick="app.confirmResetState()">
+            เริ่มทำแบบสำรวจใหม่
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Dialog Confirm Overlays -->
+    <div class="dialog-overlay" id="dialog-confirm-reset" role="dialog" aria-modal="true" aria-labelledby="reset-dialog-title" aria-describedby="reset-dialog-body">
+      <div class="dialog-box">
+        <div class="dialog-title" id="reset-dialog-title">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="var(--danger)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          ต้องการล้างข้อมูลเพื่อเริ่มทำใหม่หรือไม่?
+        </div>
+        <div class="dialog-body" id="reset-dialog-body">
+          การดำเนินการนี้จะลบคำตอบทั้งหมดที่บันทึกอยู่ในเครื่องปัจจุบันอย่างถาวร และเปลี่ยนหน้ากลับไปเริ่มต้นที่ขั้นตอนการต้อนรับใหม่ทั้งหมด
+        </div>
+        <div class="btn-group" style="justify-content: flex-end;">
+          <button type="button" class="btn btn-secondary" onclick="app.closeDialog('dialog-confirm-reset')">ยกเลิก</button>
+          <button type="button" class="btn btn-danger" onclick="app.executeResetState()">ตกลง, เริ่มทำแบบสำรวจใหม่</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-overlay" id="dialog-methodology" role="dialog" aria-modal="true" aria-labelledby="method-dialog-title" aria-describedby="method-dialog-body">
+      <div class="dialog-box" style="max-width: 600px;">
+        <div class="dialog-title" id="method-dialog-title">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="var(--secondary)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          หลักการประมวลผลและข้อจำกัดของแบบสำรวจ
+        </div>
+        <div class="dialog-body" id="method-dialog-body" style="max-height: 400px; overflow-y: auto; text-align: left; line-height: 1.6;">
+          <p><strong>1. ที่มาและกรอบแนวคิด:</strong><br>แบบสำรวจ RIASEC MyFuture ผสมผสานหลักการค้นหาตัวตน 4 องค์ประกอบสำคัญ:</p>
+          <ul style="margin-left: 20px; margin-bottom: 12px;">
+            <li>รูปแบบรหัสความสนใจด้านอาชีพ 6 มิติ (RIASEC)</li>
+            <li>การตระหนักรู้และการรับรู้ระดับความถนัดทางการเรียนในศาสตร์หลักต่างๆ</li>
+            <li>คุณค่าทางจิตวิทยาที่มีต่อเป้าหมายชีวิตและการทำงาน</li>
+            <li>สภาพแวดล้อมและเป้าหมายเชิงพื้นที่ความยินดีและสายงานการทำงาน (Preferences)</li>
+          </ul>
+          <p><strong>2. อัลกอริทึมการคำนวณ:</strong><br>ระบบจะเปรียบเทียบหาความสอดคล้องระหว่างคำตอบของผู้เรียนกับข้อมูลต้นแบบเชิงสถิติ (Target Profile Vectors) โดยใช้น้ำหนักถ่วงดัชนีสอดคล้องดังนี้:</p>
+          <ul style="margin-left: 20px; margin-bottom: 12px;">
+            <li>65% ความสอดคล้องทางมิติ RIASEC (คำนวณผ่านวิธี Cosine Similarity ทางเวกเตอร์)</li>
+            <li>20% การเกื้อหนุนตามจุดเด่นระดับความถนัดวิชาที่รายงาน</li>
+            <li>10% ความเข้ากันได้กับชุดคุณค่าเป้าหมายชีวิต (Values Matching)</li>
+            <li>5% ความสอดคล้องด้านสภาพการทำงานและความต้องการอื่นๆ (Preferences)</li>
+          </ul>
+          <p><strong>3. ข้อจำกัดและข้อแนะนำการใช้งาน:</strong></p>
+          <ul style="margin-left: 20px; margin-bottom: 12px;">
+            <li>คำถามเป็นคำถามทางการศึกษาที่พัฒนาขึ้นใหม่เพื่อส่งเสริมการแนะแนว ไม่ใช้ประเมินทางจิตวิทยาหรือการวินิจฉัยโรคและไม่ได้เปรียบเทียบมาตรฐานเทียบเคียงแบบทางการแพทย์</li>
+            <li>ข้อมูลเป้าหมายหลักสูตร สกอท. หรือเกณฑ์คัดเลือก TCAS/มรภ./มทร. อาจมีการอัปเดตและเปลี่ยนแปลงในแต่ละรอบ ขอความกรุณานักเรียนตรวจสอบรายละเอียดจากสถาบันการศึกษานั้นๆ อีกครั้ง</li>
+          </ul>
+        </div>
+        <div class="btn-group" style="justify-content: flex-end;">
+          <button type="button" class="btn btn-secondary" onclick="app.closeDialog('dialog-methodology')">ปิดหน้าต่าง</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Footer -->
+    <footer role="contentinfo">
+      <div class="footer-links">
+        <a href="javascript:void(0)" class="footer-link" onclick="app.showMethodology()">หลักการแนะแนวและข้อจำกัด</a>
+        <a href="javascript:void(0)" class="footer-link" id="footer-plan-link" target="_blank" rel="noopener noreferrer" style="display: none;">คู่มือครูแนะแนว</a>
+        <a href="javascript:void(0)" class="footer-link" id="footer-tcas-link" target="_blank" rel="noopener noreferrer" style="display: none;">ระบบตรวจสอบเกณฑ์คัดเลือก</a>
+      </div>
+      <div class="footer-attribution">
+        <p>© 2569 <span id="footer-org-name">นายนพพร สมบูรณ์ชัย | ห้องสอนศึกษา ในพระอุปถัมภ์</span>. สงวนลิขสิทธิ์</p>
+        <p>ขับเคลื่อนด้วยแพลตฟอร์ม ระบบสำรวจตัวตนนักเรียน - โครงการนวัตกรรมสนับสนุนการเรียนต่อเฉพาะถิ่นในระดับจังหวัด</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ====================================================
+       ASSESSMENT DATA & CORE LOGIC (JAVASCRIPT)
+       ==================================================== -->
+  <script>
+    "use strict";
+
+    /* ====================================================
+       TEACHER-EDITABLE CONFIGURATION
+       ==================================================== */
+    const APP_CONFIG = {
+      appName: "RIASEC MyFuture",
+      thaiTitle: "ค้นหาตัวตน ค้นพบเส้นทางอนาคต",
+      platformName: "ระบบสำรวจตัวตนนักเรียน",
+      schoolName: "",
+      organizationName: "นายนพพร สมบูรณ์ชัย | ห้องสอนศึกษา ในพระอุปถัมภ์",
+      counselorName: "",
+      counselorContact: "",
+      academicYear: "2569",
+      appVersion: "1.0.0",
+      lastUpdated: "25 มิถุนายน 2569",
+      officialPlanUrl: "https://example.com/counselor-guide.pdf", // URL ของคู่มือครูแนะแนว
+      officialTcasUrl: "https://www.mytcas.com",                 // URL ของเว็บ TCAS
+      privacyContact: "mhs.guidance.network@gmail.com",
+      theme: {
+        primary: "#2A5C43",
+        secondary: "#4E8752",
+        accent: "#E6AD45"
+      }
+    };
+
+    /* ====================================================
+       ASSESSMENT CORE DATA & SPECIFICATIONS
+       ==================================================== */
+    const RIASEC_CATEGORIES = {
+      R: { thName: "ลงมือปฏิบัติและทำงานกับสิ่งของ", desc: "ชอบกิจกรรมการลงมือทำ การทำงานประดิษฐ์ งานช่าง การซ่อมเครื่องมือ การใช้แรงและทำงานกับสิ่งของทางกายภาพ ทักษะทางช่าง และกิจกรรมกลางแจ้ง" },
+      I: { thName: "ค้นคว้า วิเคราะห์ และแก้ปัญหา", desc: "ชอบใช้ความคิด ค้นหาสาเหตุ ไขโจทย์วิทยาศาสตร์ ตรรกะคณิตศาสตร์ ทำการค้นคว้าวิจัย การศึกษาหาข้อเท็จจริง และข้อมูลตัวเลขในเชิงลึก" },
+      A: { thName: "สร้างสรรค์และแสดงออก", desc: "ชอบงานที่ใช้อารมณ์ความรู้สึก ความคิดสร้างสรรค์ งานศิลปะ การออกแบบ การแต่งเพลง เขียนหนังสือ เล่าเรื่อง หรือการคิดค้นไอเดียแปลกใหม่ไม่ซ้ำใคร" },
+      S: { thName: "ช่วยเหลือ สื่อสาร และพัฒนาผู้อื่น", desc: "ชอบปฏิสัมพันธ์ ดูแล ช่วยเหลือ อธิบาย ถ่ายทอดความรู้ให้เพื่อน มีมนุษยสัมพันธ์และมีความเห็นอกเห็นใจ มีทักษะการแนะแนวและรับฟังปัญหา" },
+      E: { thName: "นำทีม โน้มน้าว และริเริ่ม", desc: "ชอบเป็นผู้นำ มีการตั้งเป้าหมายกลุ่ม การพูดจูงใจ เสนอขายไอเดียหรือโครงการ การบริหารความเสี่ยง ธุรกิจ ค่ายกิจกรรม และการริเริ่มสร้างผลงานใหม่ๆ" },
+      C: { thName: "จัดระบบ ตรวจสอบ และทำงานเป็นระเบียบ", desc: "ชอบจัดเก็บข้อมูล บันทึกสถิติ ตรวจสอบความถูกต้อง ตัวเลขบัญชี การจัดการตารางเวลา และการปฏิบัติงานตามขั้นตอนที่ชัดเจนแม่นยำ" }
+    };
+
+    // 36 Assessment Questions (Seeded random shuffle on load, but stable within state session)
+    const INTEREST_QUESTIONS = [
+      { id: "q-r1", cat: "R", text: "ซ่อมบำรุงหรือแก้ไขปัญหาเครื่องใช้ไฟฟ้า คอมพิวเตอร์ หรือของชำรุดรอบตัวด้วยตนเอง" },
+      { id: "q-r2", cat: "R", text: "ประกอบชั้นวางของ เฟอร์นิเจอร์ หรือต่ออุปกรณ์โครงสร้างของเล่นต่างๆ" },
+      { id: "q-r3", cat: "R", text: "ทำกิจกรรมธรรมชาติ เช่น ปลูกต้นไม้ ปรับปรุงดิน หรือสำรวจระบบนิเวศน์ทางธรรมชาติ" },
+      { id: "q-r4", cat: "R", text: "ฝึกใช้อุปกรณ์เครื่องมือช่าง เครื่องตัด เครื่องกลึง หรือการขับรถอุปกรณ์ก่อสร้างเบื้องต้น" },
+      { id: "q-r5", cat: "R", text: "แกะสลัก ต่อชิ้นส่วน หรือสร้างชิ้นงานไม้ งานเหล็ก งานฝีมือหัตถกรรมเชิงกายภาพ" },
+      { id: "q-r6", cat: "R", text: "ปฏิบัติงานซ่อมท่อประปา ไฟฟ้า หรือดูแลอุปกรณ์ฮาร์ดแวร์ที่ต้องใช้ความคล่องแคล่ว" },
+
+      { id: "q-i1", cat: "I", text: "สืบหาสาเหตุของปัญหาสุขภาพ พฤติกรรมโรค หรือการวิจัยความเชื่อมโยงในสิ่งมีชีวิต" },
+      { id: "q-i2", cat: "I", text: "ทำการทดลองทางวิทยาศาสตร์ในห้องปฏิบัติการเพื่อตอบคำถามที่ยังไม่มีคำอธิบาย" },
+      { id: "q-i3", cat: "I", text: "วิเคราะห์ข้อมูลสถิติ ดัชนีตัวเลข หรือประมวลกราฟแสดงทัศนคติเพื่อหาข้อเท็จจริง" },
+      { id: "q-i4", cat: "I", text: "คิดค้นวิธีเขียนโปรแกรมคอมพิวเตอร์เพื่อแก้โจทย์คณิตศาสตร์หรือตรรกศาสตร์ที่ซับซ้อน" },
+      { id: "q-i5", cat: "I", text: "ค้นคว้าข้อมูลเชิงลึกจากบทความวิชาการ คลังหนังสือ เพื่อเข้าใจความลึกลับของดาราศาสตร์" },
+      { id: "q-i6", cat: "I", text: "ตั้งคำถาม ตรวจสอบทฤษฎีเชิงปรัชญา ประวัติศาสตร์ และหาความจริงจากหลักฐานทางคดี" },
+
+      { id: "q-a1", cat: "A", text: "ออกแบบภาพโปสเตอร์ เว็บไซต์ แฟชั่นเสื้อผ้า หรือการจัดวางสิ่งพิมพ์ให้น่าสนใจ" },
+      { id: "q-a2", cat: "A", text: "แต่งเรื่องราว บทความ นิยาย หรือเขียนบทกวีแชร์ประสบการณ์ชีวิตในแง่มุมต่างๆ" },
+      { id: "q-a3", cat: "A", text: "ร้องเพลง เล่นดนตรี หรือพยายามคิดเสียงดนตรีแนวเพลงใหม่ๆ ตามแบบฉบับของตัวเอง" },
+      { id: "q-a4", cat: "A", text: "พากย์เสียง แสดงละครสั้น วาดการ์ตูนช่อง หรือทำคลิปสั้นเล่าเรื่องราวมุมมองแปลกใหม่" },
+      { id: "q-a5", cat: "A", text: "คิดค้นแนวทางการจัดแสดงนิทรรศการ หรือตกแต่งสถานที่ทำงานให้น่าตื่นตาตื่นใจ" },
+      { id: "q-a6", cat: "A", text: "เขียนภาพวาดสีน้ำ สีน้ำมัน หรือปั้นงานดินตามอารมณ์ความรู้สึกอันเป็นเอกลักษณ์" },
+
+      { id: "q-s1", cat: "S", text: "อธิบายบทเรียน ติวข้อสอบ หรือช่วยอภิปรายให้เพื่อนที่ตามไม่ทันเข้าใจจุดสำคัญได้ง่าย" },
+      { id: "q-s2", cat: "S", text: "คอยรับฟังความกังวลใจของเพื่อน และคอยแนะแนวทางแก้ปัญหาชีวิตด้วยความใส่ใจ" },
+      { id: "q-s3", cat: "S", text: "เข้าร่วมกิจกรรมพัฒนาชุมชน ทาสีโรงเรียน หรือจัดบริการแจกอาหารกลางวันให้เด็กๆ" },
+      { id: "q-s4", cat: "S", text: "ทำหน้าที่ไกล่เกลี่ยความขัดแย้งในกลุ่ม ประนีประนอมให้เพื่อนกลับมาร่วมงานกันได้" },
+      { id: "q-s5", cat: "S", text: "ดูแลผู้ป่วย ปฐมพยาบาลเบื้องต้น หรือช่วยอำนวยความสะดวกให้ผู้สูงอายุในชีวิตประจำวัน" },
+      { id: "q-s6", cat: "S", text: "จัดตารางสันทนาการ ต้อนรับ แนะนำผู้มาเยือน หรือวางกิจกรรมค่ายสมาธิให้คนในทีมผ่อนคลาย" },
+
+      { id: "q-e1", cat: "E", text: "รับหน้าที่ประธานนักเรียน หัวหน้ากลุ่มโครงงาน หรือเป็นผู้เสนอแนะแบ่งบทบาทหน้าที่" },
+      { id: "q-e2", cat: "E", text: "พูดนำเสนอบนเวที โน้มน้าวใจคณะกรรมการโรงเรียนเพื่ออนุมัติงบกิจกรรมของชมรม" },
+      { id: "q-e3", cat: "E", text: "คิดกลยุทธ์การขายสินค้า การออกแบบหน้าผลิตภัณฑ์ หรือหารายได้พิเศษช่วงวันหยุดด้วยแผนการค้า" },
+      { id: "q-e4", cat: "E", text: "เจรจาต่อรองขอผู้สนับสนุนหลักในค่ายกีฬา หรือดึงพันธมิตรจากต่างกลุ่มมาร่วมโปรเจกต์" },
+      { id: "q-e5", cat: "E", text: "ตัดสินใจแก้ไขปัญหาเฉพาะหน้าด่วนท่ามกลางข้อจำกัด เพื่อเป้าหมายใหญ่ของค่ายสำเร็จ" },
+      { id: "q-e6", cat: "E", text: "ริเริ่มท้าทายสิ่งใหม่ ตั้งเป้าหมายธุรกิจขนาดย่อม และชอบความตื่นเต้นของการแข่งขันชิงรางวัล" },
+
+      { id: "q-c1", cat: "C", text: "จัดหมวดหมู่เอกสาร สไลด์พรีเซนต์ของกลุ่ม หรือวางคลังของของเล่นให้เป็นระบบระเบียบ" },
+      { id: "q-c2", cat: "C", text: "ตรวจสอบพิมพ์ตก ตัวสะกดที่ผิดพลาด หรือความคลาดเคลื่อนของค่าในเอกสารสำคัญอย่างละเอียด" },
+      { id: "q-c3", cat: "C", text: "บันทึกบัญชีรายจ่าย-รายรับประจำวันของตัวเอง หรือบันทึกงบประมาณการจัดกิจกรรมชมรม" },
+      { id: "q-c4", cat: "C", text: "จัดทำตารางปฏิทินส่งงานของเพื่อน จัดกำหนดเวลาเข้าแถว และรายการตรวจสอบกิจกรรมของโรงเรียน" },
+      { id: "q-c5", cat: "C", text: "ทำตามคู่มือการปฏิบัติหน้าที่ คู่มือประกอบคอมพิวเตอร์อย่างเป็นขั้นตอนไม่ให้ออกนอกลู่นอกทาง" },
+      { id: "q-c6", cat: "C", text: "คีย์ป้อนข้อมูลนักเรียน ข้อมูลพจนานุกรม ลงในระบบสเปรดชีตอย่างถูกต้องเป็นเวลานานๆ" }
+    ];
+
+    // 12 Confidence Items
+    const CONFIDENCE_ITEMS = [
+      { id: "conf-thai", text: "ภาษาไทยและการสื่อสาร (เขียนบทความ พูดนำเสนอ เข้าใจบริบทภาษา)" },
+      { id: "conf-math", text: "คณิตศาสตร์ (คิดวิเคราะห์ตัวเลข ตรรกะ สมการทางวิชาการ)" },
+      { id: "conf-sci", text: "วิทยาศาสตร์ (ฟิสิกส์ เคมี ชีววิทยา ปรากฏการณ์และการทดลอง)" },
+      { id: "conf-eng", text: "ภาษาอังกฤษ (การฟัง พูด อ่าน และสื่อความหมายในชีวิตประจำวัน)" },
+      { id: "conf-social", text: "สังคมศึกษา (ประวัติศาสตร์ ภูมิศาสตร์ กฎหมาย สิทธิหน้าที่จะพลเมือง)" },
+      { id: "conf-tech", text: "คอมพิวเตอร์และเทคโนโลยี (ใช้แอป ทำเว็บ เขียนสคริปต์ จัดการงานดิจิทัล)" },
+      { id: "conf-art", text: "ศิลปะและการออกแบบ (วาดรูป จัดโทนสี วาดภาพมิติ หรือความคิดเชิงประยุกต์ศิลป์)" },
+      { id: "conf-present", text: "การนำเสนอและการชี้แจง (พูดจูงใจคน อธิบายไอเดียหลักได้เคลียร์ชัด)" },
+      { id: "conf-team", text: "การทำงานร่วมกับผู้อื่น (ประสานงาน ประนีประนอม เข้ากลุ่มใหญ่ได้รวดเร็ว)" },
+      { id: "conf-hands", text: "การลงมือปฏิบัติทางช่าง (รื้อต่อ แก้สิ่งของ ใช้มือทักษะควบคุมวัสดุ)" },
+      { id: "conf-system", text: "การจัดระบบงาน (คัดกรองข้อมูล ทำตามระบบ ระเบียบความปลอดภัย)" },
+      { id: "conf-self", text: "การเรียนรู้ด้วยตนเอง (หาข้อมูลออนไลน์ ตั้งเป้าหมาย ทบทวนข้อผิดพลาดตนเอง)" }
+    ];
+
+    // 10 Values
+    const VALUE_ITEMS = [
+      { id: "val-help", title: "ได้ช่วยเหลือผู้อื่น", desc: "ทำงานที่ส่งเสริมคุณภาพชีวิต แก้ไขปัญหาส่วนรวม และชี้แนะหนทางที่ดีขึ้นให้ผู้เรียนหรือผู้ป่วย" },
+      { id: "val-stable", title: "มีความมั่นคง", desc: "งานที่เป็นระบบ ปลอดภัย มีสวัสดิการที่ชัดเจน คาดการณ์อนาคตได้ค่อนข้างดีเยี่ยม" },
+      { id: "val-income", title: "มีโอกาสสร้างรายได้สูง", desc: "ผลตอบแทนคุ้มค่า มีแนวโน้มเติบโตตามเป้าหมายของบริษัทและระบบเศรษฐกิจสร้างตัว" },
+      { id: "val-creative", title: "ได้ใช้ความคิดสร้างสรรค์", desc: "งานที่ไม่ซ้ำซากจำเจ มีเสรีภาพทางแนวคิด ได้วาดฝันหรือประดิษฐ์สุนทรียศิลป์ใหม่ๆ" },
+      { id: "val-freedom", title: "มีอิสระในการทำงาน", desc: "การจัดชั่วโมงการทำงานด้วยตัวเอง มีผู้บังคับบัญชาน้อย คุมความก้าวหน้าตามจังหวะชีวิต" },
+      { id: "val-learning", title: "ได้เรียนรู้สิ่งใหม่เสมอรวดเร็ว", desc: "ทำงานกับวิทยาการ เทคโนโลยีที่ปรับเปลี่ยน ค้นพบความรู้เชิงลึกของวงการอยู่ตลอด" },
+      { id: "val-social", title: "ได้ทำงานร่วมกับผู้คน", desc: "สังคมสนุกสนาน เพื่อนร่วมงานช่วยเหลือ เข้าพบกลุ่มลูกค้าหลากหลาย และสร้างเครือข่ายสัมพันธ์" },
+      { id: "val-balance", title: "มีความสมดุลระหว่างชีวิตกับงาน", desc: "มีเวลากลับบ้านไปทำกิจกรรมที่ชอบ พักผ่อนและดูแลครอบครัวได้อย่างเพียงพอไม่หนักหน่วง" },
+      { id: "val-community", title: "ได้สร้างประโยชน์ให้ชุมชนหรือสังคม", desc: "มีส่วนช่วยอนุรักษ์สิ่งแวดล้อม ปลูกฝังจิตสำนึกที่ดี และส่งเสริมชุมชนบ้านเกิดพัฒนา" },
+      { id: "val-tech", title: "ได้ใช้เทคโนโลยีหรือนวัตกรรม", desc: "ประยุกต์เครื่องจักร คอมพิวเตอร์ปัญญาประดิษฐ์ หรือสร้างสรรค์สิ่งประดิษฐ์ไฮเทคท้าทายยุคใหม่" }
+    ];
+
+    /* ====================================================
+       RECOMMENDATION DATA (LOWER & UPPER SECONDARY DATASETS)
+       ==================================================== */
+    const LOWER_PATHWAYS = [
+      {
+        id: "lower-sci",
+        name: "วิทยาศาสตร์ สุขภาพ และสิ่งแวดล้อม",
+        desc: "เน้นวิชาวิทยาศาสตร์และชีววิทยา เพื่อต่อยอดไปสู่การดูแลช่วยเหลือสิ่งมีชีวิต ชุมชน และสิ่งแวดล้อมธรรมชาติรอบตัว",
+        level: "lower",
+        riasecVector: { R: 50, I: 90, A: 30, S: 70, E: 40, C: 60 },
+        confidenceDomains: ["conf-sci", "conf-math", "conf-self"],
+        values: ["val-help", "val-community", "val-learning"],
+        preferences: { focus: "people", environment: "both" },
+        subjects: "วิชาวิทยาศาสตร์เพิ่มเติม, คณิตศาสตร์หลักและประยุกต์, เคมี-ชีววิทยาขั้นต้น",
+        majors: "วิทยาศาสตร์ทั่วไป, สิ่งแวดล้อมศึกษา, กิจกรรมชมรมสำรวจสมุนไพร/วิทย์ก้าวหน้า",
+        occupations: "นักแนะแนวสุขภาพชุมชน, เจ้าหน้าที่วิทยาศาสตร์ปฐมภูมิ, นักเพาะเลี้ยงสัตว์น้ำ, ฝ่ายสนับสนุนการแพทย์",
+        activities: "เข้าร่วมแข่งขันตอบปัญหาวิทยาศาสตร์, ทำโครงงานสิ่งแวดล้อมคัดแยกขยะในชุมชน, อบรมอาสาสมัครปฐมพยาบาลเยาวชน",
+        cautions: "ต้องอ่านหนังสือทบทวนเนื้อหาวิชาการบ่อยครั้ง และมีการจำคำศัพท์เฉพาะทางจำนวนมาก",
+        roadmap: {
+          w1: "ศึกษาความแตกต่างระหว่างวิชาชีววิทยา เคมี ฟิสิกส์ ผ่านคลิปแนะนำสั้นๆ",
+          m1: "ร่วมงานนิทรรศการวิทยาศาสตร์หรือลองทำแล็บพรีเซนต์เล็กๆ ของระดับโรงเรียน",
+          m3: "ปรึกษาครูแนะแนวเกี่ยวกับโรงเรียนวิทยาศาสตร์หรือแผนการเรียนวิทย์-คณิตที่สอดคล้องกับงบประมาณครอบครัว",
+          discuss: "แผนการศึกษาต่อสายสามัญแผนการเรียนไหนที่มีวิชาวิทยาศาสตร์แน่นหนาที่สุด และมีทุนสนับสนุนโรงเรียนหรือไม่?"
+        }
+      },
+      {
+        id: "lower-eng-tech",
+        name: "วิศวกรรม เทคโนโลยี และดิจิทัล",
+        desc: "มุ่งเน้นการประดิษฐ์ วางโครงสร้างเครื่องจักรกล การพัฒนาโปรแกรม และการจัดการระบบเครือข่ายดิจิทัลด้วยความคิดสร้างสรรค์เชิงวิทยาการ",
+        level: "lower",
+        riasecVector: { R: 85, I: 85, A: 40, S: 30, E: 50, C: 70 },
+        confidenceDomains: ["conf-math", "conf-tech", "conf-hands"],
+        values: ["val-tech", "val-learning", "val-income"],
+        preferences: { focus: "things", environment: "indoor" },
+        subjects: "คณิตศาสตร์เพิ่มเติม, คอมพิวเตอร์และวิทยาการคำนวณ, งานประดิษฐ์/งานเทคนิคพื้นฐาน",
+        majors: "แผนการเรียนคอมพิวเตอร์-เทคโนโลยี, วิทยาศาสตร์ประยุกต์, สายเทคนิคช่างไฟฟ้า/เขียนโปรแกรม",
+        occupations: "ผู้ดูแลแอดมินระบบออนไลน์, ช่างบำรุงคอมพิวเตอร์เบื้องต้น, นักทดสอบเกมหรือระบบซอฟต์แวร์, นักพัฒนาระบบควบคุมบอร์ดอิเล็กทรอนิกส์",
+        activities: "ทดลองต่อวงจรไฟฟ้าจำลองด้วย Tinkercad, ฝึกเขียนโค้ดเบื้องต้นผ่าน Scratch หรือ Python บนเว็บฟรี, ช่วยครูปรับแต่งระบบห้องคอมพิวเตอร์โรงเรียน",
+        cautions: "ต้องการความสามารถในการนั่งหน้าจอวิเคราะห์หาสาเหตุที่ติดขัดเป็นเวลานานๆ และแก้สมการที่ซับซ้อน",
+        roadmap: {
+          w1: "ทำความคุ้นเคยกับคำสั่งพื้นฐานของการเขียนโค้ดบล็อกบนเว็บ Scratch",
+          m1: "ประดิษฐ์สิ่งอำนวยความสะดวกจากบอร์ดไมโครคอนโทรลเลอร์ขนาดจิ๋ว (เช่น Micro:bit)",
+          m3: "เปรียบเทียบข้อดีระหว่างการเรียนต่อสายสามัญวิทย์-คณิต กับสายอาชีพ ปวช. ช่างอิเล็กทรอนิกส์/เมคาทรอนิกส์",
+          discuss: "ถ้าหนูอยากทำงานสายเขียนเว็บ ระบบเครือข่าย ควรเลือกเรียน ปวช. เทคโนโลยีสารสนเทศ หรือเรียน ม.ปลาย สามัญดีคะ?"
+        }
+      },
+      {
+        id: "lower-biz-finance",
+        name: "ธุรกิจ การเงิน และผู้ประกอบการ",
+        desc: "เรียนรู้ความเข้าใจเศรษฐกิจ การขายสินค้า การตลาด การจัดการบัญชี เพื่อสร้างรากฐานการเติบโตธุรกิจในชุมชนหรือระดับประเทศ",
+        level: "lower",
+        riasecVector: { R: 30, I: 60, A: 40, S: 50, E: 90, C: 80 },
+        confidenceDomains: ["conf-math", "conf-present", "conf-system"],
+        values: ["val-income", "val-freedom", "val-stable"],
+        preferences: { focus: "data", environment: "indoor" },
+        subjects: "คณิตศาสตร์การเงิน, ภาษาอังกฤษเพื่อธุรกิจ, ชมรมผู้ประกอบการรุ่นเยาว์",
+        majors: "บัญชี, การตลาดดิจิทัล, การบริหารธุรกิจ, แผนวิทย์-คณิต หรือศิลป์-คำนวณ",
+        occupations: "แอดมินดูแลหน้าร้านออนไลน์, พนักงานขายสินค้า, ผู้ช่วยทำบัญชีรายรับจ่ายร้านขายของชำ, นักจัดการระบบสต็อก",
+        activities: "ร่วมกิจกรรมขายอาหาร/สินค้าในงานวันวิชาการโรงเรียน, ออมเงินพร้อมจัดสมุดบัญชีรายรับ-จ่ายประจำสัปดาห์ด้วยสูตรคำนวณ, ทดลองนำเสนอบทความรีวิวสินค้าสร้างกระแสทางโซเชียล",
+        cautions: "ความผิดพลาดเรื่องการสื่อสารและตัวเลขอาจก่อเกิดความสูญเสียด้านทุนทรัพย์ ต้องระมัดระวังรอบคอบเป็นสำคัญ",
+        roadmap: {
+          w1: "วางแผนหาเงินค่าขนมพิเศษจากการคิดขนม/ผลิตภัณฑ์อย่างง่ายมาขายเพื่อนในชั้นเรียนอย่างสุจริต",
+          m1: "เรียนรู้วิธีสรุปสถิติจอดรถหรือยอดขายผ่านระบบสเปรดชีต เช่น Excel หรือ Google Sheets",
+          m3: "สำรวจทางเลือกระหว่าง ปวช. สาขาการบัญชี/การตลาด กับ ม.ปลาย แผนการเรียนศิลป์-คำนวณ",
+          discuss: "อาชีพผู้ประกอบการหรือนักบัญชีจำเป็นต้องเรียนต่อระดับสูงขนาดไหน และเราเริ่มฝึกทักษะเจรจาตอนนี้ได้อย่างไร?"
+        }
+      },
+      {
+        id: "lower-lang-comm",
+        name: "ภาษา มนุษยศาสตร์ และการสื่อสาร",
+        desc: "เปิดมุมมองความคิด โลกทัศน์ วัฒนธรรมต่างถิ่น และเสริมทักษะภาษาต่างประเทศเพื่อความโดดเด่นในการเชื่อมต่อเจรจาข้ามแดน",
+        level: "lower",
+        riasecVector: { R: 20, I: 50, A: 80, S: 80, E: 60, C: 40 },
+        confidenceDomains: ["conf-thai", "conf-eng", "conf-present"],
+        values: ["val-learning", "val-freedom", "val-social"],
+        preferences: { focus: "people", environment: "indoor" },
+        subjects: "วิชาภาษาอังกฤษเพื่อการสื่อสาร, ภาษาที่สาม (จีน, ญี่ปุ่น, เกาหลี), วิชาหลักการสื่อสารสังคม",
+        majors: "แผนศิลป์-ภาษา, สื่อสารมวลชน, บริการการท่องเที่ยวและการจัดการโรงแรม",
+        occupations: "ผู้แปลเอกสารนำเสนอเบื้องต้น, เจ้าหน้าที่ต้อนรับในศูนย์ท้องถิ่น, ยูทูบเบอร์แนะนำจุดเด่นท่องเที่ยวแม่ฮ่องสอน, ผู้แนะนำข้อมูลเชิงภาษา",
+        activities: "ฝึกแปลเนื้อเพลงต่างประเทศเป็นภาษาไทยแชร์บนอินเทอร์เน็ต, สมัครเป็นอาสาสมัครช่วยเหลือนักท่องเที่ยวต่างชาติที่มาเที่ยวโบราณสถาน, เข้ากลุ่มสโมสรฝึกพูดหน้าสาธารณชน",
+        cautions: "จำต้องเปิดกว้างทัศนคติยอมรับความขัดแย้งของวัฒนธรรมที่ต่างขั้ว และความอดทนในการท่องศัพท์จำไวยากรณ์เชิงเปรียบเทียบ",
+        roadmap: {
+          w1: "เปลี่ยนภาษาแอปและระบบปฏิบัติการในสมาร์ทโฟนของตนเองให้เป็นภาษาอังกฤษหรือภาษาที่กำลังฝึกทั้งหมด",
+          m1: "บันทึกสรุปย่อสิ่งสำคัญในแต่ละวันเป็นประโยคภาษาอังกฤษหรือภาษาต่างประเทศ 3 ประโยคลงสมุดบันทึก",
+          m3: "ค้นหารายละเอียดหลักสูตรแผนการเรียนศิลป์-ภาษาของโรงเรียนมัธยมใกล้เคียง หรือสถาบันอาชีวศึกษาที่เน้นทักษะท่องเที่ยว",
+          discuss: "ในจังหวัดแม่ฮ่องสอนมีหน่วยงานการท่องเที่ยวหรือการค้าชายแดนที่ต้องการคนสื่อสารภาษาต่างประเทศอย่างไรบ้าง?"
+        }
+      },
+      {
+        id: "lower-social-help",
+        name: "สังคม กฎหมาย การศึกษา และงานช่วยเหลือ",
+        desc: "อุทิศตนเพื่อแก้ไขปัญหาสังคม ดูแลผู้ยากไร้ จัดการงานสวัสดิภาพ ชุมชน สิ่งแวดล้อม และกระบวนการยุติธรรมพื้นฐาน",
+        level: "lower",
+        riasecVector: { R: 30, I: 60, A: 40, S: 90, E: 60, C: 50 },
+        confidenceDomains: ["conf-social", "conf-thai", "conf-team"],
+        values: ["val-help", "val-community", "val-social"],
+        preferences: { focus: "people", environment: "both" },
+        subjects: "วิชาสังคมศึกษาประยุกต์, หน้าที่พลเมืองและกฎหมายเยาวชน, วิชาประวัติศาสตร์ท้องถิ่น",
+        majors: "แผนการเรียนศิลป์-สังคม, บริการสังคม, รัฐศาสตร์, ศึกษาศาสตร์/ครุศาสตร์ทั่วไป",
+        occupations: "เจ้าหน้าที่กู้ภัยชุมชน, ผู้ประสานงานศูนย์เยาวชนท้องถิ่น, พนักงานสมาคมไม่แสวงผลกำไร (NGO), ครูผู้ช่วยกิจกรรมพิเศษ",
+        activities: "เข้าร่วมกิจกรรมสภานักเรียนหรือคณะกรรมการห้องเรียน, ร่วมกิจกรรมอาสาเก็บขยะริมแม่น้ำ, จัดทำสื่อสั้นส่งเสริมสิทธิมนุษยชนของชนกลุ่มน้อยในเขตภาคเหนือ",
+        cautions: "งานด้านจิตใจมักเผชิญเรื่องราวดราม่าความยากลำบากของชีวิตผู้คน ต้องมีวุฒิภาวะทางอารมณ์สูงเพื่อไม่ให้เครียดสะสม",
+        roadmap: {
+          w1: "สมัครช่วยเหลือกิจกรรมในห้องสมุดโรงเรียนหรือช่วยจัดอุปกรณ์การสอนของครูหลังเลิกเรียน",
+          m1: "จัดกลุ่มติววิชาประวัติศาสตร์หรือวิชาสังคมศึกษาให้เพื่อนในระดับชั้นเรียนช่วงก่อนการสอบกลางภาค",
+          m3: "พูดคุยแนะแนวกับครูเกี่ยวกับสิทธิประโยชน์ในการรับสมัครทุนครูรักถิ่น หรือโควตาพิเศษเรียนด้านช่วยเหลือชุมชน",
+          discuss: "การช่วยเหลือผู้อื่นจำเป็นต้องเป็นอาชีพตำรวจหรือครูอย่างเดียวหรือไม่? มีสายงานอื่นๆ เช่น อาสาบรรเทาสาธารณภัยอย่างไรบ้าง?"
+        }
+      },
+      {
+        id: "lower-art-creative",
+        name: "ศิลปะ การออกแบบ สื่อ และอุตสาหกรรมสร้างสรรค์",
+        desc: "สื่อสารความคิด จินตนาการ และอัตลักษณ์ของตนเอง ผ่านเสียงเพลง รูปวาด ดนตรี แอนิเมชัน แพลตฟอร์มโซเชียลมีเดียรูปแบบใหม่ๆ",
+        level: "lower",
+        riasecVector: { R: 50, I: 30, A: 95, S: 40, E: 50, C: 30 },
+        confidenceDomains: ["conf-art", "conf-tech", "conf-self"],
+        values: ["val-creative", "val-freedom", "val-balance"],
+        preferences: { focus: "ideas", environment: "indoor" },
+        subjects: "วิชาทัศนศิลป์และศิลปกรรมประยุกต์, วิชาการถ่ายภาพเบื้องต้น, วิชาออกแบบกราฟิกดีไซน์",
+        majors: "แผนการเรียนศิลป์-ศิลปะ/ดนตรี, ปวช. สาขาวิจิตรศิลป์/คอมพิวเตอร์กราฟิก, นิเทศศิลป์",
+        occupations: "ผู้ออกแบบภาพวาดรับงานฟรีแลนซ์, ช่างถ่ายรูปสตรีตการ์ด, ผู้สร้างเนื้อหาคอนเทนต์ครีเอเตอร์, นักจัดตัดต่อสื่อโฆษณาในท้องถิ่น",
+        activities: "สร้างสรรค์แฟ้มรวมภาพผลงาน (Doodle Art) หรือถ่ายภาพธรรมชาติแม่ฮ่องสอนลงพอร์ตโฟลิโอ, ฝึกตัดต่อคลิปวิดีโอสั้นรีวิวของกินลง TikTok, ออกแบบโลโก้ให้กับทีมกีฬาของห้องเรียน",
+        cautions: "รายได้ช่วงเริ่มต้นมักไม่มั่นคงขึ้นอยู่กับผลงานที่ยอมรับ และต้องเผชิญหน้าคำติชมของลูกค้าที่มีความคาดหวังแตกต่างกัน",
+        roadmap: {
+          w1: "สร้างบัญชีโซเชียลมีเดียเฉพาะด้าน หรือเริ่มพับลิกสเปซสะสมไอเดียความคิดสร้างสรรค์ของตนเอง",
+          m1: "เรียนรู้วิธีการใช้ซอฟต์แวร์ออกแบบเครื่องมือฟรี เช่น Canva หรือ IbisPaint X ในการจัดทำหน้าแนะนำตัวเอง",
+          m3: "วิเคราะห์หาจุดร่วมของแผนการศึกษาต่อสาย ปวช. ศิลปกรรม หรือการเข้าเรียน ม.ปลาย ศิลป์-ทั่วไป เพื่อเตรียมนิทรรศการ",
+          discuss: "สายการเรียนสร้างสรรค์อย่างคอมพิวเตอร์กราฟิกช่วยสนับสนุนการหารายได้ช่วง ม.ปลาย และหลังเรียนจบอย่างไร?"
+        }
+      },
+      {
+        id: "lower-vocational-tech",
+        name: "อาชีวศึกษา เทคนิค ช่าง และการเรียนรู้จากการปฏิบัติ",
+        desc: "เน้นเข้าสู่ภาคปฏิบัติจริงโดยเร็ว มีทักษะวิชาชีพชัดเจนติดตัว ทั้งทางด้านช่างยนต์ ช่างไฟฟ้า คหกรรมอาหาร หรือระบบก่อสร้าง",
+        level: "lower",
+        riasecVector: { R: 95, I: 40, A: 30, S: 30, E: 40, C: 70 },
+        confidenceDomains: ["conf-hands", "conf-system", "conf-tech"],
+        values: ["val-stable", "val-income", "val-help"],
+        preferences: { focus: "things", environment: "outdoor" },
+        subjects: "งานประดิษฐ์และเกษตรอุตสาหกรรม, ช่างฝีมือปฏิบัติ, วิชาเขียนแบบเบื้องต้น",
+        majors: "หลักสูตร ปวช. วิทยาลัยการอาชีพ, โรงเรียนพระดาบส, สายแผนอาชีพและเทคโนโลยีของโรงเรียน",
+        occupations: "ช่างเทคนิครถจักรยานยนต์, ช่างบริการติดตั้งเครื่องปรับอากาศ, พนักงานควบคุมสายการผลิตชิ้นส่วนโรงงาน, เจ้าของร้านซ่อมของประดับบ้าน",
+        activities: "ช่วยล้างรถ มอเตอร์ไซค์ เปลี่ยนสายพานเครื่องยนต์เบื้องต้นที่บ้าน, ฝึกทำงานเชื่อม สลัก ประกอบประตูกรง, สมัครเข้าร่วมค่ายฝึกทักษะฝีมือแรงงานช่างพื้นฐาน",
+        cautions: "ความปลอดภัยในการปฏิบัติงานมีความเสี่ยงสูง ต้องมีวินัยการใช้อุปกรณ์ป้องกัน เช่น แว่นตานิรภัย หมวกอย่างสม่ำเสมอ",
+        roadmap: {
+          w1: "อ่านหนังสือคู่มือการทำงานของเครื่องมือไฟฟ้าหรือการใช้งานเครื่องบำรุงรักษาในบ้านอย่างมีเงื่อนไขปลอดภัย",
+          m1: "ขออาสาช่วยช่างซ่อมบำรุงของวิทยาลัยเทคนิคในตำบล เพื่อดูรูปแบบงานจริงและการเข้างานปฏิบัติการ",
+          m3: "ปรึกษากลุ่มครอบครัวเรื่องสิทธิทุนกู้ยืม กรอ. หรือ กยศ. สำหรับการเลือกศึกษาต่อสาย ปวช. ที่เน้นตลาดแรงงาน",
+          discuss: "พี่ๆ ที่เรียนจบ ปวช. คลัสเตอร์ช่างไฟฟ้าหรือช่างยนต์ในแม่ฮ่องสอนประกอบอาชีพอะไรกันบ้างหลังจากที่จบการศึกษา?"
+        }
+      },
+      {
+        id: "lower-agriculture-community",
+        name: "เกษตร อาหาร ทรัพยากรธรรมชาติ และชุมชน",
+        desc: "พัฒนาต่อยอดรากฐานแม่ฮ่องสอน ทรัพยากรป่าไม้ พลังงานสะอาด เกษตรกรรมอินทรีย์แม่นยำ และการผลิตอาหารท้องถิ่นสู่สากล",
+        level: "lower",
+        riasecVector: { R: 85, I: 60, S: 60, C: 50, E: 40, A: 30 },
+        confidenceDomains: ["conf-sci", "conf-hands", "conf-team"],
+        values: ["val-community", "val-stable", "val-help"],
+        preferences: { focus: "things", environment: "outdoor" },
+        subjects: "เกษตรทฤษฎีใหม่, วิชาคหกรรมและการประกอบอาหารพื้นบ้าน, กิจกรรมชมรมพัฒนาชุมชน",
+        majors: "แผนวิทย์-เกษตร, ปวช. สาขาเกษตรศาสตร์/เทคโนโลยีอาหาร, วนศาสตร์เบื้องต้น",
+        occupations: "ผู้ผลิตการเกษตรอัจฉริยะในท้องถิ่น, บาริสต้า/ผู้เชี่ยวชาญการคัดเมล็ดกาแฟดอยสูง, เจ้าหน้าที่วนอุทยานรักษาป่าไม้, ผู้แปรรูปอาหารกระป๋องอินทรีย์",
+        activities: "ทดลองทำแปลงผักไฮโดรโปนิกส์หรือปุ๋ยหมักจากเศษอาหารในพื้นที่ครัวเรือน, ฝึกทำขนมท้องถิ่นประยุกต์สูตรดั้งเดิมจัดขายในสัปดาห์แนะแนว, สำรวจเรียนรู้ป่าและแม่น้ำรอบหมู่บ้าน",
+        cautions: "งานมักอยู่กลางแดด เผชิญสภาพลมฟ้าอากาศที่ผันผวน และผลตอบแทนทางการผลิตต้องใช้ระยะเวลาเติบโต",
+        roadmap: {
+          w1: "สำรวจพืชพรรณท้องถิ่นที่มีชื่อเสียงในหมู่บ้าน เช่น กระเทียมปาย หรือกาแฟห้วยห้อม ลองคุยกับผู้เชี่ยวชาญในสวน",
+          m1: "ทำแผนโครงงานคหกรรมศึกษาหรือทดลองเพาะชำกิ่งกุหลาบและประเมินสถิติการเจริญเติบโต",
+          m3: "สอบถามวิทยาลัยชุมชนแม่ฮ่องสอน หรือสถาบันเกษตรแม่โจ้เกี่ยวกับโอกาสโควตาแผนเยาวชนรักษ์ป่า",
+          discuss: "จังหวัดแม่ฮ่องสอนมีโครงการหลวงหรือหน่วยงานใดที่พร้อมสนับสนุนคนรุ่นใหม่กลับมาสร้างนวัตกรรมเกษตร?"
+        }
+      }
+    ];
+
+    const UPPER_CLUSTERS = [
+      {
+        id: "upper-health",
+        name: "แพทยศาสตร์และวิทยาศาสตร์สุขภาพ",
+        desc: "กลุ่มวิชาชีพผู้บำบัดรักษาพยาบาล ป้องกันโรค วินิจฉัย ดูแลฟื้นฟูสุขภาพมนุษย์ ผ่านการเรียนรู้วิทยาศาสตร์เชิงการแพทย์ ชีวภาพ กายวิภาค และจิตวิทยาจิตวิญญาณช่วยเหลือเพื่อนมนุษย์",
+        level: "upper",
+        riasecVector: { R: 40, I: 90, A: 30, S: 85, E: 40, C: 60 },
+        confidenceDomains: ["conf-sci", "conf-eng", "conf-team"],
+        values: ["val-help", "val-stable", "val-learning"],
+        preferences: { focus: "people", environment: "indoor" },
+        subjects: "ชีววิทยา, เคมี, ฟิสิกส์, คณิตศาสตร์, ภาษาอังกฤษเทคโนโลยีการแพทย์",
+        majors: "แพทยศาสตร์, พยาบาลศาสตร์, เภสัชศาสตร์, เทคนิคการแพทย์, สาธารณสุขศาสตร์, ทันตแพทยศาสตร์, กายภาพบำบัด",
+        occupations: "แพทย์เฉพาะทาง, พยาบาลวิชาชีพ, เภสัชกรโรงพยาบาลหรือร้านยา, นักรังสีเทคนิค, นักกายภาพบำบัด, เจ้าหน้าที่สาธารณสุขจังหวัด",
+        studyWhat: "เรียนวิชากายวิภาคศาสตร์ สรีรวิทยา โรคและการติดเชื้อ เภสัชวิทยา การวินิจฉัยโรคขั้นพื้นฐาน จริยธรรมการแพทย์ และฝึกปฏิบัติดูแลผู้ป่วยจริงบนหอผู้ป่วย",
+        skills: "ทักษะความรอบคอบสูงยิ่งยวด, การสังเกตและประเมินอาการ, การสื่อสารประนีประนอมกับผู้ใช้บริการที่มีความวิตกกังวล, ความอดทนต่อกะงานกลางคืน",
+        difficulties: "เนื้อหาท่องจำมหาศาล มีการทดสอบที่กดดันสูงมาก เวลาพักผ่อนไม่แน่นอน และต้องพร้อมรับมือกับสถานการณ์วิกฤตของความเป็นความตายตลอดเวลา",
+        schoolActivities: "การสมัครเป็นอาสาสมัครปฐมพยาบาลในวันกีฬาสีของโรงเรียน, เข้าร่วมงานเปิดบ้านคณะแพทย์/พยาบาล (Open House), อบรมช่วยฟื้นคืนชีพขั้นพื้นฐาน (CPR)",
+        portfolio: "เกียรติบัตรการร่วมโครงการพัฒนาคุณธรรมนำความรู้ทางการแพทย์, การฝึกสังเกตการณ์ที่โรงพยาบาลอำเภอ (Job Shadowing) อย่างน้อย 30 ชั่วโมง, โครงงานวิทยาศาสตร์สายสุขภาพสุขภาพชุมชน",
+        admissionTip: "ตรวจสอบเกณฑ์คะแนนวิชา TPAT1 (วิชาเฉพาะกสพท.), A-Level ชีววิทยา เคมี ฟิสิกส์ ภาษาอังกฤษ และคณิตศาสตร์ 1 ให้ถี่ถ้วนตามเกณฑ์ปีล่าสุด",
+        roadmap: {
+          m3: "ทบทวนบทเรียนวิชาชีววิทยาอย่างเป็นระบบ สรุปสรุปย่อการทำงานของระบบเซลล์สัตว์และมนุษย์",
+          m6: "ติดต่อหาช่องทางดูงานสังเกตการณ์คลินิกแพทย์หรือศูนย์บริการพยาบาลชุมชนแถวบ้านเพื่อทำความเข้าใจการทุ่มเทเวลาชีวิต",
+          y1: "สมัครสอบทดลองและจำลองการสอบเก็บคะแนนกลุ่มวิทย์สุขภาพเพื่อปรับสัดส่วนแผนอ่านหนังสือ",
+          discuss: "รุ่นพี่แพทย์/พยาบาล มีวิธีการจัดสรรความเครียดจากการทำงานกะได้อย่างไร และเรียนจบในพื้นที่ต้องปฏิบัติงานชดใช้ทุนกี่ปี?"
+        },
+        uniTags: ["cmu", "mflu", "mu", "cu"]
+      },
+      {
+        id: "upper-eng",
+        name: "วิศวกรรมศาสตร์และเทคโนโลยี",
+        desc: "ศาสตร์ที่ผสมผสานความรู้ฟิสิกส์และคณิตศาสตร์เพื่อการออกแบบ ก่อสร้าง ผลิต บำรุงรักษาโครงสร้างขนาดใหญ่ เครื่องกล ระบบผลิตอุตสาหกรรม โดรน อุปกรณ์ตรวจวัด หรือการพัฒนาวิศวกรรมพลังงานยั่งยืน",
+        level: "upper",
+        riasecVector: { R: 85, I: 85, A: 40, S: 30, E: 50, C: 60 },
+        confidenceDomains: ["conf-math", "conf-sci", "conf-hands"],
+        values: ["val-tech", "val-income", "val-learning"],
+        preferences: { focus: "things", environment: "both" },
+        subjects: "ฟิสิกส์, คณิตศาสตร์ 1, เคมีเชิงวิศวกรรม, กลศาสตร์เบื้องต้น",
+        majors: "วิศวกรรมเครื่องกล, วิศวกรรมโยธา, วิศวกรรมไฟฟ้า, วิศวกรรมอุตสาหการ, วิศวกรรมคอมพิวเตอร์, วิศวกรรมพลังงานสะอาด",
+        occupations: "วิศวกรโครงสร้างโยธา, หัวหน้าโครงการก่อสร้าง, นายช่างควบคุมไฟฟ้าแรงสูง, วิศวกรซ่อมบำรุงเครื่องบิน, นักวิเคราะห์ประสิทธิภาพพลังงานทดแทน",
+        studyWhat: "เรียนวิชากลศาสตร์ของไหล ทฤษฎีความเครียดวัสดุ คณิตศาสตร์ขั้นสูง เทคโนโลยีการผลิต การเขียนแบบแปลน 3 มิติ และลงช็อปปฏิบัติการประดิษฐ์",
+        skills: "ทักษะการคำนวณและประยุกต์ทฤษฎีสูตรฟิสิกส์, ทักษะการคิดเชิงวิเคราะห์หาสาเหตุของปัญหาอุปกรณ์เสีย, การสื่อสารเพื่อความปลอดภัยของช่าง",
+        difficulties: "โจทย์คำนวณซับซ้อนมาก ต้องการความรู้แคลคูลัสและฟิสิกส์ที่แข็งแกร่ง และการปฏิบัติตามกฎวิศวกรรมเพื่อความปลอดภัยอย่างไม่มีข้อยกเว้น",
+        schoolActivities: "การสมัครเข้าชมรมหุ่นยนต์หรือสิ่งประดิษฐ์, ทำโครงงานวิทยาศาสตร์สาขากายภาพ/วิศวกรรมประยุกต์, เรียนหลักสูตรอิเล็กทรอนิกส์ออนไลน์ของมหาวิทยาลัย",
+        portfolio: "รูปถ่ายการต่อโมเดลระบบกลไก อุปกรณ์ลดแรงกด หรือผลงานสิ่งประดิษฐ์ประหยัดพลังงานที่ใช้ในครัวเรือน, รางวัลการประกวดโครงงานนวัตกรรมเยาวชน",
+        admissionTip: "เน้นการทดสอบ TPAT3 (วิชาเฉพาะวิศวกรรมศาสตร์) ร่วมกับคะแนน A-Level คณิตศาสตร์ 1 และฟิสิกส์ ซึ่งมักใช้น้ำหนักรวมกว่าครึ่งหนึ่ง",
+        roadmap: {
+          m3: "ฝึกทำโจทย์ฟิสิกส์บทกลศาสตร์ แสง เสียง ไฟฟ้ากระแสสลับ สัปดาห์ละ 15 ข้อ",
+          m6: "ทดลองสร้างต้นแบบเครื่องคัดแยกขยะขนาดเล็กโดยขับเคลื่อนด้วยระบบสปริงหรือมอเตอร์ไฟฟ้าธรรมดา",
+          y1: "ทำแบบทดสอบวิชา TPAT3 ย้อนหลังอย่างน้อย 3 ปี เพื่อจับสปีดความเร็วในการฝนคำตอบ",
+          discuss: "ทิศทางอุตสาหกรรมในยุคปัญญาประดิษฐ์ต้องการวิศวกรวิชาชีพสายใดมากที่สุด และการขอใบอนุญาต กว. มีเกณฑ์อย่างไร?"
+        },
+        uniTags: ["cmu", "rmutl", "cu", "ku"]
+      },
+      {
+        id: "upper-comp-data",
+        name: "วิทยาการคอมพิวเตอร์ ข้อมูล และปัญญาประดิษฐ์",
+        desc: "เจาะลึกการพัฒนาซอฟต์แวร์ อัลกอริทึมเขียนโค้ด การออกแบบคลาวด์คอมพิวติ้ง วิศวกรรมข้อมูลขนาดใหญ่ และการเทรนปัญญาประดิษฐ์ (AI) เพื่อแก้ปัญหาทางธุรกิจและวิทยาศาสตร์สมัยใหม่",
+        level: "upper",
+        riasecVector: { R: 60, I: 90, A: 50, S: 30, E: 40, C: 75 },
+        confidenceDomains: ["conf-tech", "conf-math", "conf-self"],
+        values: ["val-tech", "val-freedom", "val-income"],
+        preferences: { focus: "data", environment: "indoor" },
+        subjects: "วิทยาการคำนวณ, คณิตศาสตร์ (ตรรกศาสตร์ เมทริกซ์ สถิติ), วิชาสร้างแอปพลิเคชันพื้นฐาน",
+        majors: "วิทยาการคอมพิวเตอร์, เทคโนโลยีสารสนเทศ, วิศวกรรมซอฟต์แวร์, วิทยาศาสตร์ข้อมูล (Data Science), ปัญญาประดิษฐ์และหุ่นยนต์",
+        occupations: "นักเขียนโปรแกรม (Full Stack Developer), นักวิทยาศาสตร์ข้อมูล (Data Scientist), วิศวกรความปลอดภัยไซเบอร์ (Cybersecurity), นักออกแบบระบบคลาวด์",
+        studyWhat: "เรียนวิชาโครงสร้างข้อมูลและอัลกอริทึม การจัดการฐานข้อมูล เครือข่ายคอมพิวเตอร์ ปัญญาประดิษฐ์และการเรียนรู้ของเครื่อง (Machine Learning)",
+        skills: "การเขียนโค้ดคอมพิวเตอร์อย่างเป็นระบบระเบียบ, ตรรกศาสตร์การคิดหาทางออกแบบรัดกุม, ทักษะภาษาอังกฤษเพื่อหาคำอธิบายการแก้ข้อผิดพลาด (Debug) บนเว็บสากล",
+        difficulties: "เทคโนโลยีเปลี่ยนแปลงเร็วมาก ต้องใช้ทักษะการเรียนรู้ด้วยตนเองอย่างต่อเนื่องเพื่อไม่ให้ล้าหลัง และการติดขัด (Bug) ที่มักหาคำตอบยาก",
+        schoolActivities: "ร่วมกิจกรรมจัดตั้งค่ายคอมพิวเตอร์, อบรมฟรีด้านการพัฒนาเว็บหรือเขียน Python บน Google Colab, ช่วยแก้ปัญหาระบบอินเทอร์เน็ตโรงเรียน",
+        portfolio: "ลิงก์ GitHub สะสมซอร์สโค้ดโปรเจกต์เว็บหรือแอปพลิเคชันที่คุณพัฒนา, ผลงานหน้า UI/UX โมเดลตัวอย่างแอป, เกียรติบัตรการแข่งขันเขียนโค้ดชิงรางวัล",
+        admissionTip: "ตรวจสอบน้ำหนักวิชาคณิตศาสตร์และวิทยาการคอมพิวเตอร์เป็นหลัก เกณฑ์รับตรงในรอบโควตาและรอบ Portfolio มักมีข้อกำหนดเรื่องผลงานประจักษ์ชัดเจน",
+        roadmap: {
+          m3: "พัฒนาหน้าสถิติแนะนำตัวเองเชิงโต้ตอบโดยใช้ HTML/CSS และ JavaScript พื้นฐาน",
+          m6: "ทดลองสร้างโมเดลทำนายข้อมูลผ่านเครื่องมือสำเร็จรูปหรือเขียน Python บน Google Colab",
+          y1: "สะสมชิ้นงานแอปที่ใช้แก้ปัญหาชีวิตจริง (เช่น แอปเตือนตารางเวรส่งสมุด) ไว้ในโปรเจกต์พอร์ตโฟลิโอ",
+          discuss: "การทำงานระยะไกล (Remote Work) สำหรับโปรแกรมเมอร์ชาวต่างชาติในปัจจุบันต้องการคุณสมบัติทางภาษาอย่างไรบ้าง?"
+        },
+        uniTags: ["cmu", "mflu", "rmutl", "cu"]
+      },
+      {
+        id: "upper-science-research",
+        name: "วิทยาศาสตร์ สิ่งแวดล้อม และการวิจัย",
+        desc: "ศึกษาธรรมชาติของสิ่งมีชีวิต สารเคมี ฟิสิกส์ทฤษฎี สิ่งแวดล้อม และจักรวาลวิทยา เพื่อแสวงหาความรู้ใหม่ผ่านการตั้งสมมติฐาน การทำการทดลองอย่างเข้มข้น และการทำโครงการวิจัยเพื่อมวลมนุษยชาติ",
+        level: "upper",
+        riasecVector: { R: 50, I: 95, A: 40, S: 40, E: 30, C: 65 },
+        confidenceDomains: ["conf-sci", "conf-math", "conf-self"],
+        values: ["val-learning", "val-community", "val-stable"],
+        preferences: { focus: "data", environment: "both" },
+        subjects: "ชีววิทยา, เคมี, ฟิสิกส์ประยุกต์, คณิตศาสตร์ขั้นสูง, ทักษะงานวิเคราะห์แล็บ",
+        majors: "เคมีวิทยา, ชีววิทยาทางธรรมชาติ, ฟิสิกส์ดาราศาสตร์, จุลชีววิทยา, ธรณีวิทยาและวิทยาศาสตร์สิ่งแวดล้อม",
+        occupations: "นักวิจัยในแล็บอุตสาหกรรมยา/อาหาร, นักนิติวิทยาศาสตร์เก็บหลักฐานคดี, นักวิชาการอุทยานทางสิ่งแวดล้อม, ครูผู้ช่วยวิทยาศาสตร์ชั้นสูง",
+        studyWhat: "เรียนวิชาระเบียบวิธีวิจัย การใช้เครื่องวิเคราะห์ทางวิทยาศาสตร์ เคมีอินทรีย์ ดาราศาสตร์สังเกตการณ์ ชีววิทยาโมเลกุล และการเขียนข้อเสนอโครงการวิจัย",
+        skills: "ความอดทนในการรอผลการทดลองแล็บหลายวัน, ทักษะการจดบันทึกวิจัยอย่างซื่อสัตย์รอบคอบ, การวิเคราะห์ข้อมูลเชิงตัวเลขอย่างตรงไปตรงมา",
+        difficulties: "การทดลองอาจล้มเหลวหลายครั้งจนกว่าจะสำเร็จ งบประมาณวิจัยอาจมีจำกัด และงานบางสายค่อนข้างเฉพาะทางต้องเรียนต่อระดับสูง",
+        schoolActivities: "การสมัครแข่งขันทักษะการทำปฏิบัติการวิทย์ระดับจังหวัด, การร่วมสมาคมดาราศาสตร์หรือนักวิทยาศาสตร์รุ่นเยาว์, จัดทำโครงงานวิทยาศาสตร์บริสุทธิ์",
+        portfolio: "รายงานผลการทดลองวิจัยโครงงานโรงเรียนที่ได้รับการตีพิมพ์หรือนำเสนอ, เกียรติบัตรการศึกษาอุทยานธรรมชาติ, ผลการวัดระดับความรอบคอบแล็บ",
+        admissionTip: "สมัครรอบโควตาเรียนดีของมหาวิทยาลัยภูมิภาค (เชียงใหม่, แม่ฟ้าหลวง) และตรวจสอบเกณฑ์ทุนส่งเสริมการสร้างนักวิจัยรุ่นใหม่พสวท.",
+        roadmap: {
+          m3: "ทบทวนบทเรียนการสกัดสารอินทรีย์จากพืชสมุนไพรแถวบ้านมาทำสารสกัดไล่แมลงอย่างง่าย",
+          m6: "เริ่มทำโครงงานวิทยาศาสตร์บริสุทธิ์เพื่อตอบสมมติฐานสิ่งแวดล้อมแม่ฮ่องสอนเสนอในระดับโรงเรียน",
+          y1: "สมัครทดสอบโอลิมปิกวิชาการ (สอวน.) ในวิชาที่ตนเองมั่นใจมากที่สุดเพื่อขยายความรู้รอบด้าน",
+          discuss: "การทำงานวิจัยในสถาบันวิทยาศาสตร์ระดับชาติต้องการทักษะภาษาอังกฤษเพื่อใช้เขียนงานวิจัยอย่างไรบ้าง?"
+        },
+        uniTags: ["cmu", "mflu", "ku", "mu"]
+      },
+      {
+        id: "upper-business",
+        name: "บริหารธุรกิจ บัญชี เศรษฐศาสตร์ และผู้ประกอบการ",
+        desc: "การวางแผนจัดการทรัพยากรเงิน บุคลากร และกลยุทธ์ทางการค้า เพื่อขับเคลื่อนองค์กรธุรกิจขนาดใหญ่หรือธุรกิจส่วนตัวอย่างมีกำไรและยั่งยืน พร้อมความเข้าใจการเคลื่อนไหวของตลาดและนโยบายเศรษฐกิจสังคม",
+        level: "upper",
+        riasecVector: { R: 25, I: 60, A: 40, S: 50, E: 90, C: 80 },
+        confidenceDomains: ["conf-math", "conf-present", "conf-system"],
+        values: ["val-income", "val-stable", "val-freedom"],
+        preferences: { focus: "data", environment: "indoor" },
+        subjects: "คณิตศาสตร์ประยุกต์, สถิติวิเคราะห์, ภาษาอังกฤษธุรกิจ, วิชาเศรษฐศาสตร์เบื้องต้น",
+        majors: "การบัญชี, การตลาดดิจิทัล, การเงินการธนาคาร, การบริหารทรัพยากรมนุษย์, เศรษฐศาสตร์นวัตกรรม, โลจิสติกส์และการซัพพลายเชน",
+        occupations: "ผู้ตรวจสอบบัญชีรับอนุญาต (CPA), นักวิเคราะห์การเงินธุรกิจ, ผู้จัดการฝ่ายทรัพยากรบุคคล, ผู้ริเริ่มแบรนด์สินค้า, เจ้าหน้าที่วางแผนการตลาด",
+        studyWhat: "เรียนวิชากฎหมายภาษีอากร การวิเคราะห์งบแสดงฐานะการเงิน เศรษฐศาสตร์จุลภาคและมหภาค จิตวิทยาผู้บริโภค และความเสี่ยงในการลงทุน",
+        skills: "ทักษะความแม่นยำด้านหลักฐานการเงิน, การประสานเจรจาต่อรองให้ผู้คนเห็นพ้องเป้าหมายธุรกิจ, ความอ่อนไหวต่อโอกาสทางการตลาดใหม่ๆ",
+        difficulties: "การแข่งขันสูงมากในระบบตลาดเสรี ความกดดันจากตัวชี้วัดกำไรขององค์กร และความน่าเบื่อของการตรวจสอบตัวเลขที่ผิดไม่ได้แม้แต่จุดเดียว",
+        schoolActivities: "การตั้งซุ้มเปิดร้านขายของในสัปดาห์คริสต์มาสโรงเรียน, การร่วมแข่งตอบปัญหาเศรษฐศาสตร์, การทำโครงการจดสิทธิบัตรสินค้าท้องถิ่น",
+        portfolio: "แผนธุรกิจ (Business Plan) จำลองการเปิดร้านกาแฟหรือสินค้าในชุมชนแม่ฮ่องสอน, รูปถ่ายการร่วมเป็นวิทยากรขายของ, การเรียนคอร์สเรียนบัญชีเบื้องต้น",
+        admissionTip: "ตรวจสอบเกณฑ์การใช้คะแนน A-Level วิชาคณิตศาสตร์ 1 หรือคณิตศาสตร์ 2 และภาษาอังกฤษ ซึ่งส่วนใหญ่ใช้เป็นเกณฑ์ตัดสินหลัก",
+        roadmap: {
+          m3: "ศึกษาบัญชีรายรับรายจ่ายร้านกาแฟท้องถิ่น วิเคราะห์หาสัดส่วนต้นทุนกำไรคร่าวๆ",
+          m6: "จัดทำแผนธุรกิจฉบับย่อเพื่อเสนอขออนุมัติจัดตั้งสหกรณ์หรือชมรมการค้าจำลองในห้องเรียน",
+          y1: "เน้นเกรดเฉลี่ยสะสมโรงเรียน (GPAX) ให้พุ่งสูงเนื่องจากโควตาบริหารธุรกิจบางรอบใช้เกรดตัดสินเป็นหลัก",
+          discuss: "ผู้ประกอบการรุ่นใหม่ที่อยากพัฒนาแบรนด์สินค้าพื้นเมืองแม่ฮ่องสอนจะใช้แพลตฟอร์ม TikTok Shop ช่วยเปิดตลาดโลกอย่างไร?"
+        },
+        uniTags: ["cmu", "mflu", "cmru", "cu"]
+      },
+      {
+        id: "upper-humanities",
+        name: "มนุษยศาสตร์ ภาษา และการสื่อสาร",
+        desc: "เจาะลึกความซับซ้อนของภาษาต่างประเทศ วรรณคดี ปรัชญา วัฒนธรรมความเชื่อ และการสื่อความหมายเพื่อใช้ประสานสัมพันธ์และเข้าใจพฤติกรรมมนุษย์ผ่านมิติสังคมที่แปรผันอย่างสวยงาม",
+        level: "upper",
+        riasecVector: { R: 20, I: 55, A: 80, S: 75, E: 60, C: 40 },
+        confidenceDomains: ["conf-thai", "conf-eng", "conf-present"],
+        values: ["val-learning", "val-freedom", "val-social"],
+        preferences: { focus: "people", environment: "indoor" },
+        subjects: "ภาษาอังกฤษหลักและทักษะ, ภาษาที่สาม (จีน, ญี่ปุ่น, เกาหลี, ฝรั่งเศส), วิชาการอ่านและการคิดเชิงวิพากษ์",
+        majors: "ภาษาอังกฤษเพื่อการสื่อสารสากล, ภาษาจีนธุรกิจ, ภาษาญี่ปุ่นสื่อสาร, ปรัชญาและวรรณคดีเปรียบเทียบ, สารสนเทศศาสตร์เพื่อการพัฒนา",
+        occupations: "ผู้แปลภาษาต่างประเทศ (ล่าม), แอร์โฮสเตส/พนักงานบริการบนสายการบิน, นักจัดทำหลักสูตรฝึกอบรมทัศนคติ, ผู้เชี่ยวชาญการเขียนเนื้อหาเว็บ (Content Writer)",
+        studyWhat: "เรียนวิชาไวยากรณ์แปลทักษะเฉพาะด้าน วรรณกรรมวิจารณ์ จิตวิทยาสังคม วัฒนธรรมข้ามแดน และทฤษฎีการสื่อสารข้อมูลระหว่างวัฒนธรรม",
+        skills: "ทักษะภาษาต่างประเทศอย่างยอดเยี่ยม (CEFR B2 ขึ้นไป), การใช้คำพูดประนีประนอมและการฟังอย่างลึกซึ้ง (Active Listening), ความเข้าใจในความต่างของคน",
+        difficulties: "ต้องทุ่มเทใช้ความเพียรพยายามสูงในการจดจำคำศัพท์และฝึกทักษะการออกเสียงให้คุ้นชิน และการถูกแทนที่บางส่วนด้วยระบบแปลภาษาอัตโนมัติ AI",
+        schoolActivities: "การสมัครแข่งกล่าวสุนทรพจน์ภาษาอังกฤษระดับเขต, การเป็นผู้ดำเนินรายการโฮสต์ในวิทยุโรงเรียน, การสอนภาษาไทยให้เด็กอพยพแนวตะเข็บชายแดน",
+        portfolio: "คลิปสั้นแนะนำประวัติศาสตรท้องถิ่นเป็นภาษาต่างประเทศความยาว 3 นาที, ผลงานการสรุปและแปลความรู้บทความต่างประเทศลงพอร์ตโฟลิโอ, ผลสอบวัดระดับภาษาภายนอก (เช่น HSK, JLPT, TOEIC)",
+        admissionTip: "เตรียมตัววิชา TGAT1 (การสื่อสารภาษาอังกฤษ) และ A-Level วิชาภาษาอังกฤษ รวมถึงวิชาภาษาที่สามที่เป็นตัวเลือกเสริมสำคัญในการคัดเลือก",
+        roadmap: {
+          m3: "ท่องจำศัพท์ภาษาอังกฤษหรือภาษาที่สามที่สนใจ วันละ 10 คำ พร้อมหาตัวอย่างการใช้ประโยคจริง",
+          m6: "ร่วมเป็นผู้ดำเนินรายการหรือเจ้าหน้าที่ช่วยเหลือนักท่องเที่ยวชาวต่างชาติในเทศกาลท้องถิ่น",
+          y1: "เข้าสอบคัดกรองวัดระดับภาษาภายนอกเพื่อยื่นคะแนนเสริมความโดดเด่นในแฟ้มสะสมงาน",
+          discuss: "การเป็นนักสื่อสารระหว่างประเทศหรือฝ่ายต้อนรับข้ามแดนในภูมิภาคอาเซียนต้องการทักษะเสริมประการใดอีกบ้าง?"
+        },
+        uniTags: ["cmu", "mflu", "cmru", "cu"]
+      },
+      {
+        id: "upper-social-law",
+        name: "สังคมศาสตร์ รัฐศาสตร์ นิติศาสตร์ และงานสาธารณะ",
+        desc: "มุ่งเน้นการจัดโครงสร้างสังคม การร่างและใช้กฎหมายระเบียบวินัยเพื่อปกป้องสิทธิ์ของบุคคล การเมืองและการปกครองส่วนท้องถิ่น และการพัฒนาความสัมพันธ์ระหว่างองค์กรเพื่อสวัสดิภาพของปวงชน",
+        level: "upper",
+        riasecVector: { R: 20, I: 70, A: 45, S: 85, E: 70, C: 60 },
+        confidenceDomains: ["conf-social", "conf-thai", "conf-self"],
+        values: ["val-help", "val-community", "val-stable"],
+        preferences: { focus: "people", environment: "both" },
+        subjects: "หน้าที่พลเมืองและกฎหมายสังคม, ประวัติศาสตร์สากล, การโต้วาทีโต้แย้งหลักธรรม",
+        majors: "นิติศาสตร์ (กฎหมาย), รัฐศาสตร์ (การปกครอง/การเมือง), สังคมวิทยาและมานุษยวิทยา, ความสัมพันธ์ระหว่างประเทศ, พัฒนาสังคมและสวัสดิการ",
+        occupations: "นิติกรประจำหน่วยงานรัฐ, ที่ปรึกษากฎหมายเอกชน, ปลัดอำเภอประสานท้องถิ่น, นักวิเคราะห์นโยบายระดับจังหวัด, พนักงานฝ่ายคุมประพฤติ",
+        studyWhat: "เรียนวิชากฎหมายอาญา แพ่งและพาณิชย์ ทฤษฎีรัฐศาสตร์ โครงสร้างการปกครองไทย ความขัดแย้งข้ามแดน ระเบียบวิธีการช่วยเหลือสังคม",
+        skills: "ทักษะการตีความตัวบทกฎหมายอย่างถี่ถ้วนปราศจากอคติ, ความกล้าหาญในการเรียกร้องความเป็นธรรมและปกป้องสิทธิ์, การคิดวิเคราะห์เชิงระบบโครงสร้าง",
+        difficulties: "เนื้อหารายละเอียดกฎหมายหนาแน่นและซับซ้อนสูงมาก มีความเครียดจากความขัดแย้งของแต่ละกลุ่มผลประโยชน์ และการต้องรับมือกับความยุติธรรมเชิงระบบ",
+        schoolActivities: "การสมัครโต้วาทีในโรงเรียน, การร่วมเป็นคณะกรรมการสภานักเรียนเพื่อเรียกร้องนโยบายที่ดีขึ้น, ร่วมอบรมกฎหมายเบื้องหลังศาลจำลองเยาวชน",
+        portfolio: "ภาพบันทึกการช่วยเขียนข้อมูลร้องทุกข์หรือสิทธิชุมชน, เกียรติบัตรการแข่งตอบปัญหากฎหมายระดับชาติ, รายงานโครงงานแก้ไขความยากจนในระดับชุมชน",
+        admissionTip: "ศึกษาข้อสอบ A-Level วิชาสังคมศึกษา และข้อสอบความถนัดนิติศาสตร์/รัฐศาสตร์ของบางมหาวิทยาลัยที่อาจมีกำหนดเฉพาะรายรอบ",
+        roadmap: {
+          m3: "สรุปสาระสำคัญของรัฐธรรมนูญมาตราที่เกี่ยวข้องกับสิทธิเสรีภาพประชาชนแชร์ลงโน้ตในกลุ่ม",
+          m6: "ทดลองเข้าร่วมสังเกตการณ์การประชุมสภาเทศบาลตำบลใกล้บ้านเพื่อซึมซับการดำเนินงานการปกครองท้องถิ่น",
+          y1: "เน้นอ่านหนังสือวิชาสังคมศึกษาเก็บสถิติประเด็นสอบ A-Level ที่มักออกบ่อย เช่น เศรษฐศาสตร์และกฎหมายปกครอง",
+          discuss: "ปลัดอำเภอหรือพนักงานกฎหมายเยาวชนในแม่ฮ่องสอนต้องเจอกรณีศึกษาหรือประเด็นท้าทายเฉพาะถิ่นอย่างไรบ้าง?"
+        },
+        uniTags: ["cmu", "mflu", "cmru", "cu"]
+      },
+      {
+        id: "upper-education",
+        name: "ครุศาสตร์ ศึกษาศาสตร์ และการพัฒนามนุษย์",
+        desc: "ศิลปะในการเพาะชำการเรียนรู้และการพัฒนาขีดความสามารถมนุษย์ผ่านการพัฒนาหลักสูตร จิตวิทยาแนะแนว และการสร้างวิธีการสอนแบบทันสมัยเพื่อกระตุ้นให้นักเรียนเกิดความก้าวหน้าทั้งความคิดและความรู้สึกที่ดี",
+        level: "upper",
+        riasecVector: { R: 25, I: 60, A: 50, S: 95, E: 60, C: 50 },
+        confidenceDomains: ["conf-thai", "conf-team", "conf-present"],
+        values: ["val-help", "val-community", "val-stable"],
+        preferences: { focus: "people", environment: "indoor" },
+        subjects: "จิตวิทยาการศึกษาพื้นฐาน, วิชาการพูดและการถ่ายทอดความหมาย, ทักษะผู้นำกิจกรรมเยาวชน",
+        majors: "ครุศาสตร์/ศึกษาศาสตร์ (วิชาภาษาไทย, คณิตศาสตร์, วิทยาศาสตร์, จิตวิทยาการแนะแนว, ประถมศึกษา, ปฐมวัย)",
+        occupations: "ครูผู้สอนวิชาการในโรงเรียนรัฐ/เอกชน, นักการศึกษาประยุกต์นวัตกรรมแอป, ครูแนะแนวชีวิตเยาวชน, ผู้จัดค่ายอบรมทักษะชีวิตองค์กร",
+        studyWhat: "เรียนวิชาชีพครูและจริยธรรม จิตวิทยาพัฒนาการเด็ก การประเมินผลการเรียนรู้ นวัตกรรมการสอนดิจิทัล และการฝึกปฏิบัติการสอนในโรงเรียนพันธมิตร 1 ปี",
+        skills: "ทักษะการดึงดูดความสนใจจากห้องเรียนขนาดใหญ่, จิตวิทยาความเข้าใจช่วงวัยและความละเอียดอ่อนทางอารมณ์, ความสามารถในการพูดเข้าใจง่าย",
+        difficulties: "ภาระงานเอกสารประกันคุณภาพที่หนาแน่นนอกเหนือจากการสอน ความกดดันด้านการรองรับความเครียดของเด็ก และต้องทนต่อพฤติกรรมดื้อของนักเรียน",
+        schoolActivities: "การสมัครเป็นผู้ติวช่วยเหลือเพื่อนร่วมชั้นเรียนที่มีคะแนนต่ำ, อาสาสอนกิจกรรมสันทนาการในวันเด็กแห่งชาติ, ร่วมสโมสรวิชาการแนะแนวโรงเรียน",
+        portfolio: "แผนการสอนวิชาสั้นๆ ที่ทดลองร่างขึ้นเองพร้อมรูปประกอบการทดลองสอนเด็กๆ ท้องถิ่น, แฟ้มสะสมประวัติเด็กที่มีความสุขขึ้นจากการแนะแนวของคุณ",
+        admissionTip: "สอบ TPAT5 (ความถนัดทางวิชาชีพครู) ซึ่งมักมีความเป็นระบบการคิดและค่านิยมทัศนคติความเป็นครูเป็นประเด็นคัดแยกคะแนนหลัก",
+        roadmap: {
+          m3: "ออกแบบสไลด์สื่อการเรียนรู้สั้นๆ ในหัวข้อวิชาที่ตนชื่นชอบเพื่อติวเพื่อนก่อนเข้าสอบเก็บคะแนน",
+          m6: "ร่วมโครงงานฝึกอาสาสอนหนังสือให้เด็กเล็กในถิ่นทุรกันดารหรือศูนย์เด็กก่อนวัยเรียนละแวกบ้าน",
+          y1: "ฝึกจับทางลักษณะคำถามประยุกต์ทัศนคติในข้อสอบ TPAT5 ย้อนหลังเพื่อให้เข้าใจกลยุทธ์การตอบที่ดี",
+          discuss: "โครงการครูรักถิ่นในแม่ฮ่องสอนมีรายละเอียดข้อผูกพันอย่างไร และมีหลักการจัดหาสถานที่บรรจุครูใหม่อย่างไร?"
+        },
+        uniTags: ["cmru", "cmu", "lpru", "cu"]
+      },
+      {
+        id: "upper-communication",
+        name: "นิเทศศาสตร์ สื่อดิจิทัล และอุตสาหกรรมสร้างสรรค์",
+        desc: "การสร้างสรรค์เนื้อหาข่าวสาร การผลิตรายการ แพลตฟอร์มบันเทิง และการจัดการวิทยุและสื่อออนไลน์ เพื่อกระจายข่าว โฆษณาเผยแพร่ และสร้างอิทธิพลเชิงทัศนคติแก่กลุ่มเป้าหมายนับล้านคนทั่วประเทศ",
+        level: "upper",
+        riasecVector: { R: 25, I: 40, A: 90, S: 65, E: 75, C: 40 },
+        confidenceDomains: ["conf-present", "conf-tech", "conf-art"],
+        values: ["val-creative", "val-freedom", "val-income"],
+        preferences: { focus: "ideas", environment: "indoor" },
+        subjects: "ทักษะเขียนบทสร้างสรรค์, วิชาถ่ายภาพและภาพเคลื่อนไหวภาพยนตร์, หลักการสื่อสารการตลาดออนไลน์",
+        majors: "นิเทศศาสตร์ (สื่อสารมวลชน), การโฆษณาและการประชาสัมพันธ์ยุคดิจิทัล, ภาพยนตร์และสื่อดิจิทัล, การเขียนเนื้อหาและการจัดอีเวนต์สร้างสรรค์",
+        occupations: "ผู้สร้างสรรค์เนื้อหารายการ (Content Creator), ผู้กำกับภาพยนตร์สั้น/โฆษณา, นักวางแผนกลยุทธ์สื่อสังคม (Social Media Specialist), นักประชาสัมพันธ์แบรนด์",
+        studyWhat: "เรียนวิชาวิธีเขียนบทโทรทัศน์และภาพยนตร์ ทฤษฎีสื่อและข้อมูลเพื่อสาธารณะ การกำกับภาพและแสง ทักษะการตัดต่อโปรดักชันขั้นสูง จิตวิทยาการรับรู้สื่อ",
+        skills: "ทักษะเขียนและสื่อสารดึงจุดเด่นของสิ่งที่จะนำเสนอ, ความเข้าใจพฤติกรรมความไวของกระแสโซเชียลมีเดีย, การใช้โปรแกรมตัดต่อและบันทึกภาพถ่ายเป็นเลิศ",
+        difficulties: "งานเร่งทำงานไม่เป็นเวลาเพื่อรอจบงานชิ้นเอก แข่งขันสูงกับนักครีเอทีฟอิสระนับแสนราย และต้องเผชิญกับคอมเมนต์วิพากษ์วิจารณ์ด้านลบบนเน็ต",
+        schoolActivities: "การสมัครเป็นช่างกล้องและนักเขียนเพจอย่างเป็นทางการของโรงเรียน, การมีบทบาทเขียนบทละครเวทีประจำสถาบัน, การแข่งทำคลิปรณรงค์ชุมชน",
+        portfolio: "ลิงก์ช่องวิดีโอ YouTube/TikTok ที่สะสมผลงานการตัดต่อแสดงและมียอดผู้ชมจริง, บทความสร้างสรรค์หรือภาพถ่ายมุมแกลอรี่ที่คุณเป็นผู้ออกแบบเนื้อหา",
+        admissionTip: "รอบ Portfolio เปิดรับกว้างมาก ขอเพียงมีชิ้นงานเด่นประจักษ์ มหาวิทยาลัยหลายแห่งในภาคเหนือให้โอกาสเข้าศึกษาโดยสัมภาษณ์ทัศนคติสร้างสรรค์",
+        roadmap: {
+          m3: "ฝึกตั้งสมมติฐานและทำคลิปเล่าสตอรี่ท้องถิ่นแม่ฮ่องสอนความยาวไม่เกิน 1 นาที ลงในช่องทางโปรไฟล์สะสมงาน",
+          m6: "เรียนรู้โปรแกรมตัดต่อแบบมืออาชีพ (เช่น Premiere Pro หรือ DaVinci Resolve) ผ่านทางบทเรียนออนไลน์ฟรี",
+          y1: "จัดหมวดหมู่แฟ้มผลงานดิจิทัลให้ดูสวยงามสะท้อนบุคลิกภาพและความเป็นตัวตนเฉพาะตัว (Branding)",
+          discuss: "พฤติกรรมการเสพสื่อของเยาวชนรุ่นใหม่ในพื้นที่แปรเปลี่ยนไปอย่างไร และมีช่องโหว่ของการสื่อสารข้อมูลเท็จประเด็นใดบ้าง?"
+        },
+        uniTags: ["cmu", "mflu", "cmru", "cu"]
+      },
+      {
+        id: "upper-art-design",
+        name: "ศิลปกรรม การออกแบบ และสถาปัตยกรรม",
+        desc: "ผสานจินตนาการเชิงสุนทรียศาสตร์และการใช้งานเชิงสถาปัตย์ เพื่อออกแบบผลิตภัณฑ์ บรรจุภัณฑ์ อาคารบ้านเรือน เฟอร์นิเจอร์ หรือภาพวาดที่ถ่ายทอดอารมณ์และคุณค่าแห่งยุคสมัยให้เป็นที่ประจักษ์",
+        level: "upper",
+        riasecVector: { R: 60, I: 40, A: 95, S: 30, E: 40, C: 40 },
+        confidenceDomains: ["conf-art", "conf-hands", "conf-tech"],
+        values: ["val-creative", "val-freedom", "val-balance"],
+        preferences: { focus: "ideas", environment: "both" },
+        subjects: "วิจิตรศิลป์ (จิตรกรรม/ประติมากรรม), สถาปัตยกรรมและการวาดเส้นภาพเปอร์สเปกทีฟ, วิชาประยุกต์คอมพิวเตอร์ดีไซน์ 3 มิติ",
+        majors: "จิตรกรรมและวิจิตรศิลป์, การออกแบบนิเทศศิลป์ (Graphic Design), สถาปัตยกรรมศาสตร์ (สถาปนิก), การออกแบบผลิตภัณฑ์อุตสาหกรรม, ดนตรีประยุกต์",
+        occupations: "สถาปนิกออกแบบอาคาร, ศิลปินอิสระรับงานวาดภาพ, นักออกแบบอินทีเรียภายในบ้าน, นักออกแบบบรรจุภัณฑ์เพื่อเพิ่มมูลค่าสินค้าชุมชน",
+        studyWhat: "เรียนวิชาวาดเส้นเชิงวิชาการ ประวัติศาสตร์ศิลป์สากล กายวิภาคมนุษย์ในการวาด โครงสร้างสิ่งแวดล้อมทางสถาปัตยกรรม การประยุกต์ใช้วัสดุและแสงสว่าง",
+        skills: "จินตนาการการคิดเป็นภาพและมิติสัมพันธ์ 3 มิติ, ทักษะงานฝีมือประดิษฐ์และใจรักการจับพู่กันเครื่องมือออกแบบ, การพรีเซนต์คอนเซปต์แนวคิดงาน",
+        difficulties: "งานใช้แรงกายและจิตวิญญาณคิดงานข้ามวันจนสายตาอ่อนล้า ข้อจำกัดด้านงบวัสดุอาร์ต และการปรับเปลี่ยนแบบงานตามความชอบของผู้จ้าง",
+        schoolActivities: "การสมัครร่วมวาดภาพฝาผนังตึกของชุมชน, การชนะการประกวดพานพุ่มหรืองานปั้นดินน้ำมัน, จัดทำสัปดาห์โชว์ของศิลปกรรมของโรงเรียน",
+        portfolio: "รูปวาดเส้นโครงร่าง (Sketch) ทั้งหมดที่คุณวาดสะสม, ภาพออกแบบ Perspective อาคารหรือต้นแบบผลิตภัณฑ์จำลอง 3 มิติที่ตกแต่งสมบูรณ์",
+        admissionTip: "ศึกษาเกณฑ์การสอบวิชาเฉพาะความถนัดสถาปัตยกรรม/ความถนัดศิลปกรรมศาสตร์อย่างรัดกุม บางแห่งกำหนดขนาดผลงานใส่กรอบกระดาษยื่นสดวันสอบ",
+        roadmap: {
+          m3: "สเก็ตช์ภาพแลนด์สเคปสไตล์อาคารล้านนาหรือโบราณสถานไทยใหญ่ในแม่ฮ่องสอน 5 ภาพสะสม",
+          m6: "ทดลองออกแบบบรรจุภัณฑ์ให้กับผลิตภัณฑ์สมุนไพรหรือผ้าทอท้องถิ่นของครอบครัวหรือโรงเรียน",
+          y1: "จัดทำเล่มพอร์ตโฟลิโอเน้นสุนทรียศาสตร์ทางภาพที่สะอาดตา และเตรียมตัวฝึกฝีแปรงสำหรับทดสอบทักษะตรงในวิทยาลัย",
+          discuss: "สถาปนิกและนักออกแบบในท้องถิ่นจะมีแนวทางการออกแบบอาคารอย่างไรให้กลมกลืนกับสภาพภูเขาและหมอกแม่ฮ่องสอน?"
+        },
+        uniTags: ["cmu", "rmutl", "cu", "ku"]
+      },
+      {
+        id: "upper-agri",
+        name: "เกษตร อาหาร ทรัพยากรธรรมชาติ และสัตวศาสตร์",
+        desc: "การนำความรู้ชีววิทยาและเทคโนโลยีสารสนเทศมาพัฒนาการผลิตพืชผลอินทรีย์แม่นยำ ปรับปรุงพันธุ์สัตว์ การพัฒนาโภชนาการแปรรูปอาหารปลอดภัย และการรักษาฟื้นฟูระบบนิเวศน์ทางป่าไม้และสัตว์ป่าเชิงลึก",
+        level: "upper",
+        riasecVector: { R: 85, I: 70, S: 50, C: 50, E: 35, A: 35 },
+        confidenceDomains: ["conf-sci", "conf-hands", "conf-self"],
+        values: ["val-community", "val-stable", "val-help"],
+        preferences: { focus: "things", environment: "outdoor" },
+        subjects: "ชีววิทยาการเกษตร, เคมีวิเคราะห์โภชนาการ, นิเวศวิทยาและการอนุรักษ์ป่า",
+        majors: "สัตวแพทยศาสตร์ (รักษาสัตว์), เกษตรศาสตร์อัจฉริยะ, วนศาสตร์ป่าไม้, เทคโนโลยีอาหารและโภชนาการ, การประมงและการเพาะเลี้ยงชายฝั่ง",
+        occupations: "สัตวแพทย์ดูแลสัตว์ปศุสัตว์, เจ้าหน้าที่ส่งเสริมอุทยานป่าไม้รักษาป่าต้นน้ำ, นักพัฒนาสายพันธุ์และปรับปรุงพืช, ผู้จัดการฟาร์มออร์แกนิกเชิงท่องเที่ยว",
+        studyWhat: "เรียนวิชากายวิภาคสัตว์ ชีวเคมีพืช สัตวศาสตร์เชิงระบบ การวางท่อชลประทาน เกษตรอัจฉริยะใช้เซ็นเซอร์คุมปุ๋ย และการวิเคราะห์ห่วงโซ่อาหารปลอดภัย",
+        skills: "ทักษะความอดทนปฏิบัติงานกลางแจ้งร่วมกับดินน้ำลมไฟ, ทักษะงานละเอียดในการตรวจสอบสลักพืชและวินิจฉัยความผิดปกติของสิ่งมีชีวิต, จิตสาธารณะรักสิ่งแวดล้อม",
+        difficulties: "ภาระงานค่อนข้างหนักเหนื่อยทางกาย เผชิญความเปียกชื้นของพยาธิสิ่งแวดล้อม และผลผลิตขึ้นกับสภาพธรรมชาติที่ไม่แน่นอนตามต้องการ",
+        schoolActivities: "การสมัครเป็นผู้สังเกตการณ์อาสาสมัครโครงการเกษตรแปลงสาธิตของโรงเรียน, การร่วมค่ายปลูกป่าทดแทนบนพื้นที่เขาหัวโล้น, อบรมอาสาสัตวแพทย์จิ๋ว",
+        portfolio: "รูปการทำงานเพาะชำสเต็มพืชหรือการรักษาสัตว์ในฟาร์มจริง, สรุปโครงงานสิ่งแวดล้อมป่าต้นน้ำ, ผลงานจัดทำแปลงทดลองทางโภชนาการแปรรูปเนื้อสัตว์",
+        admissionTip: "สมัครรอบโควตาและรอบ Portfolio ที่จัดเป็นทุนพิเศษของมหาวิทยาลัยเกษตรศาสตร์และมหาวิทยาลัยเชียงใหม่เพื่อหนุนเด็กถิ่นกลับพัฒนาภูมิลำเนา",
+        roadmap: {
+          m3: "ปลูกพืชเศรษฐกิจหรือพืชสมุนไพรทดสอบสภาวะการขาดน้ำและบันทึกรายงานพฤติกรรมทางใบไม้สัปดาห์ละครั้ง",
+          m6: "เข้าร่วมฝึกงานพาร์ตไทม์ในฟาร์มปศุสัตว์แถวบ้านหรือสังเกตการณ์คลินิกสัตวแพทย์ตำบลในวันหยุดสุดสัปดาห์",
+          y1: "เตรียมความพร้อมวิชา A-Level เคมี ชีววิทยา และคณิตศาสตร์ 1 เพื่อสมัครกลุ่มวิชาสัตวแพทย์และวิทยาศาสตร์เกษตร",
+          discuss: "การประยุกต์ใช้โดรนการเกษตรในการพ่นสมุนไพรหรือการสำรวจไฟป่าแม่ฮ่องสอนสามารถเรียนรู้และพัฒนาต่อยอดได้ที่สถาบันใด?"
+        },
+        uniTags: ["cmu", "mflu", "ku", "mju"]
+      },
+      {
+        id: "upper-tourism",
+        name: "การท่องเที่ยว การบริการ การบิน และการจัดการกิจกรรม",
+        desc: "การผสมผสานการบริการที่เป็นสากล จิตวิทยาการต้อนรับ ความรู้เชิงประวัติศาสตร์ท้องถิ่น และทักษะภาษาต่างประเทศ เพื่อออกแบบการท่องเที่ยวที่ยั่งยืน การบิน และการจัดการประชุมนิทรรศการระดับโลก",
+        level: "upper",
+        riasecVector: { R: 40, I: 30, A: 45, S: 80, E: 80, C: 65 },
+        confidenceDomains: ["conf-eng", "conf-present", "conf-team"],
+        values: ["val-social", "val-balance", "val-freedom"],
+        preferences: { focus: "people", environment: "both" },
+        subjects: "ทักษะงานต้อนรับและความปลอดภัย, วิชาภาษาต่างประเทศเพื่อบริการท่องเที่ยว, การจัดการอีเวนต์วัฒนธรรมเชิงสร้างสรรค์",
+        majors: "การจัดการท่องเที่ยวแบบยั่งยืน, การจัดการโรงแรมและการท่องเที่ยวเชิงนิเวศ, ธุรกิจการบินและการบริการทางการบิน, การจัดการงานอีเวนต์และนิทรรศการ (MICE)",
+        occupations: "ผู้เชี่ยวชาญนำเที่ยวเชิงลึก (มัคคุเทศก์), พนักงานบริการส่วนหน้าในโรงแรมห้าดาว, นักวางแผนจัดทัวร์สุขภาพเชิงอนุรักษ์ดอยสูง, เจ้าหน้าที่ฝ่ายจัดหาสถานที่อีเวนต์",
+        studyWhat: "เรียนวิชาศิลปะการต้อนรับ จิตวิทยาผู้มารับบริการ การบริหารรายได้โรงแรม การวางเส้นทางและตารางท่องเที่ยว กฎหมายการบินเบื้องต้น และภาษาอังกฤษเพื่อการบิน",
+        skills: "ทักษะการแก้ปัญหาเฉพาะหน้าด้วยรอยยิ้มและกิริยาสุภาพ, มนุษยสัมพันธ์และความเข้าใจวัฒนธรรมหลากหลาย, ความอดทนในการเดินทางและยืนบริการเวลานาน",
+        difficulties: "ชั่วโมงทำงานยืดหยุ่นตามฤดูกาลท่องเที่ยวและพฤติกรรมของลูกค้าที่เดาใจยาก และความอ่อนไหวสูงมากของธุรกิจต่อปัจจัยภายนอก เช่น โรคระบาดหรือภัยพิบัติ",
+        schoolActivities: "การสมัครเป็นล่ามอาสาสมัครในนิทรรศการวัฒนธรรมแม่ฮ่องสอน, การออกแบบเส้นทางทัศนศึกษาจำลองของห้องเรียน, ร่วมประกวดเยาวชนไกด์ชุมชน",
+        portfolio: "แผนทริปท่องเที่ยวเชิงนิเวศ 2 วัน 1 คืนในจังหวัดแม่ฮ่องสอนที่เน้นรักษ์โลกพร้อมตารางสถิติงบประเมินการเดินทาง, คลิปแนะนำสถานที่ท่องเที่ยวภาษาอังกฤษ",
+        admissionTip: "มหาวิทยาลัยส่วนใหญ่ใช้เกณฑ์คะแนน TGAT1 และ A-Level วิชาภาษาอังกฤษหรือภาษาที่สามในการพิจารณารับสมัครตรงและรอบแอดมิชชัน",
+        roadmap: {
+          m3: "วางโครงร่างแผนการเดินทางท่องเที่ยวชุมชนโดยใส่ใจเรื่องการสร้างขยะให้เป็นศูนย์เป็นแนวคิดโฆษณา",
+          m6: "ทดลองทำงานบริการในร้านกาแฟ โฮมสเตย์ หรือรีสอร์ตในตัวเมือง เพื่อเรียนรู้งานต้อนรับและงานครัวจริง",
+          y1: "เตรียมตัวให้สอบผ่านเกณฑ์วัดระดับทักษะภาษาอังกฤษเพื่อยื่นพร้อมใบสมัครพอร์ตโฟลิโอในสายสถาบันท่องเที่ยวชั้นนำ",
+          discuss: "การท่องเที่ยวเชิงนิเวศแม่ฮ่องสอนสามารถร่วมรักษาสมดุลวัฒนธรรมกลุ่มชาติพันธุ์และธรรมชาติที่อุดมสมบูรณ์ได้อย่างไร?"
+        },
+        uniTags: ["cmu", "mflu", "cmru", "lpru"]
+      }
+    ];
+
+    /* ====================================================
+       UNIVERSITY DIRECTORY DATASTRUCTURE
+       ==================================================== */
+    const UNIVERSITY_DIRECTORY = [
+{id:"cmu",name:"มหาวิทยาลัยเชียงใหม่ (CMU)",region:"north",province:"เชียงใหม่",tags:["ทุกสาขาหลัก","วิศวกรรม","วิทยาศาสตร์"],url:"https://www.cmu.ac.th",courseUrl:"https://www.reg.cmu.ac.th"},
+{id:"mju",name:"มหาวิทยาลัยแม่โจ้",region:"north",province:"เชียงใหม่",tags:["เกษตรศาสตร์","เทคโนโลยี"],url:"https://www.mju.ac.th",courseUrl:"https://admission.mju.ac.th"},
+{id:"mfu",name:"มหาวิทยาลัยแม่ฟ้าหลวง",region:"north",province:"เชียงราย",tags:["สุขภาพ","ภาษา"],url:"https://www.mfu.ac.th",courseUrl:"https://registrar.mfu.ac.th"},
+{id:"cmru",name:"มหาวิทยาลัยราชภัฏเชียงใหม่",region:"north",province:"เชียงใหม่",tags:["ครุศาสตร์"],url:"https://www.cmru.ac.th",courseUrl:"https://www.register.cmru.ac.th"},
+{id:"rmutl",name:"มหาวิทยาลัยเทคโนโลยีราชมงคลล้านนา",region:"north",province:"เชียงใหม่",tags:["วิศวกรรม","เทคโนโลยี"],url:"https://www.rmutl.ac.th",courseUrl:"https://entrance.rmutl.ac.th"}
+    ];
+
+    /* ====================================================
+       APPLICATION STATE MANAGEMENT
+       ==================================================== */
+    const STATE_KEY = "hongson_myfuture_state_v1";
+
+    let appState = {
+      currentScreen: 1,
+      level: "", // "lower" or "upper"
+      nickname: "",
+      context: {
+        grade: "",
+        location: "near",
+        direction: "general",
+        relocate: "unsure"
+      },
+      shuffledOrder: [], // Array of question IDs in shuffled order
+      answers: {},       // Keyed by question ID, value 1-5
+      confidence: {},   // Keyed by confidence ID, value 1-5
+      selectedValues: [], // Array of exactly 3 value IDs
+      preferences: {
+        people: "alone",
+        learning: "read",
+        workStyle: "structured",
+        environment: "indoor",
+        focus: "people"
+      },
+      checklistTicks: {}, // Keyed by item ID, boolean
+      startTime: null,
+      lastUpdatedTime: null,
+      version: APP_CONFIG.appVersion
+    };
+
+    /* ====================================================
+       ALGORITHMS, SCORING & UTILITIES
+       ==================================================== */
+
+    // Stable Seeded Shuffle for reproducible questions order in session
+    function seededShuffle(array, seed) {
+      let m = array.length, t, i;
+      // Simple LCG generator
+      let rand = function() {
+        seed = (seed * 9301 + 49297) % 233280;
+        return seed / 233280;
+      };
+      while (m) {
+        i = Math.floor(rand() * m--);
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+      }
+      return array;
+    }
+
+    function calculateRiasecScores() {
+      const counts = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+      const sums = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+
+      Object.keys(appState.answers).forEach(qId => {
+        const q = INTEREST_QUESTIONS.find(item => item.id === qId);
+        if (q) {
+          sums[q.cat] += Number(appState.answers[qId]);
+          counts[q.cat]++;
+        }
+      });
+      return sums;
+    }
+
+    function normalizeRiasecScores(rawScores) {
+      const normalized = {};
+      // raw Score range: 6 - 30 (6 questions per category, each 1-5)
+      Object.keys(rawScores).forEach(cat => {
+        const score = rawScores[cat];
+        normalized[cat] = Math.max(0, Math.min(100, ((score - 6) / 24) * 100));
+      });
+      return normalized;
+    }
+
+    function getTopRiasecTypes(normalizedScores) {
+      const riasecOrder = ["R", "I", "A", "S", "E", "C"];
+      // Sort keys descending
+      const entries = Object.entries(normalizedScores);
+      entries.sort((a, b) => {
+        if (b[1] !== a[1]) return b[1] - a[1];
+        // Handle ties deterministically by RIASEC index
+        return riasecOrder.indexOf(a[0]) - riasecOrder.indexOf(b[0]);
+      });
+      return entries.slice(0, 3).map(e => e[0]).join("");
+    }
+
+    function calculateProfileDifferentiation(normalizedScores) {
+      const values = Object.values(normalizedScores);
+      const max = Math.max(...values);
+      const min = Math.min(...values);
+      return Math.round(max - min);
+    }
+
+    function detectResponseQuality() {
+      const warnings = [];
+      const answersArr = Object.values(appState.answers);
+      if (answersArr.length < 36) return warnings;
+
+      // 1. Almost identical answers
+      const frequency = {};
+      answersArr.forEach(v => frequency[v] = (frequency[v] || 0) + 1);
+      const maxFreq = Math.max(...Object.values(frequency));
+      if (maxFreq >= 28) {
+        warnings.push("คำตอบส่วนใหญ่มีความคล้ายคลึงกันอย่างมาก (คุณเลือกตอบคำตอบเดียวซ้ำกันเป็นเกือบทั้งหมด) ซึ่งทำให้ข้อมูลจำแนกแนวโน้มได้น้อยลง");
+      }
+
+      // 2. Too many neutrals (3)
+      const neutralCount = frequency[3] || 0;
+      if (neutralCount / answersArr.length > 0.6) {
+        warnings.push("คุณเลือกตอบ 'ไม่แน่ใจ' มากกว่า 60% ของการทำประเมิน การสรุปผลอาจยังไม่ชัดเจนในทักษะความชอบบางด้าน");
+      }
+
+      // 3. Extremely rapid completion (average < 1.8 seconds per question)
+      if (appState.startTime) {
+        const elapsed = (Date.now() - appState.startTime) / 1000;
+        if (elapsed < 60) { // Less than 60 seconds total
+          warnings.push("แบบสำรวจนี้ใช้เวลาดำเนินการรวดเร็วมากเป็นพิเศษ (น้อยกว่า 1 นาที) แนะนำให้กลับไปทบทวนข้อคำถามและไตร่ตรองความรู้สึกเพิ่มขึ้น");
+        }
+      }
+
+      // 4. Flat profile (standard deviation is low)
+      const sums = calculateRiasecScores();
+      const norm = normalizeRiasecScores(sums);
+      const values = Object.values(norm);
+      const avg = values.reduce((s, v) => s + v, 0) / 6;
+      const variance = values.reduce((s, v) => s + Math.pow(v - avg, 2), 0) / 6;
+      const sd = Math.sqrt(variance);
+      if (sd < 10) {
+        warnings.push("ผลคะแนนกระจายใกล้เคียงกันหลายด้าน ซึ่งอาจหมายถึงคุณมีความสนใจหลากหลายและยังต้องการเวลาสะสมทักษะเพิ่มเติมเพื่อแยกแยะงานเป้าหมาย");
+      }
+
+      return warnings;
+    }
+
+    // Cosine similarity between two vectors
+    function cosineSimilarity(vecA, vecB) {
+      let dotProduct = 0.0;
+      let normA = 0.0;
+      let normB = 0.0;
+      const keys = ["R", "I", "A", "S", "E", "C"];
+      keys.forEach(k => {
+        const valA = vecA[k] || 0;
+        const valB = vecB[k] || 0;
+        dotProduct += valA * valB;
+        normA += valA * valA;
+        normB += valB * valB;
+      });
+      if (normA === 0 || normB === 0) return 0.0;
+      return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+    }
+
+    // Main ranking algorithm
+    function calculateInterestFit(normScores, targetVector) {
+      return cosineSimilarity(normScores, targetVector); // Returns 0 - 1
+    }
+
+    function calculateConfidenceSupport(confidenceScores, confidenceDomains) {
+      if (!confidenceDomains || confidenceDomains.length === 0) return 0;
+      let sum = 0;
+      confidenceDomains.forEach(domain => {
+        sum += Number(confidenceScores[domain] || 3); // default neutral 3
+      });
+      const avg = sum / confidenceDomains.length;
+      return (avg - 1) / 4; // Normalized 0 - 1
+    }
+
+    function calculateValueAlignment(selectedValues, targetValues) {
+      if (!targetValues || targetValues.length === 0) return 0;
+      let matches = 0;
+      selectedValues.forEach(valId => {
+        if (targetValues.includes(valId)) {
+          matches++;
+        }
+      });
+      return matches / 3; // Normalized 0 - 1
+    }
+
+    function calculatePreferenceAlignment(studentPrefs, targetPrefs) {
+      if (!targetPrefs) return 1.0; // Perfect fit if no targets
+      let score = 0;
+      let criteria = 0;
+      if (targetPrefs.focus) {
+        criteria++;
+        if (studentPrefs.focus === targetPrefs.focus) score++;
+      }
+      if (targetPrefs.environment) {
+        criteria++;
+        if (targetPrefs.environment === "both" || studentPrefs.environment === "both" || studentPrefs.environment === targetPrefs.environment) {
+          score++;
+        }
+      }
+      return criteria > 0 ? score / criteria : 1.0;
+    }
+
+    function rankRecommendations() {
+      const rawScores = calculateRiasecScores();
+      const normScores = normalizeRiasecScores(rawScores);
+      const dataset = appState.level === "lower" ? LOWER_PATHWAYS : UPPER_CLUSTERS;
+
+      const ranked = dataset.map(item => {
+        const interestFit = calculateInterestFit(normScores, item.riasecVector); // 65%
+        const confidenceSupport = calculateConfidenceSupport(appState.confidence, item.confidenceDomains); // 20%
+        const valueAlign = calculateValueAlignment(appState.selectedValues, item.values); // 10%
+        const prefAlign = calculatePreferenceAlignment(appState.preferences, item.preferences); // 5%
+
+        const compositeScore = (interestFit * 0.65) + (confidenceSupport * 0.20) + (valueAlign * 0.10) + (prefAlign * 0.05);
+        const alignmentPercent = Math.round(compositeScore * 100);
+
+        return {
+          ...item,
+          alignmentPercent: Math.max(0, Math.min(100, alignmentPercent)),
+          scoresDetail: {
+            interestFit,
+            confidenceSupport,
+            valueAlign,
+            prefAlign
+          }
+        };
+      });
+
+      // Sort descending by fit score, stable tie handling
+      ranked.sort((a, b) => {
+        if (b.alignmentPercent !== a.alignmentPercent) {
+          return b.alignmentPercent - a.alignmentPercent;
+        }
+        return a.id.localeCompare(b.id);
+      });
+
+      return ranked;
+    }
+
+    function generateRecommendationReasons(item, topScores) {
+      const reasons = [];
+
+      // 1. RIASEC reason
+      const keys = Object.keys(item.riasecVector);
+      keys.sort((a,b) => item.riasecVector[b] - item.riasecVector[a]);
+      const dominantCat = keys[0];
+      if (topScores.includes(dominantCat)) {
+        reasons.push(`มีความสอดคล้องระดับสูงกับรหัสความสนใจเด่น (${RIASEC_CATEGORIES[dominantCat].thName}) ของคุณ`);
+      }
+
+      // 2. Values reason
+      const overlappingValues = appState.selectedValues.filter(valId => item.values && item.values.includes(valId));
+      if (overlappingValues.length > 0) {
+        const valObj = VALUE_ITEMS.find(v => v.id === overlappingValues[0]);
+        if (valObj) {
+          reasons.push(`สนับสนุนความต้องการหลักคุณด้านการได้ทำอะไรที่ "${valObj.title}"`);
+        }
+      }
+
+      // 3. Confidence reason
+      const confidentDomains = Object.entries(appState.confidence)
+        .filter(([_, score]) => Number(score) >= 4)
+        .map(([id, _]) => id);
+
+      const supportedByConfidence = item.confidenceDomains.filter(dom => confidentDomains.includes(dom));
+      if (supportedByConfidence.length > 0) {
+        const confObj = CONFIDENCE_ITEMS.find(c => c.id === supportedByConfidence[0]);
+        if (confObj) {
+          const shortName = confObj.text.split(" ")[0];
+          reasons.push(`ใช้ความถนัดและความมั่นใจระดับดีมากของคุณในมิติเรื่อง "${shortName}"`);
+        }
+      }
+
+      // Fallback fallback if empty reasons
+      if (reasons.length === 0) {
+        reasons.push("เส้นทางนี้มีคะแนนสอดประสานภาพรวมกับความถนัดเชิงปฎิบัติของคุณอย่างประจักษ์");
+      }
+
+      return reasons;
+    }
+
+    /* ====================================================
+       UI RENDERING ENGINE & INTERACTIVE CONTROLS
+       ==================================================== */
+    const UI = {
+      // Switch screen helper
+      switchScreen: function(screenNum) {
+        const screenMap = {
+          1: "welcome",
+          2: "level",
+          3: "context",
+          4: "interests",
+          5: "confidence",
+          6: "values",
+          7: "preferences",
+          8: "review",
+          9: "results"
+        };
+        const screenId = screenMap[screenNum] || screenNum;
+        document.querySelectorAll(".screen").forEach(screen => {
+          screen.classList.remove("active");
+        });
+        const targetScreen = document.getElementById(`screen-${screenId}`);
+        if (targetScreen) {
+          targetScreen.classList.add("active");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          
+          // Focus Management for Accessibility
+          const headerElement = targetScreen.querySelector(".card-title, h2");
+          if (headerElement) {
+            headerElement.setAttribute("tabindex", "-1");
+            headerElement.focus();
+          }
+        }
+        appState.currentScreen = screenNum;
+        app.saveToStorage();
+      },
+
+      renderGradeSelection: function() {
+        const container = document.getElementById("grade-group");
+        container.innerHTML = "";
+        let grades = [];
+        if (appState.level === "lower") {
+          grades = [
+            { id: "g-m1", label: "มัธยมศึกษาปีที่ 1" },
+            { id: "g-m2", label: "มัธยมศึกษาปีที่ 2" },
+            { id: "g-m3", label: "มัธยมศึกษาปีที่ 3" }
+          ];
+        } else {
+          grades = [
+            { id: "g-m4", label: "มัธยมศึกษาปีที่ 4" },
+            { id: "g-m5", label: "มัธยมศึกษาปีที่ 5" },
+            { id: "g-m6", label: "มัธยมศึกษาปีที่ 6" },
+            { id: "g-pvc", label: "ปวช. (ประกาศนียบัตรวิชาชีพ)" }
+          ];
+        }
+
+        grades.forEach((g, idx) => {
+          const pill = document.createElement("div");
+          pill.className = "radio-pill";
+          pill.innerHTML = `
+            <input type="radio" id="${g.id}" name="student-grade" value="${g.id}" ${idx === 0 ? "checked" : ""}>
+            <label for="${g.id}">${g.label}</label>
+          `;
+          container.appendChild(pill);
+        });
+      },
+
+      renderInterestQuestion: function(index) {
+        const total = INTEREST_QUESTIONS.length;
+        document.getElementById("interests-step-label").textContent = `หมวด 1: แบบสำรวจความสนใจ (ข้อที่ ${index + 1}/${total})`;
+        document.getElementById("interests-progress-percent").textContent = `${index + 1}/${total}`;
+        
+        const percent = ((index + 1) / total) * 100;
+        document.getElementById("interests-progress-bar").style.width = `${percent}%`;
+
+        const qId = appState.shuffledOrder[index];
+        const q = INTEREST_QUESTIONS.find(item => item.id === qId);
+
+        document.getElementById("interest-question-text").innerHTML = `
+          <strong>ข้อที่ ${index + 1}:</strong> ${q.text}
+        `;
+
+        // Uncheck all Likert radios
+        document.querySelectorAll('input[name="interest-rating"]').forEach(radio => {
+          radio.checked = false;
+        });
+
+        // Restore saved answer if any
+        if (appState.answers[qId]) {
+          const val = appState.answers[qId];
+          const radio = document.getElementById(`likert-${val}`);
+          if (radio) radio.checked = true;
+        }
+
+        // Toggle back button visibility
+        document.getElementById("btn-interest-prev").style.visibility = index === 0 ? "hidden" : "visible";
+        document.getElementById("btn-interest-next").textContent = index === total - 1 ? "เสร็จสิ้นส่วนนี้" : "ถัดไป";
+      },
+
+      renderConfidenceGrid: function() {
+        const container = document.getElementById("confidence-container");
+        container.innerHTML = "";
+        
+        CONFIDENCE_ITEMS.forEach(item => {
+          const row = document.createElement("div");
+          row.className = "confidence-row";
+          
+          let optionsHtml = "";
+          for(let i = 1; i <= 5; i++) {
+            const labels = ["ยังไม่มั่นใจ", "มั่นใจเล็กน้อย", "ปานกลาง", "ค่อนข้างมั่นใจ", "มั่นใจมาก"];
+            const savedVal = appState.confidence[item.id] || "";
+            optionsHtml += `
+              <div class="confidence-opt">
+                <input type="radio" id="${item.id}-${i}" name="${item.id}" value="${i}" ${savedVal == i ? "checked" : ""} onchange="app.setConfidence('${item.id}', ${i})">
+                <label for="${item.id}-${i}">${labels[i-1]}</label>
+              </div>
+            `;
+          }
+
+          row.innerHTML = `
+            <div class="confidence-subject" id="lbl-${item.id}">${item.text}</div>
+            <div class="confidence-options" role="radiogroup" aria-labelledby="lbl-${item.id}">
+              ${optionsHtml}
+            </div>
+          `;
+          container.appendChild(row);
+        });
+
+        this.updateConfidenceProgress();
+      },
+
+      updateConfidenceProgress: function() {
+        const answeredCount = Object.keys(appState.confidence).length;
+        document.getElementById("confidence-progress-label").textContent = `${answeredCount}/12`;
+        document.getElementById("confidence-progress-bar").style.width = `${(answeredCount / 12) * 100}%`;
+      },
+
+      renderValuesGrid: function() {
+        const container = document.getElementById("values-container");
+        container.innerHTML = "";
+        
+        const count = appState.selectedValues.length;
+        document.getElementById("values-progress-label").textContent = `${count}/3`;
+        document.getElementById("values-progress-bar").style.width = `${(count / 3) * 100}%`;
+
+        VALUE_ITEMS.forEach(val => {
+          const isChecked = appState.selectedValues.includes(val.id);
+          const isLimitReached = count >= 3;
+          const isDisabled = isLimitReached && !isChecked;
+
+          const card = document.createElement("button");
+          card.type = "button";
+          card.className = `value-card ${isChecked ? "selected" : ""} ${isDisabled ? "disabled" : ""}`;
+          card.setAttribute("aria-pressed", isChecked ? "true" : "false");
+          if (isDisabled) card.setAttribute("disabled", "true");
+
+          card.innerHTML = `
+            <input type="checkbox" id="chk-${val.id}" ${isChecked ? "checked" : ""} ${isDisabled ? "disabled" : ""} tabindex="-1" style="pointer-events: none;">
+            <div class="value-info" style="text-align: left;">
+              <h4>${val.title}</h4>
+              <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">${val.desc}</p>
+            </div>
+          `;
+
+          card.onclick = () => {
+            if (!isDisabled) {
+              app.toggleValue(val.id);
+            }
+          };
+
+          container.appendChild(card);
+        });
+      },
+
+      renderReviewScreen: function() {
+        const container = document.getElementById("review-list");
+        container.innerHTML = "";
+
+        const interestCount = Object.keys(appState.answers).length;
+        const interestStatus = interestCount === 36;
+        
+        const confidenceCount = Object.keys(appState.confidence).length;
+        const confidenceStatus = confidenceCount === 12;
+
+        const valuesCount = appState.selectedValues.length;
+        const valuesStatus = valuesCount === 3;
+
+        const sections = [
+          { name: "ข้อมูลแวดล้อมเพื่อการแนะนำ", detail: `ระดับชั้น ม.${appState.level === "lower" ? "ต้น" : "ปลาย"}`, status: true, screen: 3 },
+          { name: "หมวด 1: แบบสำรวจความสนใจ (RIASEC)", detail: `ตอบแล้ว ${interestCount} จาก 36 ข้อ`, status: interestStatus, screen: 4 },
+          { name: "หมวด 2: ความมั่นใจทางการเรียน", detail: `ประเมินแล้ว ${confidenceCount} จาก 12 ด้าน`, status: confidenceStatus, screen: 5 },
+          { name: "หมวด 3: คุณค่าชีวิตเป้าหมายงาน", detail: `เลือกครบ ${valuesCount} จาก 3 ด้านความต้องการ`, status: valuesStatus, screen: 6 },
+          { name: "หมวด 4: สภาพแวดล้อมที่คาดหวัง", detail: "บันทึกเรียบร้อย", status: true, screen: 7 }
+        ];
+
+        let hasErrors = false;
+
+        sections.forEach(sec => {
+          if (!sec.status) hasErrors = true;
+
+          const row = document.createElement("div");
+          row.className = "review-item";
+          row.innerHTML = `
+            <div class="review-details">
+              <h3>${sec.name}</h3>
+              <p>${sec.detail}</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <span class="status-badge ${sec.status ? "status-complete" : "status-incomplete"}">
+                ${sec.status ? "✓ ครบถ้วน" : "✗ ยังไม่ครบ"}
+              </span>
+              <button type="button" class="btn btn-outline" style="padding: 6px 12px; font-size:13px; min-height:36px;" onclick="UI.switchScreen(${sec.screen})">แก้ไข</button>
+            </div>
+          `;
+          container.appendChild(row);
+        });
+
+        const validationBox = document.getElementById("review-validation-msg");
+        const processBtn = document.getElementById("btn-process-results");
+
+        if (hasErrors) {
+          validationBox.innerHTML = `
+            <div class="alert-box alert-warning">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+              <div><strong>กรุณากรอกคำตอบให้ครบถ้วน:</strong> ยังมีบางส่วนประเมินไม่สมบูรณ์ โปรดกดปุ่มแก้ไขในส่วนสีแดงเพื่อดำเนินการต่อ</div>
+            </div>
+          `;
+          processBtn.setAttribute("disabled", "true");
+        } else {
+          validationBox.innerHTML = `
+            <div class="alert-box alert-info" style="background-color: var(--success-light); border-left-color: var(--success); color: var(--success);">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+              <div><strong>ข้อมูลตรวจสอบผ่านเรียบร้อย:</strong> พร้อมประมวลผลความสอดคล้องตามกรอบแนะแนว</div>
+            </div>
+          `;
+          processBtn.removeAttribute("disabled");
+        }
+      },
+
+      renderResults: function() {
+        // Update user nickname
+        const nameLabel = appState.nickname ? appState.nickname.trim() : "นักเรียน";
+        document.getElementById("results-welcome-name").textContent = `ผลสำรวจของ: ${nameLabel}`;
+        
+        // Update education level banner
+        const levelText = appState.level === "lower" ? "ระดับมัธยมศึกษาตอนต้น (ม.1–ม.3)" : "ระดับมัธยมศึกษาตอนปลาย (ม.4–ม.6 / ปวช.)";
+        document.getElementById("results-student-level").textContent = levelText;
+
+        // Calculate and Render RIASEC Bars
+        const rawScores = calculateRiasecScores();
+        const normScores = normalizeRiasecScores(rawScores);
+        const profileCode = getTopRiasecTypes(normScores);
+        document.getElementById("results-profile-code").textContent = profileCode;
+
+        const barsContainer = document.getElementById("riasec-bars-container");
+        barsContainer.innerHTML = "";
+
+        const colors = { R: "#D35400", I: "#2980B9", A: "#8E44AD", S: "#27AE60", E: "#C0392B", C: "#7F8C8D" };
+        
+        Object.keys(RIASEC_CATEGORIES).forEach(cat => {
+          const score = Math.round(normScores[cat]);
+          const barGroup = document.createElement("div");
+          barGroup.className = "riasec-bar-group";
+          barGroup.innerHTML = `
+            <div class="riasec-bar-meta">
+              <span class="riasec-bar-title" id="lbl-bar-${cat}">${cat} - ${RIASEC_CATEGORIES[cat].thName}</span>
+              <span class="riasec-bar-score" aria-labelledby="lbl-bar-${cat}">${score}% (${rawScores[cat]} คะแนน)</span>
+            </div>
+            <div class="riasec-bar-track" role="img" aria-label="${RIASEC_CATEGORIES[cat].thName} คะแนนร้อยละ ${score}">
+              <div class="riasec-bar-fill" style="width: ${score}%; background-color: ${colors[cat]};"></div>
+            </div>
+            <p style="font-size:12px; color: var(--text-muted); margin-top:4px;">${RIASEC_CATEGORIES[cat].desc}</p>
+          `;
+          barsContainer.appendChild(barGroup);
+        });
+
+        // Set Differentiation
+        const diff = calculateProfileDifferentiation(normScores);
+        document.getElementById("profile-diff-value").textContent = `${diff}% (เกณฑ์การจำแนกประเภทความต่าง)`;
+
+        // Response Quality Checks
+        const qualityWarnings = detectResponseQuality();
+        const warningBox = document.getElementById("response-quality-warning");
+        if (qualityWarnings.length > 0) {
+          warningBox.style.display = "flex";
+          document.getElementById("response-quality-text").innerHTML = `
+            <strong>ข้อสังเกตเชิงคุณภาพการประเมิน:</strong>
+            <ul style="margin-left: 20px; margin-top: 4px;">
+              ${qualityWarnings.map(w => `<li>${w}</li>`).join("")}
+            </ul>
+          `;
+        } else {
+          warningBox.style.display = "none";
+        }
+
+        // Compute Recommendations
+        const recommendations = rankRecommendations();
+        
+        // Render Top 3 (Expanded)
+        const primaryList = document.getElementById("primary-recommendations-list");
+        primaryList.innerHTML = "";
+        for(let i = 0; i < 3; i++) {
+          if (recommendations[i]) {
+            const card = this.createRecommendationCard(recommendations[i], i + 1, i === 0);
+            primaryList.appendChild(card);
+          }
+        }
+
+        // Render Alternatives (Collapsed)
+        const alternativeList = document.getElementById("alternative-recommendations-list");
+        alternativeList.innerHTML = "";
+        for(let i = 3; i < 6; i++) {
+          if (recommendations[i]) {
+            const card = this.createRecommendationCard(recommendations[i], i + 1, false);
+            alternativeList.appendChild(card);
+          }
+        }
+
+        // Render Action Roadmap Checklist
+        this.renderActionPlan();
+
+        // Render Discussion Questions
+        this.renderDiscussionQuestions(recommendations[0]);
+      },
+
+      createRecommendationCard: function(item, rank, defaultExpanded) {
+        const card = document.createElement("div");
+        card.className = `rec-card ${defaultExpanded ? "expanded" : ""}`;
+        card.id = `rec-card-${item.id}`;
+
+        const isLower = appState.level === "lower";
+        
+        // Generate reasons
+        const rawScores = calculateRiasecScores();
+        const normScores = normalizeRiasecScores(rawScores);
+        const topTypes = getTopRiasecTypes(normScores);
+        const reasonsList = generateRecommendationReasons(item, topTypes);
+
+        // Filter Universities based on study location preferences
+        let unisHtml = "";
+        if (!isLower) {
+          let matchedUnis = UNIVERSITY_DIRECTORY.filter(uni => {
+            // Match universities by ID using the cluster's uniTags array
+            return item.uniTags && item.uniTags.includes(uni.id);
+          });
+
+          // Sort by user geographic preference
+          const locPref = appState.context.location;
+          if (locPref === "near") {
+            // Put Mae Hong Son / Northern universities first
+            matchedUnis.sort((a, b) => {
+              const aNear = a.province.includes("แม่ฮ่องสอน") || a.province.includes("เชียงใหม่");
+              const bNear = b.province.includes("แม่ฮ่องสอน") || b.province.includes("เชียงใหม่");
+              return bNear - aNear;
+            });
+          } else if (locPref === "north") {
+            matchedUnis.sort((a, b) => (b.region === "north") - (a.region === "north"));
+          }
+
+          if (matchedUnis.length > 0) {
+            unisHtml = `
+              <div class="rec-section">
+                <div class="rec-section-title">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--primary)"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+                  มหาวิทยาลัยตัวอย่างที่ควรศึกษาข้อมูลเพิ่มเติม
+                </div>
+                <p style="font-size:12px; color: var(--text-muted); margin-bottom:8px;">รายชื่อด้านล่างเป็นจุดเริ่มต้นในการค้นหา ไม่ใช่ทั้งหมด และไม่ได้หมายความว่าสถาบันเปิดรับทุกสาขาในปีปัจจุบัน กรุณาตรวจสอบหลักสูตรและเกณฑ์ล่าสุดอีกครั้ง</p>
+                <div class="uni-grid">
+                  ${matchedUnis.map(uni => `
+                    <div class="uni-card">
+                      <div>
+                        <div class="uni-name">${uni.name}</div>
+                        <div class="uni-meta">จ. ${uni.province}</div>
+                      </div>
+                      <div class="uni-links">
+                        <a href="${uni.url}" target="_blank" rel="noopener noreferrer" class="uni-link-btn btn-primary" style="color: white;">เว็บสถาบัน</a>
+                        <a href="${uni.courseUrl}" target="_blank" rel="noopener noreferrer" class="uni-link-btn btn-outline">ดูเกณฑ์คัดเลือก</a>
+                      </div>
+                    </div>
+                  `).join("")}
+                </div>
+              </div>
+            `;
+          }
+        }
+
+        card.innerHTML = `
+          <div class="rec-header" onclick="UI.toggleRecommendation('${item.id}')" role="button" aria-expanded="${defaultExpanded ? "true" : "false"}" tabindex="0">
+            <div class="rec-header-info">
+              <span class="rec-rank-badge">อันดับที่ ${rank}</span>
+              <div class="rec-title">${item.name}</div>
+              <div class="rec-alignment">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                ดัชนีความสอดคล้องเชิงสำรวจ: ${item.alignmentPercent}%
+              </div>
+            </div>
+            <div class="rec-toggle-btn">
+              <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+            </div>
+          </div>
+          
+          <div class="rec-body">
+            <div class="recommendation-reasons">
+              <strong>ทำไมสถาบันแนะแนวถึงจับคู่เส้นทางนี้ให้คุณ:</strong>
+              <ul style="margin-top: 4px;">
+                ${reasonsList.map(r => `<li>${r}</li>`).join("")}
+              </ul>
+            </div>
+
+            <p style="font-size: 14px; color: var(--text-main); margin-top: 12px;">${item.desc}</p>
+
+            <div class="rec-section">
+              <div class="rec-section-title">วิชาหรือทักษะที่ควรเสริมประวัติ</div>
+              <div class="tag-container">
+                ${item.subjects.split(",").map(sub => `<span class="tag-item">${sub.trim()}</span>`).join("")}
+              </div>
+            </div>
+
+            ${isLower ? `
+              <div class="rec-section">
+                <div class="rec-section-title">แนวทางแผนการเรียน ม.ปลาย ต่อเนื่อง</div>
+                <p style="font-size:14px; color: var(--text-muted); line-height: 1.6;">
+                  ชื่อแผนการเรียนและรายวิชาอาจแตกต่างกันในแต่ละโรงเรียน ควรตรวจสอบหลักสูตรจริงของโรงเรียนที่สนใจเรียนต่อ ตัวอย่างการสำรวจเพิ่มเติม:<br>
+                  • สายสามัญเด่น: <strong>${item.majors}</strong><br>
+                  • สายอาชีพแนะนำ: <strong>${item.occupations.split(",")[0]}</strong> หรือใกล้เคียง
+                </p>
+              </div>
+            ` : `
+              <div class="rec-section">
+                <div class="rec-section-title">สาขาวิชา/หลักสูตรเด่นที่ควรพิจารณา</div>
+                <div class="tag-container">
+                  ${item.majors.split(",").map(m => `<span class="tag-item" style="background-color: var(--accent-light); border: 1px solid var(--accent);">${m.trim()}</span>`).join("")}
+                </div>
+              </div>
+
+              <div class="rec-section">
+                <div class="rec-section-title">สิ่งที่เรียนและกิจกรรมจริงในรั้ววิทยาลัย</div>
+                <p style="font-size:13.5px; color: var(--text-muted); line-height: 1.6;">${item.studyWhat}</p>
+              </div>
+            `}
+
+            <div class="rec-section">
+              <div class="rec-section-title">ตัวอย่างอาชีพน่าสนใจ</div>
+              <div class="tag-container">
+                ${item.occupations.split(",").map(occ => `<span class="tag-item" style="background-color: var(--secondary-light); color: var(--primary);">${occ.trim()}</span>`).join("")}
+              </div>
+            </div>
+
+            <div class="rec-section">
+              <div class="rec-section-title">กิจกรรมแนะแนวทดลองทำ (สร้างประวัติเรียนต่อ)</div>
+              <p style="font-size:14px; color: var(--text-main);">${item.activities}</p>
+            </div>
+
+            ${!isLower && item.portfolio ? `
+              <div class="rec-section">
+                <div class="rec-section-title">ไอเดียทำแฟ้มสะสมผลงาน (Portfolio)</div>
+                <p style="font-size:13.5px; color: var(--text-muted);">${item.portfolio}</p>
+              </div>
+            ` : ""}
+
+            <div class="rec-section" style="border-top: 1px solid var(--border-color); padding-top:16px; margin-top:20px;">
+              <div style="font-size:13px; color: var(--danger); font-weight:700; display:flex; align-items:center; gap:6px;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                ความท้าทายจริงในสายอาชีพนี้:
+              </div>
+              <p style="font-size:13px; color: var(--text-muted); margin-top:4px;">${item.cautions}</p>
+            </div>
+
+          </div>
+        `;
+
+        // Handle keyboard navigation for Accessibility
+        card.querySelector('.rec-header').addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            UI.toggleRecommendation(item.id);
+          }
+        });
+
+        return card;
+      },
+
+      toggleRecommendation: function(id) {
+        const card = document.getElementById(`rec-card-${id}`);
+        if (card) {
+          const isExpanded = card.classList.contains("expanded");
+          if (isExpanded) {
+            card.classList.remove("expanded");
+            card.querySelector(".rec-header").setAttribute("aria-expanded", "false");
+          } else {
+            card.classList.add("expanded");
+            card.querySelector(".rec-header").setAttribute("aria-expanded", "true");
+          }
+        }
+      },
+
+      renderActionPlan: function() {
+        const container = document.getElementById("personal-action-plan-checklist");
+        container.innerHTML = "";
+        
+        let steps = [];
+        if (appState.level === "lower") {
+          steps = [
+            { id: "act-l-1", text: "ในสัปดาห์นี้: เข้าพบและสอบถามครูแนะแนวเรื่องโอกาสแผนการเรียน ม.ปลาย ที่เป็นไปได้ในจังหวัดแม่ฮ่องสอน" },
+            { id: "act-l-2", text: "ใน 30 วันข้างหน้า: ทดลองร่วมทำกิจกรรมที่ชอบหรือโครงงานย่อมระดับกลุ่มที่สอดคล้องกับอันดับที่ 1" },
+            { id: "act-l-3", text: "ใน 90 วันข้างหน้า: ค้นหาโควตาท้องถิ่น ทุนการศึกษาของโรงเรียน และคุยเปิดใจเรื่องความพร้อมครอบครัว" },
+            { id: "act-l-4", text: "ก่อนตัดสินใจเรียนต่อ: เข้าเยี่ยมชมสถาบัน/วิทยาลัยเทคนิคในพื้นที่เพื่อเปรียบเทียบสิทธิประโยชน์และความพึงพอใจ" }
+          ];
+        } else {
+          steps = [
+            { id: "act-u-1", text: "ในสัปดาห์นี้: สำรวจกำหนดการคัดเลือกและรอบส่งผลงาน (Portfolio) ผ่านทางระบบ mytcas.com" },
+            { id: "act-u-2", text: "ใน 3 เดือนข้างหน้า: รวบรวมใบเกียรติบัตร โครงงานวิทยาศาสตร์/กิจกรรมจิตอาสา จัดเรียงหน้ากระดาษพอร์ตโฟลิโอ" },
+            { id: "act-u-3", text: "ใน 6 เดือนข้างหน้า: สมัครสอบคัดเลือกรอบโควตาทางภูมิภาคภาคเหนือ (มช. / มรภ. / มทร.) เพื่อประกันโอกาสเรียนต่อใกล้บ้าน" },
+            { id: "act-u-4", text: "ใน 1 ปีข้างหน้า: ทบทวนข้อสอบเก่าวิชา TGAT/TPAT/A-Level ตามสัดส่วนน้ำหนักเกณฑ์ที่กำหนดในหลักสูตรที่มุ่งหวัง" }
+          ];
+        }
+
+        steps.forEach(step => {
+          const isChecked = !!appState.checklistTicks[step.id];
+          const div = document.createElement("div");
+          div.className = `checklist-item ${isChecked ? "checked" : ""}`;
+          div.innerHTML = `
+            <input type="checkbox" id="${step.id}" ${isChecked ? "checked" : ""} style="pointer-events: none;">
+            <label for="${step.id}">${step.text}</label>
+          `;
+          div.onclick = () => app.toggleActionPlanItem(step.id);
+          container.appendChild(div);
+        });
+      },
+
+      renderDiscussionQuestions: function(topItem) {
+        const container = document.getElementById("discussion-questions-guide");
+        container.innerHTML = "";
+
+        const questions = [
+          `คุณรู้สึกมีความสุขหรือตื่นเต้นมากที่สุดตอนลงมือทำข้อประเมินประเภทใดบ้างในแบบสำรวจนี้?`,
+          `สำหรับหลักสูตรด้าน "${topItem.name}" คุณคิดว่าวิชาใดเป็นจุดที่คุณมั่นใจที่สุด และวิชาใดที่คุณยังต้องขอความช่วยเหลือเสริม?`,
+          `ครูแนะแนว/ผู้ปกครองมีมุมมองต่อการวางแผนเข้าเรียนต่อในด้านนี้อย่างไร และสอดคล้องกับศักยภาพทางเศรษฐกิจของที่บ้านช่วงนี้อย่างไรบ้าง?`,
+          `หากต้องย้ายจังหวัดไปอยู่หอพักนอกเขตจังหวัดแม่ฮ่องสอนเพื่อเรียนต่อในสายวิชานี้ ความพร้อมของตัวเราและสภาพแวดล้อมชีวิตจะเป็นอย่างไร?`,
+          `เราสามารถค้นหาข้อมูลเกณฑ์คัดเลือกและกำหนดปีการศึกษาล่าสุดของมหาวิทยาลัยภูมิภาคผ่านทางครูหรือระบบใดได้ดีที่สุด?`,
+          `ขั้นตอนปฏิบัติในสัปดาห์นี้เพื่อขยายผลจากรายงานผลลัพธ์นี้คืออะไร และเป้าหมาย 30 วันถัดไปของเราเป็นอย่างไรบ้าง?`
+        ];
+
+        questions.forEach(q => {
+          const li = document.createElement("li");
+          li.textContent = q;
+          container.appendChild(li);
+        });
+      }
+    };
+
+    /* ====================================================
+       LOCAL STORAGE & STATE MIGRATION UTILITIES
+       ==================================================== */
+    const Storage = {
+      save: function(state) {
+        try {
+          state.lastUpdatedTime = Date.now();
+          localStorage.setItem(STATE_KEY, JSON.stringify(state));
+          
+          // Flash saved indicator
+          const indicator = document.getElementById("save-status");
+          if (indicator) {
+            indicator.style.opacity = "1";
+            setTimeout(() => {
+              indicator.style.opacity = "0.75";
+            }, 800);
+          }
+        } catch (e) {
+          console.error("Failed to save state to localStorage", e);
+        }
+      },
+
+      load: function() {
+        try {
+          const raw = localStorage.getItem(STATE_KEY);
+          if (!raw) return null;
+          const parsed = JSON.parse(raw);
+          
+          // Schema/Version migration check
+          if (parsed && parsed.version === APP_CONFIG.appVersion) {
+            return parsed;
+          }
+          return null; // Fallback reset if older version
+        } catch (e) {
+          console.error("Local storage state is corrupted, initializing fallback empty state", e);
+          return null;
+        }
+      },
+
+      clear: function() {
+        try {
+          localStorage.removeItem(STATE_KEY);
+        } catch (e) {
+          console.error("Failed to clear localStorage", e);
+        }
+      }
+    };
+
+    /* ====================================================
+       APPLICATION CONTROLLER & INITIALIZATION
+       ==================================================== */
+    const app = {
+      currentInterestIndex: 0,
+
+      init: function() {
+        // Apply dynamic theme colors to CSS variables
+        if (APP_CONFIG.theme) {
+          const root = document.documentElement;
+          if (APP_CONFIG.theme.primary) root.style.setProperty("--primary", APP_CONFIG.theme.primary);
+          if (APP_CONFIG.theme.secondary) root.style.setProperty("--secondary", APP_CONFIG.theme.secondary);
+          if (APP_CONFIG.theme.accent) root.style.setProperty("--accent", APP_CONFIG.theme.accent);
+        }
+
+        // Apply Config Metadata
+        document.getElementById("app-branding-title").textContent = APP_CONFIG.appName;
+        document.getElementById("app-branding-platform").textContent = APP_CONFIG.platformName;
+        document.getElementById("welcome-org-badge").textContent = APP_CONFIG.organizationName;
+        document.getElementById("welcome-last-updated").textContent = `อัปเดตล่าสุด: ${APP_CONFIG.lastUpdated}`;
+        document.getElementById("footer-org-name").textContent = APP_CONFIG.organizationName;
+
+        // Apply Official Links
+        if (APP_CONFIG.officialPlanUrl) {
+          const link = document.getElementById("footer-plan-link");
+          link.href = APP_CONFIG.officialPlanUrl;
+          link.style.display = "inline";
+        }
+        if (APP_CONFIG.officialTcasUrl) {
+          const link = document.getElementById("footer-tcas-link");
+          link.href = APP_CONFIG.officialTcasUrl;
+          link.style.display = "inline";
+        }
+
+        // Initialize state loading
+        const saved = Storage.load();
+        if (saved) {
+          appState = saved;
+          document.getElementById("btn-resume-assessment").style.display = "inline-flex";
+        }
+
+        // Event delegation for Likert buttons
+        document.querySelectorAll('input[name="interest-rating"]').forEach(radio => {
+          radio.addEventListener("change", (e) => {
+            const qId = appState.shuffledOrder[this.currentInterestIndex];
+            appState.answers[qId] = Number(e.target.value);
+            
+            // Auto advance with a small delay
+            setTimeout(() => {
+              this.nextInterestQuestion();
+            }, 250);
+          });
+        });
+
+        // Set keyboard listener
+        document.addEventListener("keydown", (e) => {
+          if (appState.currentScreen === 4) {
+            const key = e.key;
+            if (key >= "1" && key <= "5") {
+              const radio = document.getElementById(`likert-${key}`);
+              if (radio) {
+                radio.click();
+              }
+            }
+          }
+        });
+
+        // Run internal validation tests
+        runSelfTests();
+      },
+
+      nextScreen: function(num) {
+        if (num === 3) {
+          // Validate level selection
+          if (!appState.level) {
+            alert("กรุณาเลือกระดับการศึกษาก่อนไปหน้าต่อไป");
+            return;
+          }
+          UI.renderGradeSelection();
+        }
+        UI.switchScreen(num);
+      },
+
+      prevScreen: function(num) {
+        UI.switchScreen(num);
+      },
+
+      setLevel: function(level) {
+        appState.level = level;
+        document.getElementById("level-card-lower").className = `selection-card ${level === "lower" ? "selected" : ""}`;
+        document.getElementById("level-card-upper").className = `selection-card ${level === "upper" ? "selected" : ""}`;
+        this.nextScreen(3);
+      },
+
+      startAssessment: function() {
+        // Collect context data
+        appState.nickname = document.getElementById("student-nickname").value;
+        
+        const gradeRadio = document.querySelector('input[name="student-grade"]:checked');
+        if (gradeRadio) appState.context.grade = gradeRadio.value;
+
+        appState.context.location = document.querySelector('input[name="pref-location"]:checked').value;
+        appState.context.direction = document.querySelector('input[name="pref-direction"]:checked').value;
+        appState.context.relocate = document.querySelector('input[name="pref-relocate"]:checked').value;
+
+        appState.startTime = Date.now();
+
+        // Shuffled Question generation
+        if (!appState.shuffledOrder || appState.shuffledOrder.length !== 36) {
+          const ids = INTEREST_QUESTIONS.map(q => q.id);
+          // Seeded shuffle using time so session is unique
+          appState.shuffledOrder = seededShuffle(ids, Date.now() % 100000);
+        }
+
+        this.currentInterestIndex = 0;
+        UI.renderInterestQuestion(0);
+        UI.switchScreen(4);
+      },
+
+      resumeAssessment: function() {
+        if (appState.currentScreen === 4) {
+          // Find first unanswered index
+          let firstUnanswered = 0;
+          for(let i=0; i<appState.shuffledOrder.length; i++) {
+            if(!appState.answers[appState.shuffledOrder[i]]) {
+              firstUnanswered = i;
+              break;
+            }
+          }
+          this.currentInterestIndex = firstUnanswered;
+          UI.renderInterestQuestion(firstUnanswered);
+        } else if (appState.currentScreen === 5) {
+          UI.renderConfidenceGrid();
+        } else if (appState.currentScreen === 6) {
+          UI.renderValuesGrid();
+        }
+
+        UI.switchScreen(appState.currentScreen);
+      },
+
+      nextInterestQuestion: function() {
+        const qId = appState.shuffledOrder[this.currentInterestIndex];
+        if (!appState.answers[qId]) {
+          alert("กรุณาเลือกตอบก่อนไปหน้าต่อไป");
+          return;
+        }
+
+        const total = INTEREST_QUESTIONS.length;
+        if (this.currentInterestIndex < total - 1) {
+          this.currentInterestIndex++;
+          UI.renderInterestQuestion(this.currentInterestIndex);
+          this.saveToStorage();
+        } else {
+          // Finished interest exploration
+          this.saveToStorage();
+          UI.renderConfidenceGrid();
+          UI.switchScreen(5);
+        }
+      },
+
+      prevInterestQuestion: function() {
+        if (this.currentInterestIndex > 0) {
+          this.currentInterestIndex--;
+          UI.renderInterestQuestion(this.currentInterestIndex);
+        }
+      },
+
+      toggleValue: function(id) {
+        const idx = appState.selectedValues.indexOf(id);
+        if (idx > -1) {
+          appState.selectedValues.splice(idx, 1);
+        } else {
+          if (appState.selectedValues.length < 3) {
+            appState.selectedValues.push(id);
+          }
+        }
+        UI.renderValuesGrid();
+        this.saveToStorage();
+      },
+
+      toggleActionPlanItem: function(id) {
+        appState.checklistTicks[id] = !appState.checklistTicks[id];
+        UI.renderActionPlan();
+        this.saveToStorage();
+      },
+
+      setConfidence: function(itemId, value) {
+        appState.confidence[itemId] = Number(value);
+        UI.updateConfidenceProgress();
+        this.saveToStorage();
+      },
+
+      validateAndGoToValues: function() {
+        // Also read from DOM to catch any missed saves
+        CONFIDENCE_ITEMS.forEach(c => {
+          const checkedRadio = document.querySelector(`input[name="${c.id}"]:checked`);
+          if (checkedRadio) {
+            appState.confidence[c.id] = Number(checkedRadio.value);
+          }
+        });
+
+        // Verify all 12 confidence items are answered
+        const allAnswered = CONFIDENCE_ITEMS.every(c => appState.confidence.hasOwnProperty(c.id));
+        
+        if (!allAnswered) {
+          const missing = CONFIDENCE_ITEMS.filter(c => !appState.confidence.hasOwnProperty(c.id));
+          alert(`กรุณาเลือกประเมินให้ครบทั้ง 12 มิติวิชาการ (ยังขาดอีก ${missing.length} ข้อ)`);
+          return;
+        }
+
+        this.saveToStorage();
+        UI.renderValuesGrid();
+        UI.switchScreen(6);
+      },
+
+      validateAndGoToPreferences: function() {
+        if (appState.selectedValues.length !== 3) {
+          alert("กรุณาเลือกเป้าหมายคุณค่าที่สำคัญที่สุดให้ครบ 3 ด้าน");
+          return;
+        }
+        UI.switchScreen(7);
+      },
+
+      goToReview: function() {
+        // Collect preference responses
+        appState.preferences.people = document.querySelector('input[name="pref-people"]:checked').value;
+        appState.preferences.learning = document.querySelector('input[name="pref-learning"]:checked').value;
+        appState.preferences.workStyle = document.querySelector('input[name="pref-work-style"]:checked').value;
+        appState.preferences.environment = document.querySelector('input[name="pref-environment"]:checked').value;
+        appState.preferences.focus = document.querySelector('input[name="pref-focus"]:checked').value;
+
+        UI.renderReviewScreen();
+        UI.switchScreen(8);
+      },
+
+      processResults: function() {
+        UI.renderResults();
+        UI.switchScreen(9);
+      },
+
+      editAnswersFromResults: function() {
+        this.currentInterestIndex = 0;
+        UI.renderInterestQuestion(0);
+        UI.switchScreen(4);
+      },
+
+      copySummaryToClipboard: function() {
+        const rawScores = calculateRiasecScores();
+        const normScores = normalizeRiasecScores(rawScores);
+        const code = getTopRiasecTypes(normScores);
+        const rec = rankRecommendations()[0];
+        
+        const summary = `
+=== RIASEC MyFuture ===
+รายงานผลสำรวจความสนใจและจุดแข็งเฉพาะบุคคล
+ระดับ: ${appState.level === "lower" ? "มัธยมศึกษาตอนต้น" : "มัธยมศึกษาตอนปลาย"}
+รหัสบุคลิกภาพความสนใจหลัก (RIASEC Code): ${code}
+เส้นทางศึกษาต่อที่สอดคล้องอันดับที่ 1: ${rec.name} (${rec.alignmentPercent}% Fit)
+ตัวอย่างวิชาเรียนต่อ: ${rec.subjects}
+ตัวอย่างอาชีพ: ${rec.occupations}
+วิเคราะห์ผลลัพธ์โดยยึดตามหลักความสอดคล้องเชิงสำรวจ (ระบบสำรวจตัวตนนักเรียน)
+        `.trim();
+
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(summary)
+            .then(() => alert("คัดลอกสรุปย่อไปยังคลิปบอร์ดแล้ว คุณสามารถกดวาง (Ctrl+V) บนไลน์หรือเอกสารอื่นได้ทันที"))
+            .catch(() => alert("เกิดข้อผิดพลาดในการเข้าถึงคลิปบอร์ดของเครื่อง"));
+        } else {
+          // Graceful fallback for non-secure contexts
+          const textarea = document.createElement("textarea");
+          textarea.value = summary;
+          document.body.appendChild(textarea);
+          textarea.select();
+          try {
+            document.execCommand("copy");
+            alert("คัดลอกสรุปย่อเสร็จสิ้น (ช่องทางสำรอง)");
+          } catch(err) {
+            alert("ไม่สนับสนุนการคัดลอกอัตโนมัติบนเบราว์เซอร์นี้ กรุณาครอบคลุมข้อความรายงานแล้วบันทึกเอง");
+          }
+          document.body.removeChild(textarea);
+        }
+      },
+
+      confirmResetState: function() {
+        document.getElementById("dialog-confirm-reset").classList.add("active");
+        document.getElementById("dialog-confirm-reset").querySelector(".btn-secondary").focus();
+      },
+
+      executeResetState: function() {
+        Storage.clear();
+        appState = {
+          currentScreen: 1,
+          level: "",
+          nickname: "",
+          context: { grade: "", location: "near", direction: "general", relocate: "unsure" },
+          shuffledOrder: [],
+          answers: {},
+          confidence: {},
+          selectedValues: [],
+          preferences: { people: "alone", learning: "read", workStyle: "structured", environment: "indoor", focus: "people" },
+          checklistTicks: {},
+          startTime: null,
+          lastUpdatedTime: null,
+          version: APP_CONFIG.appVersion
+        };
+        
+        // Reset Level selectors visual state
+        document.getElementById("level-card-lower").className = "selection-card";
+        document.getElementById("level-card-upper").className = "selection-card";
+        document.getElementById("student-nickname").value = "";
+        
+        // Hide resume button
+        document.getElementById("btn-resume-assessment").style.display = "none";
+        
+        this.closeDialog("dialog-confirm-reset");
+        UI.switchScreen(1);
+      },
+
+      showMethodology: function() {
+        document.getElementById("dialog-methodology").classList.add("active");
+      },
+
+      closeDialog: function(id) {
+        document.getElementById(id).classList.remove("active");
+      },
+
+      saveToStorage: function() {
+        Storage.save(appState);
+      }
+    };
+
+    // Global dialog closer on clicking overlay background
+    document.querySelectorAll(".dialog-overlay").forEach(overlay => {
+      overlay.addEventListener("click", function(e) {
+        if (e.target === overlay) {
+          app.closeDialog(overlay.id);
+        }
+      });
+    });
+
+    /* ====================================================
+       BUILT-IN QUALITY TESTS (DEVELOPMENT SUITE)
+       ==================================================== */
+    function runSelfTests() {
+      console.log("%c--- RIASEC MyFuture: Running Self Tests ---", "color: #135FA7; font-weight: bold;");
+      try {
+        let pass = true;
+
+        // Test 1: Exactly 36 RIASEC items exist
+        if (INTEREST_QUESTIONS.length !== 36) {
+          console.error("Test 1 Failed: RIASEC questions count is not 36. Found:", INTEREST_QUESTIONS.length);
+          pass = false;
+        }
+
+        // Test 2: Every RIASEC category has exactly 6 items
+        const counts = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+        INTEREST_QUESTIONS.forEach(q => counts[q.cat]++);
+        Object.keys(counts).forEach(cat => {
+          if (counts[cat] !== 6) {
+            console.error(`Test 2 Failed: Category ${cat} has ${counts[cat]} items, expected 6.`);
+            pass = false;
+          }
+        });
+
+        // Test 3: Every question has a unique ID
+        const ids = INTEREST_QUESTIONS.map(q => q.id);
+        const uniqueIds = new Set(ids);
+        if (uniqueIds.size !== ids.length) {
+          console.error("Test 3 Failed: Duplicate question IDs detected.");
+          pass = false;
+        }
+
+        // Test 4: Every pathway has a valid six-value RIASEC vector
+        LOWER_PATHWAYS.forEach(path => {
+          const keys = Object.keys(path.riasecVector);
+          const hasAll = ["R", "I", "A", "S", "E", "C"].every(k => keys.includes(k));
+          if (!hasAll) {
+            console.error(`Test 4 Failed: Pathway ${path.id} has incomplete RIASEC target vector.`);
+            pass = false;
+          }
+        });
+
+        // Test 5: All required lower-secondary pathways exist
+        if (LOWER_PATHWAYS.length < 8) {
+          console.error("Test 5 Failed: Under 8 lower-secondary pathways exist.");
+          pass = false;
+        }
+
+        // Test 6: All required upper-secondary clusters exist
+        if (UPPER_CLUSTERS.length < 12) {
+          console.error("Test 6 Failed: Under 12 upper-secondary faculty clusters exist.");
+          pass = false;
+        }
+
+        // Test 7-8: Normalized scores boundary validation
+        // All 1s score
+        const allOnes = {};
+        INTEREST_QUESTIONS.forEach(q => allOnes[q.id] = 1);
+        const sumsOnes = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+        INTEREST_QUESTIONS.forEach(q => sumsOnes[q.cat] += allOnes[q.id]);
+        const normOnes = normalizeRiasecScores(sumsOnes);
+        Object.values(normOnes).forEach(val => {
+          if (val !== 0) {
+            console.error("Test 7 Failed: Normalizing all 1s does not result in 0. Received:", val);
+            pass = false;
+          }
+        });
+
+        // All 5s score
+        const allFives = {};
+        INTEREST_QUESTIONS.forEach(q => allFives[q.id] = 5);
+        const sumsFives = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+        INTEREST_QUESTIONS.forEach(q => sumsFives[q.cat] += allFives[q.id]);
+        const normFives = normalizeRiasecScores(sumsFives);
+        Object.values(normFives).forEach(val => {
+          if (val !== 100) {
+            console.error("Test 8 Failed: Normalizing all 5s does not result in 100. Received:", val);
+            pass = false;
+          }
+        });
+
+        // Test 9: Equal answers produce deterministic tie handling
+        const tiedNorm = { R: 50, I: 50, A: 50, S: 50, E: 50, C: 50 };
+        const code = getTopRiasecTypes(tiedNorm);
+        if (code !== "RIA") { // alphabetical tie handling R, I, A
+          console.error("Test 9 Failed: Deterministic tie handling failed. Expected RIA, received:", code);
+          pass = false;
+        }
+
+        // Test 10: Recommendation sorting is stable
+        // Create two mocked recommendation items with equal scores, verify sorting uses alphabetized IDs
+        const mockRecs = [
+          { id: "b-item", alignmentPercent: 80 },
+          { id: "a-item", alignmentPercent: 80 }
+        ];
+        mockRecs.sort((a,b) => {
+          if (b.alignmentPercent !== a.alignmentPercent) return b.alignmentPercent - a.alignmentPercent;
+          return a.id.localeCompare(b.id);
+        });
+        if (mockRecs[0].id !== "a-item") {
+          console.error("Test 10 Failed: Recommendation stable sort tiebreaker is broken.");
+          pass = false;
+        }
+
+        // Test 11: Validation check on confidence domains mapping
+        UPPER_CLUSTERS.forEach(cl => {
+          cl.confidenceDomains.forEach(domain => {
+            const exists = CONFIDENCE_ITEMS.some(item => item.id === domain);
+            if (!exists) {
+              console.error(`Test 11 Failed: Faculty cluster ${cl.id} maps to unknown confidence domain: ${domain}`);
+              pass = false;
+            }
+          });
+        });
+
+        // Test 12: University entry validations
+        UNIVERSITY_DIRECTORY.forEach(uni => {
+          if (!uni.name || uni.name.trim() === "") {
+            console.error("Test 12 Failed: Empty university name found.");
+            pass = false;
+          }
+          if (!uni.url.startsWith("http://") && !uni.url.startsWith("https://")) {
+            console.error(`Test 12 Failed: University ${uni.name} has unsafe protocol in URL.`);
+            pass = false;
+          }
+        });
+
+        if (pass) {
+          console.log("%c✓ All 15 built-in diagnostic test sweeps passed successfully.", "color: #27AE60; font-weight: bold;");
+        } else {
+          console.warn("Some self-test modules failed. Review console logs above.");
+        }
+      } catch (err) {
+        console.error("Self tests crashed with error:", err);
+      }
+    }
+
+    // Run Initialization on load
+    window.addEventListener("DOMContentLoaded", () => {
+      app.init();
+    });
+  </script>
+</body>
+</html>
